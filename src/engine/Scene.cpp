@@ -9,6 +9,9 @@
 #include "lighting/PointLight.hpp"
 #include "lighting/DirectionalLight.hpp"
 
+#include "game/Galaxy.hpp"
+#include "game/CelestialBody.hpp"
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -26,10 +29,9 @@ Scene::~Scene() {}
 
 void Scene::Init()
 {
-
 	// Create Skybox
-	// =============
-	std::vector<std::string> facesSkybox
+	// =================================================
+std::vector<std::string> facesSkybox
 	{
 		"right.png",
 		"left.png",
@@ -40,8 +42,12 @@ void Scene::Init()
 	};
 	_skybox = std::make_shared<Skybox>(facesSkybox);
 
+	// Create Galaxy
+	// =================================================
+	
+
 	// Create all static meshes
-	//=======================
+	// =================================================
 	Model m_sphere("res/models/sphere.obj");
 	StaticMesh sun(m_sphere, TransformLayout(glm::vec3(0, 0, 0)), "DefaultLighting");
 	sun.Scale(3);
@@ -51,18 +57,18 @@ void Scene::Init()
 	AddStaticMesh(std::make_shared<StaticMesh>(earth));
 
 	// Load All Lights
-	// =================
+	// =================================================
 	LightManager::Get().LoadAllLights();
 }
 
 void Scene::Draw()
 {
 	// Render the Skybox
-	// =================
+	// =================================================
 	_skybox->Draw();
 
 	// Render all the static meshes
-	// ============================
+	// =================================================
 	for (size_t i = 0; i < _staticMeshesCount; i++)
 	{
 		_staticMeshes[i]->Draw();
@@ -78,12 +84,12 @@ void Scene::AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh)
 void Scene::Free()
 {
 	// Free all static meshes
-	// ==========================
+	// =================================================
 	for (size_t i = 0; i < _staticMeshesCount; i++)
 		_staticMeshes[i]->Free();
 
 	// Free all textures 
-	// ==========================
+	// =================================================
 	ResourceManager::Get().DeleteAllResources();
 }
 
