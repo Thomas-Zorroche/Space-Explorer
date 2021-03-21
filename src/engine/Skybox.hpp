@@ -11,7 +11,6 @@
 #include "opengl/Shader.h"
 #include "engine/Renderer.hpp"
 
-class Fog;
 
 class Skybox
 {
@@ -21,10 +20,10 @@ public:
 	void GenerateMesh();
 
 
-	void Draw(const std::shared_ptr<Fog>& fog);
+	void Draw();
 
 private:
-	void SendUniforms(const std::shared_ptr<Fog>& fog);
+	void SendUniforms();
 
 	std::vector<std::string> _faces;
 	unsigned int _id;

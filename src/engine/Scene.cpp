@@ -26,6 +26,20 @@ Scene::~Scene() {}
 
 void Scene::Init()
 {
+
+	// Create Skybox
+	// =============
+	std::vector<std::string> facesSkybox
+	{
+		"right.png",
+		"left.png",
+		"top.png",
+		"bottom.png",
+		"front.png",
+		"back.png"
+	};
+	_skybox = std::make_shared<Skybox>(facesSkybox);
+
 	// Create all static meshes
 	//=======================
 	Model m_sphere("res/models/sphere.obj");
@@ -43,6 +57,10 @@ void Scene::Init()
 
 void Scene::Draw()
 {
+	// Render the Skybox
+	// =================
+	_skybox->Draw();
+
 	// Render all the static meshes
 	// ============================
 	for (size_t i = 0; i < _staticMeshesCount; i++)
