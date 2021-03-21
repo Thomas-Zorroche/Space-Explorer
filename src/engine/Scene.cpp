@@ -10,6 +10,7 @@
 #include "lighting/DirectionalLight.hpp"
 
 #include "game/Galaxy.hpp"
+#include "game/Planet.hpp"
 #include "game/CelestialBody.hpp"
 
 #include <memory>
@@ -20,7 +21,7 @@
 
 
 Scene::Scene()
-	:  _skybox(nullptr)
+	:  _skybox(nullptr), _galaxy(nullptr)
 {
 	Init();
 }
@@ -31,7 +32,7 @@ void Scene::Init()
 {
 	// Create Skybox
 	// =================================================
-std::vector<std::string> facesSkybox
+	std::vector<std::string> facesSkybox
 	{
 		"right.png",
 		"left.png",
@@ -44,7 +45,10 @@ std::vector<std::string> facesSkybox
 
 	// Create Galaxy
 	// =================================================
-	
+	Planet p1(glm::vec3(10, 5, 2), 5);
+	Planet p2(glm::vec3(3, -5, -2), 10);
+	std::vector<CelestialBody> planets{ p1, p2 };
+	_galaxy = std::make_shared<Galaxy>(planets);
 
 	// Create all static meshes
 	// =================================================
@@ -67,11 +71,16 @@ void Scene::Draw()
 	// =================================================
 	_skybox->Draw();
 
+	// Render the Skybox
+// =================================================
+	_galaxy->draw();
+
+
 	// Render all the static meshes
 	// =================================================
 	for (size_t i = 0; i < _staticMeshesCount; i++)
 	{
-		_staticMeshes[i]->Draw();
+		//_staticMeshes[i]->Draw();
 	}
 }
 
