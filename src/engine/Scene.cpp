@@ -13,6 +13,7 @@
 #include "game/Planet.hpp"
 #include "game/CelestialBody.hpp"
 
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -45,10 +46,8 @@ void Scene::Init()
 
 	// Create Galaxy
 	// =================================================
-	Planet p1(glm::vec3(10, 5, 2), 5);
-	Planet p2(glm::vec3(3, -5, -2), 10);
-	std::vector<CelestialBody> planets{ p1, p2 };
-	_galaxy = std::make_shared<Galaxy>(planets);
+
+	_galaxy = std::make_shared<Galaxy>();
 
 	// Create all static meshes
 	// =================================================

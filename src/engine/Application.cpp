@@ -5,9 +5,14 @@
 #include "engine/InputHandler.hpp"
 #include "engine/ResourceManager.hpp"
 
+#include <cstdlib>  // for rand(), srand()
+#include <ctime>    // for time()
+
 
 void mainloop(GLFWwindow* window)
 {
+    srand(time(0));
+
     // Load all the 
     ResourceManager::Get().LoadAllShaders();
 
