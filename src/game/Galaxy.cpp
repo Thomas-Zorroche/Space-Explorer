@@ -9,9 +9,9 @@ Galaxy::Galaxy()
 {
 	for (size_t i = 0; i < _planetCount; i++)
 	{
-		int x = probas::discreteUniformDistribution(-_radius, _radius);
-		int y = probas::discreteUniformDistribution(-5, 5);
-		int z = probas::discreteUniformDistribution(-_radius, _radius);
+		int x = probas::discreteUniformDistribution(20, 100);
+		int y = probas::discreteUniformDistribution(-2, 2);
+		int z = probas::discreteUniformDistribution(20, 100);
 		int size = probas::continuousUniformDistribution(0.5, 6);
 
 		std::cout << x << " " << y << " " << z << std::endl;

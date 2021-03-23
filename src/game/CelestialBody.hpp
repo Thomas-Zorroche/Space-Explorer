@@ -3,6 +3,7 @@
 #include "engine/StaticMesh.hpp"
 #include "glm/glm.hpp"
 
+
 class CelestialBody
 {
 public:
@@ -10,8 +11,9 @@ public:
 
 	void draw();
 
+
 private:
-	StaticMesh _mesh;
 	glm::vec3 _position;
+	StaticMesh _mesh;
 	int _solarDst;
 };

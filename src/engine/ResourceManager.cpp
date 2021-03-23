@@ -245,5 +245,8 @@ void ResourceManager::LoadAllShaders()
 	ResourceManager::Get().LoadShader("res/shaders/Default.vert", "res/shaders/DefaultLighting.frag", "DefaultLighting");
 	// Cubemap 
 	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
+	// Bouding Sphere debug mesh
+	ResourceManager::Get().LoadShader("res/shaders/Default.vert", "res/shaders/boudingSphere.frag", "BoudingSphere");
+
 }
 

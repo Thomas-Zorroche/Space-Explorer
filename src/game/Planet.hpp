@@ -9,6 +9,7 @@ class Planet : public CelestialBody
 public:
 	Planet(glm::vec3 position, float radius);
 
+
 private:
 	float _radius;
 	int _temperature;

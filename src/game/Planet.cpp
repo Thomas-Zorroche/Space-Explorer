@@ -7,5 +7,5 @@ Planet::Planet(glm::vec3 position, float radius)
 	  ),
 	  _radius(radius)
 {
-
 }
+

@@ -2,6 +2,7 @@
 
 #include "engine/Model.hpp"
 #include "opengl/Shader.h"
+#include "collision/BoundingSphere.hpp"
 
 #include <string>
 #include <memory>
@@ -45,13 +46,17 @@ public:
 	glm::mat4 GetModelMatrix() const { return _modelMatrix; }
 	std::shared_ptr<Shader>& GetShader() { return _shader; }
 
-	void Translate(const glm::vec3& delta, bool dynamicCBox = true);
-	void Scale(float alpha, bool dynamicCBox = true);
-	void Rotate(const glm::vec3& alpha, bool dynamicCBox = true);
+	void Translate(const glm::vec3& delta);
+	void Scale(float alpha);
+	void Rotate(const glm::vec3& alpha);
 
+	void updateBoundingSphere();
+	
 	unsigned int GetVAO() const { return _model.GetVAO(); }
 
 	void Free();
+
+	static void SetCollisionManagerPtr(CollisionManager* cm_Ptr);
 
 private:
 	void SendUniforms();
@@ -61,4 +66,9 @@ private:
 	TransformLayout _transformLayout;
 	std::shared_ptr<Shader> _shader;
 	glm::mat4 _modelMatrix;
+	
+	std::shared_ptr<BoundingSphere> _boundingSphere;
+
+	static CollisionManager* _collisionManagerPtr;
+
 };

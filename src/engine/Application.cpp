@@ -5,6 +5,8 @@
 #include "engine/InputHandler.hpp"
 #include "engine/ResourceManager.hpp"
 
+#include "collision/CollisionManager.hpp"
+
 #include <cstdlib>  // for rand(), srand()
 #include <ctime>    // for time()
 
@@ -13,6 +15,10 @@ void mainloop(GLFWwindow* window)
 {
     srand(time(0));
 
+    // Initialisation Collision Manager
+    CollisionManager collisionManager;
+    StaticMesh::SetCollisionManagerPtr(&collisionManager);
+
     // Load all the 
     ResourceManager::Get().LoadAllShaders();
 
@@ -20,6 +26,7 @@ void mainloop(GLFWwindow* window)
 
     auto camera = std::make_shared<Camera>();
     Renderer::Get().SetCamera(camera);
+    collisionManager.SetCamera(camera);
 
     // Initialize GLFW Callbacks and Inputs
     InputHandler inputHandler;
@@ -46,8 +53,13 @@ void mainloop(GLFWwindow* window)
         glClearColor(0.25f, 0.25f, 0.32f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // Check Collisions
+        collisionManager.CheckCollisions();
+
         // Render scene here
         scene.Draw();
+
+        std::cout << camera->GetPosition().x << " " << camera->GetPosition().z << std::endl;
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

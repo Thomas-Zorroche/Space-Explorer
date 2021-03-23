@@ -47,7 +47,7 @@ public:
 	glm::vec3 GetPosition() const { return _Position; };
 	glm::vec3 GetFrontVector() const { return _FrontVector; };
 
-	// Getters Collision Data
+	void BlockMovement();
 	
 	// Setters
 	void SetCanTurn(bool condition) { _CanTurn = condition; }
@@ -61,7 +61,8 @@ private:
 	void MoveZ(float dst, const glm::vec3& dir);
 
 
-	glm::vec3 _Position;	  // Position of the camera
+	glm::vec3 _Position;			  // Position of the camera
+	glm::vec3 _LastFramePosition;	  // Position of the camera on the last frame
 	float _phi;
 	float _theta;
 
