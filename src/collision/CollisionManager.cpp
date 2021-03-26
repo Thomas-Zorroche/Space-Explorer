@@ -25,7 +25,6 @@ void CollisionManager::CheckCollisions()
 
 	// Check all collisions between spheres and camera
 	int countCollision = 0;
-	std::cout << "ACTIVE" << activeSpheres.size() << std::endl;
 	for (size_t i = (size_t)0; i < activeSpheres.size(); i++)
 	{
 		bool hit = activeSpheres[i]->isPointInsideSphere(cameraPosition);
