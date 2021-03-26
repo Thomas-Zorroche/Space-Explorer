@@ -59,7 +59,7 @@ void mainloop(GLFWwindow* window)
         // Render scene here
         scene.Draw();
 
-        std::cout << camera->GetPosition().x << " " << camera->GetPosition().z << std::endl;
+        //std::cout << camera->GetPosition().x << " " << camera->GetPosition().z << std::endl;
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

@@ -6,13 +6,13 @@
 #include "opengl/Shader.h"
 
 #include "collision/CollisionManager.hpp"
+#include "collision/BoundingSphere.hpp"
 
 #include <string>
 #include <vector>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-
 
 
 
@@ -39,6 +39,8 @@ void StaticMesh::Draw(bool isParticuleInstance, int countParticule)
 void StaticMesh::Scale(float alpha)
 {
 	_modelMatrix = _modelMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(alpha));
+	
+	// Bouding Sphere
 	_boundingSphere->scale(alpha);
 	updateBoundingSphere();
 }
@@ -46,6 +48,8 @@ void StaticMesh::Scale(float alpha)
 void StaticMesh::Translate(const glm::vec3& delta)
 {
 	_modelMatrix = _modelMatrix * glm::translate(glm::mat4(1.0f), delta);
+
+	// Bouding Sphere
 	_boundingSphere->translate(delta);
 	updateBoundingSphere();
 }
@@ -61,7 +65,6 @@ void StaticMesh::updateBoundingSphere()
 {
 	// Remove bounding sphere inside all the cases where the sphere was
 	_collisionManagerPtr->DeleteSphere(_boundingSphere);
-
 	_collisionManagerPtr->AddSphere(_boundingSphere);
 }
 

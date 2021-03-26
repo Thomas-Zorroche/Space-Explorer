@@ -11,7 +11,7 @@ CollisionManager::CollisionManager()
 			_spheres.insert({
 				CollisionGridCase(i, j),
 				std::vector<std::shared_ptr<BoundingSphere> >()
-				});
+			});
 		}
 	}
 }
@@ -25,11 +25,11 @@ void CollisionManager::CheckCollisions()
 
 	// Check all collisions between spheres and camera
 	int countCollision = 0;
+	std::cout << "ACTIVE" << activeSpheres.size() << std::endl;
 	for (size_t i = (size_t)0; i < activeSpheres.size(); i++)
 	{
-		//std::cout << "SPHERE" << activeSpheres[i]->center().x << " " << activeSpheres[i]->center().z << std::endl;
-
 		bool hit = activeSpheres[i]->isPointInsideSphere(cameraPosition);
+		activeSpheres[i]->draw();
 		
 		// If colliding, execute appropriate event
 		if (hit)
@@ -45,33 +45,33 @@ void CollisionManager::CheckCollisions()
 
 void CollisionManager::AddSphere(const std::shared_ptr<BoundingSphere>& sphere)
 {
-	// Retrive case coordinates of the box
+	// Retrive case coordinates of the sphere
 	CollisionGridCase sphereCase = _grid.getCase(sphere);
 
-	// Add it to the right vector
+	// Add the sphere to the right case
 	_spheres[sphereCase].push_back(sphere);
 	sphere->AddIndex(sphereCase, _spheres[sphereCase].size() - 1);
 
-	// Check whether the box is close to others boxes 
-	if (sphere->center().x <= sphereCase.X + (_grid.WidthCase() * _grid.Margin()))
+	// Check whether the sphere is close to others cases 
+	if (sphereCase.X > 0 && sphere->center().x <= sphereCase.X + (_grid.WidthCase() * _grid.Margin()))
 	{
 		CollisionGridCase left(sphereCase.X - 1, sphereCase.Y);
 		_spheres[left].push_back(sphere);
 		sphere->AddIndex(left, _spheres[left].size() - 1);
 	}
-	else if (sphere->center().x >= sphereCase.X + (_grid.WidthCase() * (1.0 - _grid.Margin())))
+	else if (sphereCase.X < _grid.Resolution() - 1 && sphere->center().x >= sphereCase.X + (_grid.WidthCase() * (1.0 - _grid.Margin())))
 	{
 		CollisionGridCase right(sphereCase.X + 1, sphereCase.Y);
 		_spheres[right].push_back(sphere);
 		sphere->AddIndex(right, _spheres[right].size() - 1);
 	}
-	if (sphere->center().y <= sphereCase.Y + (_grid.WidthCase() * _grid.Margin()))
+	if (sphereCase.Y > 0 && sphere->center().y <= sphereCase.Y + (_grid.WidthCase() * _grid.Margin()))
 	{
 		CollisionGridCase bottom(sphereCase.X, sphereCase.Y - 1);
 		_spheres[bottom].push_back(sphere);
 		sphere->AddIndex(bottom, _spheres[bottom].size() - 1);
 	}
-	else if (sphere->center().y >= sphereCase.Y + (_grid.WidthCase() * (1.0 - _grid.Margin())))
+	else if (sphereCase.Y < _grid.Resolution() - 1 && sphere->center().y >= sphereCase.Y + (_grid.WidthCase() * (1.0 - _grid.Margin())))
 	{
 		CollisionGridCase top(sphereCase.X, sphereCase.Y + 1);
 		_spheres[top].push_back(sphere);

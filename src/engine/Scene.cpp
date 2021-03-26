@@ -46,18 +46,7 @@ void Scene::Init()
 
 	// Create Galaxy
 	// =================================================
-
 	_galaxy = std::make_shared<Galaxy>();
-
-	// Create all static meshes
-	// =================================================
-	Model m_sphere("res/models/sphere.obj");
-	StaticMesh sun(m_sphere, TransformLayout(glm::vec3(0, 0, 0)), "DefaultLighting");
-	sun.Scale(3);
-	StaticMesh earth(m_sphere, TransformLayout(glm::vec3(10, 0, 10)), "DefaultLighting");
-
-	AddStaticMesh(std::make_shared<StaticMesh>(sun));
-	AddStaticMesh(std::make_shared<StaticMesh>(earth));
 
 	// Load All Lights
 	// =================================================

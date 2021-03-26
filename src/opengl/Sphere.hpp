@@ -8,8 +8,8 @@ class Sphere
 public:
 	Sphere(float radius = 1.0f, int rings = 12, int sector = 24);
 
-	const ShapeVertex* vertices() const {
-		return &_vertices[0];
+	const std::vector<ShapeVertex> vertices() const {
+		return _vertices;
 
 	}
 	GLsizei vertexCount() const {

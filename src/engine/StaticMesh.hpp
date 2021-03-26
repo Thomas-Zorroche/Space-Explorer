@@ -2,7 +2,6 @@
 
 #include "engine/Model.hpp"
 #include "opengl/Shader.h"
-#include "collision/BoundingSphere.hpp"
 
 #include <string>
 #include <memory>
@@ -14,6 +13,7 @@
 
 class Fog;
 class CollisionManager;
+class BoundingSphere;
 
 class TransformLayout
 {
