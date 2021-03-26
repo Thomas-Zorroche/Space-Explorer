@@ -247,6 +247,7 @@ void ResourceManager::LoadAllShaders()
 	ResourceManager::Get().LoadShader("res/shaders/Skybox.vert", "res/shaders/Skybox.frag", "Skybox");
 	// Bouding Sphere debug mesh
 	ResourceManager::Get().LoadShader("res/shaders/Default.vert", "res/shaders/boudingSphere.frag", "BoundingSphere");
-
+	// Planet Shader
+	ResourceManager::Get().LoadShader("res/shaders/Default.vert", "res/shaders/planet.frag", "Planet");
 }
 

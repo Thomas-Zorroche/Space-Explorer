@@ -21,8 +21,8 @@ void BoundingSphere::onBeginOverlap()
 bool BoundingSphere::isPointInsideSphere(const glm::vec3& point) const
 {
 	float distanceSqr = ((point.x - _center.x) * (point.x - _center.x) +
-				      (point.y - _center.y) * (point.y - _center.y) +
-					  (point.z - _center.z) * (point.z - _center.z));
+				         (point.y - _center.y) * (point.y - _center.y) +
+					     (point.z - _center.z) * (point.z - _center.z));
 
 	return distanceSqr <= _radius * _radius;
 }	
