@@ -45,7 +45,7 @@ void mainloop(GLFWwindow* window)
         lastFrame = currentFrame;
 
         // Handle Inputs
-        inputHandler.ProcessInput(window, camera, deltaTime);
+        inputHandler.ProcessInput(window, camera, deltaTime, collisionManager);
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();

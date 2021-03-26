@@ -28,7 +28,7 @@ void CollisionManager::CheckCollisions()
 	for (size_t i = (size_t)0; i < activeSpheres.size(); i++)
 	{
 		bool hit = activeSpheres[i]->isPointInsideSphere(cameraPosition);
-		activeSpheres[i]->draw();
+		if (_debugMode) activeSpheres[i]->draw();
 		
 		// If colliding, execute appropriate event
 		if (hit)
@@ -93,4 +93,9 @@ void CollisionManager::updateCaseIndices(const CollisionGridCase& gridCase, int 
 {
 	for (size_t i = indexDeadSphere; i < _spheres[gridCase].size(); i++)
 		_spheres[gridCase][i]->DecreaseIndexCase(gridCase);
+}
+
+void CollisionManager::debugMode()
+{
+	_debugMode = _debugMode ? false : true;
 }

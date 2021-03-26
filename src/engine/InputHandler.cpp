@@ -4,7 +4,7 @@
 #include <iostream>
 #include "GLFW/glfw3.h"
 
-void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime)
+void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime, CollisionManager& collisionManager)
 {
     // Close Window
     // ===================================================================================================
@@ -20,9 +20,11 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
     // ===================================================================================================
     Movement(window, camera, deltaTime * boostSprint);
 
+    // Print Debug cBox Mode
     // ===================================================================================================
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && _ActiveKey != ActiveKey::C) // C Qwerty = C Azerty
     {
+        collisionManager.debugMode();
         _ActiveKey = ActiveKey::C;
     }
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && _ActiveKey == ActiveKey::C)

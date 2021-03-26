@@ -21,10 +21,14 @@ public:
 
 	void SetCamera(const std::shared_ptr<Camera>& cameraPtr) { _camera = cameraPtr; }
 
+	void debugMode();
+
 private:
 	void updateCaseIndices(const CollisionGridCase& gridCase, int indexDeadBox);
 
 	CollisionGrid _grid;
 	std::unordered_map<CollisionGridCase, std::vector<std::shared_ptr<BoundingSphere> >> _spheres;
 	std::shared_ptr<Camera> _camera;
+
+	bool _debugMode = false;
 };

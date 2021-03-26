@@ -4,6 +4,8 @@
 #include <iostream>
 #include <memory>
 #include "GLFW/glfw3.h"
+#include "collision/CollisionManager.hpp"
+
 
 class Camera;
 class Game;
@@ -21,7 +23,7 @@ class InputHandler
 public:
 	InputHandler() = default;
 	
-	void ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime);
+	void ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime, CollisionManager& collisionManager);
 
 	void SetCallback(GLFWwindow* window, CallbackPtr& callbackPtr);
 
