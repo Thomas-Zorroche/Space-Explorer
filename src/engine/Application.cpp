@@ -15,8 +15,10 @@
 #include <ctime>    // for time()
 
 
-void mainloop(GLFWwindow* window)
+void mainloop(Window& windowObject)
 {
+    GLFWwindow* window = windowObject.WindowPtr();
+
     srand(time(0));
 
     // Initialisation Collision Manager
@@ -72,7 +74,6 @@ void mainloop(GLFWwindow* window)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-
         // Check Collisions
         collisionManager.CheckCollisions();
 
@@ -81,11 +82,23 @@ void mainloop(GLFWwindow* window)
 
         // ImGui Content
         {
+            ImGui::SetNextWindowPos(ImVec2(0, windowObject.Height() - 100));
+            ImGui::SetNextWindowSize(ImVec2(windowObject.Width() - 500, 100));
             ImGui::Begin("Main Board");
-
+            {
             ImGui::Text("Position in the Galaxy");
             ImGui::Text("X: %f ; Y: %f ; Z: %f", camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            }
+            ImGui::End();
+        }
+        {
+            ImGui::SetNextWindowPos(ImVec2(windowObject.Width() - 500, windowObject.Height() - 100));
+            ImGui::SetNextWindowSize(ImVec2(500, 100));
+            ImGui::Begin("Hint Pannel");
+            {
+                ImGui::Text("Hints Found");
+            }
             ImGui::End();
         }
 
