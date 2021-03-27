@@ -7,6 +7,10 @@
 
 #include "collision/CollisionManager.hpp"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+
 #include <cstdlib>  // for rand(), srand()
 #include <ctime>    // for time()
 
@@ -33,10 +37,18 @@ void mainloop(GLFWwindow* window)
     CallbackPtr callbackPtr(camera);
     inputHandler.SetCallback(window, callbackPtr);
 
+    // Initialize ImGui
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
+
     float deltaTime = 0.0f;	// Time between current frame and last frame
     float lastFrame = 0.0f; // Time of last frame
     glEnable(GL_DEPTH_TEST);
-    
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -50,8 +62,16 @@ void mainloop(GLFWwindow* window)
         // View Matrix
         Renderer::Get().ComputeViewMatrix();
 
+        // Render Clear       
         glClearColor(0.25f, 0.25f, 0.32f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // ImGui
+        //New Frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
 
         // Check Collisions
         collisionManager.CheckCollisions();
@@ -59,7 +79,19 @@ void mainloop(GLFWwindow* window)
         // Render scene here
         scene.Draw();
 
-        //std::cout << camera->GetPosition().x << " " << camera->GetPosition().z << std::endl;
+        // ImGui Content
+        {
+            ImGui::Begin("Main Board");
+
+            ImGui::Text("Position in the Galaxy");
+            ImGui::Text("X: %f ; Y: %f ; Z: %f", camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z);
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            ImGui::End();
+        }
+
+        // Render
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -67,6 +99,11 @@ void mainloop(GLFWwindow* window)
         /* Poll for and process events */
         glfwPollEvents();
     }
+
+    //Shutdown ImGUI
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     scene.Free();
 }
