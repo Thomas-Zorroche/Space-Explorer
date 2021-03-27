@@ -7,6 +7,9 @@
 
 #include "collision/CollisionManager.hpp"
 
+#include "game/Game.hpp"
+#include "game/InteractiveObject.hpp"
+
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
@@ -29,6 +32,9 @@ void mainloop(Window& windowObject)
     ResourceManager::Get().LoadAllShaders();
 
     Scene scene;
+    Game game;
+
+    InteractiveObject::setGamePtr(&game);
 
     auto camera = std::make_shared<Camera>();
     Renderer::Get().SetCamera(camera);
@@ -97,7 +103,8 @@ void mainloop(Window& windowObject)
             ImGui::SetNextWindowSize(ImVec2(500, 100));
             ImGui::Begin("Hint Pannel");
             {
-                ImGui::Text("Hints Found");
+                for (const auto& hint : game.hints())
+                    ImGui::Text(hint.c_str());
             }
             ImGui::End();
         }

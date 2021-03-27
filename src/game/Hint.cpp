@@ -1,5 +1,6 @@
 #include "game/Hint.hpp"
 #include "engine/StaticMesh.hpp"
+#include "game/Game.hpp"
 #include <iostream>
 
 Hint::Hint(const TransformLayout& transform, const std::string& message)
@@ -16,4 +17,5 @@ void Hint::onOverlapEvent()
 {
 	std::cout << _message << std::endl;
 	disable();
+	InteractiveObject::_gamePtr->addHint(_message);
 }
