@@ -2,6 +2,7 @@
 
 #include "engine/Model.hpp"
 #include "opengl/Shader.h"
+#include "collision/CollisionLayout.hpp"
 
 #include <string>
 #include <memory>
@@ -39,7 +40,8 @@ class StaticMesh
 {
 public:
 	// Constructor
-	StaticMesh(const Model& model, const TransformLayout& transLayout, const std::string& shaderName = "Default");
+	StaticMesh(const Model& model, const TransformLayout& transLayout, const std::string& shaderName = "Default", 
+		const CollisionLayout& collisionLayout = CollisionLayout());
 
 	void Draw(bool isParticuleInstance = false, int countParticule = 0);
 
@@ -51,6 +53,7 @@ public:
 	void Rotate(const glm::vec3& alpha);
 
 	void updateBoundingSphere();
+	void disableBoundingBox();
 	
 	unsigned int GetVAO() const { return _model.GetVAO(); }
 

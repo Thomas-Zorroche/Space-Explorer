@@ -8,6 +8,7 @@
 class StaticMesh;
 class Skybox;
 class Galaxy;
+class InteractiveObject;
 
 class Scene
 {
@@ -28,6 +29,7 @@ private:
 
 private:
 	std::vector<std::shared_ptr<StaticMesh> > _staticMeshes;
+	std::vector<std::shared_ptr<InteractiveObject> > _interactiveObjects;
 	std::shared_ptr<Skybox> _skybox;
 	std::shared_ptr<Galaxy> _galaxy;
 

@@ -6,20 +6,24 @@
 
 #include <iostream>
 
-BoundingSphere::BoundingSphere(const glm::vec3& center, float radius)
+BoundingSphere::BoundingSphere(const CollisionLayout& cLayout, const glm::vec3& center, float radius)
 	: _center(center), _radius(radius),
 	_debugMesh(Mesh(Sphere().vertices(), ResourceManager::Get().CachePBRColorMaterial("cubeDebug", glm::vec3(1, 0, 0)))),
-	_modelMatrix(glm::mat4(1.0f))
+	_modelMatrix(glm::mat4(1.0f)),
+	_cLayout(cLayout)
 		{}
 
 
 void BoundingSphere::onBeginOverlap()
 {
-	std::cout << "COLLISION\n";
+	if (_cLayout.objectPtr())
+		_cLayout.Function();
 }
 
 bool BoundingSphere::isPointInsideSphere(const glm::vec3& point) const
 {
+	if (!_cLayout.HasCollision()) return false;
+
 	float distanceSqr = ((point.x - _center.x) * (point.x - _center.x) +
 				         (point.y - _center.y) * (point.y - _center.y) +
 					     (point.z - _center.z) * (point.z - _center.z));

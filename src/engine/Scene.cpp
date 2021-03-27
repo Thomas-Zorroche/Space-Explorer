@@ -2,6 +2,7 @@
 #include "engine/ResourceManager.hpp"
 #include "engine/Renderer.hpp"
 #include "engine/Skybox.hpp"
+#include "engine/StaticMesh.hpp"
 
 #include "opengl/Shader.h"
 
@@ -12,7 +13,8 @@
 #include "game/Galaxy.hpp"
 #include "game/Planet.hpp"
 #include "game/CelestialBody.hpp"
-
+#include "game/InteractiveObject.hpp"
+#include "game/Hint.hpp"
 
 #include <memory>
 #include <string>
@@ -48,6 +50,12 @@ void Scene::Init()
 	// =================================================
 	_galaxy = std::make_shared<Galaxy>();
 
+	// Create Interactive Objects
+	// =================================================
+	std::shared_ptr<InteractiveObject> hintTest1 = std::make_shared<Hint>(TransformLayout(glm::vec3(5, 1, 5), glm::vec3(0), 0.2), "Ceci est un indice 1");
+	std::shared_ptr<InteractiveObject> hintTest2 = std::make_shared<Hint>(TransformLayout(glm::vec3(5, 6, 5), glm::vec3(0), 0.2), "Ceci est un indice 2");
+	_interactiveObjects = std::vector<std::shared_ptr<InteractiveObject> >({ hintTest1, hintTest2 } );
+
 	// Load All Lights
 	// =================================================
 	LightManager::Get().LoadAllLights();
@@ -60,9 +68,15 @@ void Scene::Draw()
 	_skybox->Draw();
 
 	// Render the Skybox
-// =================================================
+	// =================================================
 	_galaxy->draw();
 
+	// Render all the interactive objects
+	// =================================================
+	for (size_t i = 0; i < _interactiveObjects.size(); i++)
+	{
+		if (_interactiveObjects[i]->isActive()) _interactiveObjects[i]->draw();
+	}
 
 	// Render all the static meshes
 	// =================================================

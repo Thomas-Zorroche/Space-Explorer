@@ -16,10 +16,11 @@
 
 
 
-StaticMesh::StaticMesh(const Model& model, const TransformLayout& transLayout, const std::string& shaderName)
+StaticMesh::StaticMesh(const Model& model, const TransformLayout& transLayout, 
+	const std::string& shaderName, const CollisionLayout& collisionLayout)
 	: _model(model), _transformLayout(transLayout), _shader(ResourceManager::Get().GetShader(shaderName)),
 	  _modelMatrix(glm::mat4(1.0f)),
-	_boundingSphere(std::make_shared<BoundingSphere>())
+	  _boundingSphere(std::make_shared<BoundingSphere>(collisionLayout))
 {
 	Translate(_transformLayout.Location());
 	Rotate(_transformLayout.Rotation());
@@ -67,6 +68,12 @@ void StaticMesh::updateBoundingSphere()
 	_collisionManagerPtr->DeleteSphere(_boundingSphere);
 	_collisionManagerPtr->AddSphere(_boundingSphere);
 }
+
+void StaticMesh::disableBoundingBox()
+{
+	_collisionManagerPtr->DeleteSphere(_boundingSphere);
+}
+
 
 
 

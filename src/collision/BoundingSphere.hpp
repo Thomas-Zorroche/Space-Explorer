@@ -2,6 +2,7 @@
 
 #include "glm/glm.hpp"
 #include "collision/CollisionGrid.hpp"
+#include "collision/CollisionLayout.hpp"
 #include "engine/StaticMesh.hpp"
 
 #include <memory>
@@ -11,7 +12,8 @@
 class BoundingSphere
 {
 public:
-	BoundingSphere(const glm::vec3& center = glm::vec3(0, 0, 0), float radius = 1.0f);
+	BoundingSphere(const CollisionLayout& cLayout = CollisionLayout(), 
+		const glm::vec3& center = glm::vec3(0, 0, 0), float radius = 1.0f);
 
 	void onBeginOverlap();
 
@@ -24,7 +26,7 @@ public:
 
 	const glm::vec3 center() const { return _center; }
 
-	bool StopPlayerMovement() const { return _stopPlayerMovement; }
+	bool StopPlayerMovement() const { return _cLayout.CanStopMovement(); }
 
 	const std::unordered_map<CollisionGridCase, int>& Indices() const { return _indices; }
 	std::unordered_map<CollisionGridCase, int>& Indices() { return _indices; }
@@ -36,10 +38,10 @@ public:
 private:
 	glm::vec3 _center = glm::vec3(0, 0, 0);
 	float _radius = 1.0f;
-	bool _stopPlayerMovement = true;
 
 	Mesh _debugMesh;
-	std::unordered_map<CollisionGridCase, int> _indices;
-
 	glm::mat4 _modelMatrix;
+
+	std::unordered_map<CollisionGridCase, int> _indices;
+	CollisionLayout _cLayout;
 };
