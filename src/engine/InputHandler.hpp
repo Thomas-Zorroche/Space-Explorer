@@ -23,7 +23,8 @@ class InputHandler
 public:
 	InputHandler() = default;
 	
-	void ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime, CollisionManager& collisionManager);
+	void ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime, 
+		CollisionManager& collisionManager, Game& game);
 
 	void SetCallback(GLFWwindow* window, CallbackPtr& callbackPtr);
 
@@ -38,7 +39,7 @@ private:
 
 	bool _canInteract = false;
 
-	void Movement(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime);
+	void Movement(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime, Game& game);
 };
 
 //

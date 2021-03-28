@@ -10,8 +10,10 @@ BoundingSphere::BoundingSphere(const CollisionLayout& cLayout, const glm::vec3& 
 	: _center(center), _radius(radius),
 	_debugMesh(Mesh(Sphere().vertices(), ResourceManager::Get().CachePBRColorMaterial("cubeDebug", glm::vec3(1, 0, 0)))),
 	_modelMatrix(glm::mat4(1.0f)),
-	_cLayout(cLayout)
-		{}
+	_cLayout(cLayout)		
+{
+	scale(1.25);
+}
 
 
 void BoundingSphere::onBeginOverlap()

@@ -1,11 +1,13 @@
 #include "engine/InputHandler.hpp"
 #include "engine/Camera.hpp"
 #include "hud/Hud.hpp"
+#include "game/Game.hpp"
 
 #include <iostream>
 #include "GLFW/glfw3.h"
 
-void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime, CollisionManager& collisionManager)
+void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime, 
+    CollisionManager& collisionManager, Game& game)
 {
     // Close Window
     // ===================================================================================================
@@ -19,7 +21,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
         boostSprint = 2.0f; 
 
     // ===================================================================================================
-    Movement(window, camera, deltaTime * boostSprint);
+    Movement(window, camera, deltaTime /** boostSprint*/, game);
 
     // Print Debug cBox Mode
     // ===================================================================================================
@@ -45,16 +47,25 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
     }
 }
 
-void InputHandler::Movement(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime) {
+void InputHandler::Movement(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime, Game& game) {
     // Movement Inputs
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)        // W Qwerty = Z Azerty
-        camera->Move(deltaTime, DIRCAM::FRONT);
-    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)   // S Qwerty = S Azerty
-        camera->Move(-deltaTime, DIRCAM::FRONT);
-    else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)   // A Qwerty = Q Azerty
-        camera->Move(deltaTime, DIRCAM::LEFT);
-    else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)   // D Qwerty = D Azerty
-        camera->Move(-deltaTime, DIRCAM::LEFT);
+    {
+        game.spaceship()->speedUp();
+        camera->Move(deltaTime * game.spaceship()->instantSpeed(), DIRCAM::FRONT);
+    }
+    else
+    {
+        game.spaceship()->decelerate();
+        camera->Move(deltaTime * game.spaceship()->instantSpeed(), DIRCAM::FRONT);
+    }
+    
+    //else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)   // S Qwerty = S Azerty
+    //    camera->Move(-deltaTime, DIRCAM::FRONT);
+    //else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)   // A Qwerty = Q Azerty
+    //    camera->Move(deltaTime, DIRCAM::LEFT);
+    //else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)   // D Qwerty = D Azerty
+    //    camera->Move(-deltaTime, DIRCAM::LEFT);
 }
 
 

@@ -14,7 +14,7 @@ void Camera::Move(float deltaTime, DIRCAM direction)
 	glm::vec3 dir;
 	(direction == DIRCAM::FRONT) ? dir = _FrontVector : dir = _LeftVector;
 
-	float dst = deltaTime * _Speed;
+	float dst = deltaTime;
 
 	_LastFramePosition = _Position;
 	MoveX(dst, dir);
@@ -50,8 +50,6 @@ void Camera::BlockMovement()
 	_Position = _LastFramePosition;
 }
 
-
-
 /*
 * Private Functions
 */
@@ -80,3 +78,5 @@ void Camera::MoveZ(float dst, const glm::vec3& dir)
 {
 	_Position.z += dst * dir.z;
 }
+
+

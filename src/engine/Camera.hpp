@@ -11,6 +11,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "engine/Application.hpp"
+#include "game/Spaceship.hpp"
 
 enum class DIRCAM
 {
@@ -45,6 +46,7 @@ public:
 	float GetSensitivity() const  { return _sensitivity; }
 	float GetSpeed() const { return _Speed; };
 	glm::vec3 GetPosition() const { return _Position; };
+	glm::vec3 GetLastPosition() const { return _LastFramePosition; };
 	glm::vec3 GetFrontVector() const { return _FrontVector; };
 
 	void BlockMovement();

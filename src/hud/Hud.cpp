@@ -33,7 +33,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
         ImGui::SetNextWindowSize(ImVec2(windowObject.Width() - 500, 100));
         ImGui::Begin("Main Board");
         {
-
+            ImGui::Text("Spaceship speed %f m/s", game.spaceship()->instantSpeed() * 100);
         }
         ImGui::End();
     }

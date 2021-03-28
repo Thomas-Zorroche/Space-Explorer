@@ -19,8 +19,6 @@ Galaxy::Galaxy(float size)
 		int z = probas::discreteUniformDistribution(0, _size);
 		float sizePlanets = probas::continuousUniformDistribution(0.6, 6);
 
-		std::cout << sizePlanets << std::endl;
-
 		CelestialBody newBody = Planet(glm::vec3(x, y, z), sizePlanets);
 		addCelestialBody(newBody);
 	}

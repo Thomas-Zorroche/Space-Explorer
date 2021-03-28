@@ -52,7 +52,7 @@ void mainloop(Window& windowObject)
         lastFrame = currentFrame;
 
         // Handle Inputs
-        inputHandler.ProcessInput(window, camera, deltaTime, collisionManager);
+        inputHandler.ProcessInput(window, camera, deltaTime, collisionManager, game);
 
         // View Matrix
         Renderer::Get().ComputeViewMatrix();
@@ -63,6 +63,9 @@ void mainloop(Window& windowObject)
 
         // Check Collisions
         collisionManager.CheckCollisions();
+
+        // Update spaceship speed
+        game.spaceship()->update(camera->GetPosition(), camera->GetLastPosition(), deltaTime);
 
         // Render scene
         scene.Draw();

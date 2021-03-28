@@ -1,7 +1,9 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include <string>
+#include "game/Spaceship.hpp"
 
 class Game
 {
@@ -14,8 +16,13 @@ public:
 
 	float worldSize() const { return _WORLD_SIZE; }
 
+	const std::shared_ptr<Spaceship> spaceship() const { return _spaceship; }
+	std::shared_ptr<Spaceship> spaceship() { return _spaceship; }
+
 private:
 	std::vector<std::string> _hints;
+
+	std::shared_ptr<Spaceship> _spaceship;
 	
 	const float _WORLD_SIZE = 1000.f;
 };
