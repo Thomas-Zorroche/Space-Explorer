@@ -39,7 +39,11 @@ void CollisionManager::CheckCollisions(Game& game)
 		{
 			if (activeSpheres[i]->StopPlayerMovement()) // WARNING : We suppose that it is a planet
 			{
-				game.spaceship()->decelerate(5);
+				glm::vec3 cameraToPlanet = activeSpheres[i]->center() - _camera->GetPosition();
+				if (glm::dot(_camera->GetFrontVector(), cameraToPlanet) > 0)
+				{
+					game.spaceship()->decelerate(5);
+				}
 				_camera->RotateAroundPlanet(true, activeSpheres[i]->center());
 			}
 
