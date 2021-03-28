@@ -10,7 +10,7 @@ public:
 
 	void addHint(const std::string& hint);
 
-	const std::vector<std::string>& hints() { return _hints; }
+	const std::vector<std::string>& hints() const { return _hints; } 
 
 private:
 	std::vector<std::string> _hints;

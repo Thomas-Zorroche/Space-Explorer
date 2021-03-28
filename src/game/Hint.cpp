@@ -17,5 +17,6 @@ void Hint::onOverlapEvent()
 {
 	std::cout << _message << std::endl;
 	disable();
+
 	InteractiveObject::_gamePtr->addHint(_message);
 }
