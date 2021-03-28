@@ -23,13 +23,13 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
 
     // Print Debug cBox Mode
     // ===================================================================================================
-    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && _ActiveKey != ActiveKey::C) // C Qwerty = C Azerty
+    if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS && _ActiveKey != ActiveKey::C) 
     {
         collisionManager.debugMode();
         Hud::get().debugMode();
         _ActiveKey = ActiveKey::C;
     }
-    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && _ActiveKey == ActiveKey::C)
+    if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_RELEASE && _ActiveKey == ActiveKey::C)
     {
         _ActiveKey = ActiveKey::NONE;
     }
@@ -42,9 +42,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_RELEASE && _ActiveKey == ActiveKey::A)
     {
         _ActiveKey = ActiveKey::NONE;
-
     }
-
 }
 
 void InputHandler::Movement(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime) {
