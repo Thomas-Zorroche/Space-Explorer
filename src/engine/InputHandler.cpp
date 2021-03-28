@@ -18,10 +18,10 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
     // ===================================================================================================
     float boostSprint = 1.0f;
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-        boostSprint = 2.0f; 
+        boostSprint = 3.0f; 
 
     // ===================================================================================================
-    Movement(window, camera, deltaTime /** boostSprint*/, game);
+    Movement(window, camera, deltaTime * boostSprint, game);
 
     // Print Debug cBox Mode
     // ===================================================================================================

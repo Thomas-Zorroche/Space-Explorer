@@ -25,11 +25,14 @@ public:
 	void free();
 
 	void debugMode();
+	void setCollisionInfo(int activeSpheresCount);
 
 private:
 	Hud() = default;
 	~Hud() = default;
 
 	bool _debugMode = false;
+	
+	int _activesSpheresCount = 0;
 
 };

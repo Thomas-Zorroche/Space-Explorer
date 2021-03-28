@@ -40,7 +40,7 @@ namespace std
 class CollisionGrid
 {
 public:
-	CollisionGrid(float size = 1000.0f, int res = 10)
+	CollisionGrid(float size = 1000.0f, int res = 2)
 		: _size(size), _resolution(res) {}
 
 	// Return the associate case where the sphere is currently on
@@ -50,7 +50,6 @@ public:
 	CollisionGridCase getCase(const glm::vec3& point);
 
 	int Resolution() const { return _resolution; }
-	float Margin() const { return _margin; }
 	float WidthCase() const { return _widthCase; }
 
 private:
@@ -59,6 +58,4 @@ private:
 	float _size;
 	int _resolution;
 	float _widthCase = _size / (float)_resolution;
-	float _margin = 0.2f; // We search around each case for potential object
-						  // that are across multiple cases
 };

@@ -52,9 +52,10 @@ void Scene::Init()
 
 	// Create Interactive Objects
 	// =================================================
-	std::shared_ptr<InteractiveObject> hintTest1 = std::make_shared<Hint>(TransformLayout(glm::vec3(5, 1, 5), glm::vec3(0), 0.2), "Ceci est un indice 1");
-	std::shared_ptr<InteractiveObject> hintTest2 = std::make_shared<Hint>(TransformLayout(glm::vec3(5, 6, 5), glm::vec3(0), 0.2), "Ceci est un indice 2");
-	_interactiveObjects = std::vector<std::shared_ptr<InteractiveObject> >({ hintTest1, hintTest2 } );
+	std::shared_ptr<InteractiveObject> hintTest1 = std::make_shared<Hint>(TransformLayout(glm::vec3(5, 0, 0), glm::vec3(0), 0.2), "X");
+	std::shared_ptr<InteractiveObject> hintTest2 = std::make_shared<Hint>(TransformLayout(glm::vec3(0, 0, 5), glm::vec3(0), 0.2), "Z");
+	std::shared_ptr<InteractiveObject> hintTest3 = std::make_shared<Hint>(TransformLayout(glm::vec3(0, 0, 0), glm::vec3(0), 0.2), "0");
+	_interactiveObjects = std::vector<std::shared_ptr<InteractiveObject> >({ hintTest1, hintTest2, hintTest3 } );
 
 	// Load All Lights
 	// =================================================

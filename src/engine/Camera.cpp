@@ -47,7 +47,7 @@ void Camera::rotateLeft(float angle)
 
 void Camera::BlockMovement()
 {
-	_Position = _LastFramePosition;
+	//_Position = _LastFramePosition;
 }
 
 /*

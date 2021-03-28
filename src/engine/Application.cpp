@@ -31,7 +31,7 @@ void mainloop(Window& windowObject)
 
     InteractiveObject::setGamePtr(&game);
 
-    auto camera = std::make_shared<Camera>(230, 230); // parameter: (x, z) spawn
+    auto camera = std::make_shared<Camera>(200, 230); // parameter: (x, z) spawn
     Renderer::Get().SetCamera(camera);
     collisionManager.SetCamera(camera);
 
@@ -62,7 +62,7 @@ void mainloop(Window& windowObject)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Check Collisions
-        collisionManager.CheckCollisions();
+        collisionManager.CheckCollisions(game);
 
         // Update spaceship speed
         game.spaceship()->update(camera->GetPosition(), camera->GetLastPosition(), deltaTime);

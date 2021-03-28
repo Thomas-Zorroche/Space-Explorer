@@ -25,6 +25,7 @@ public:
 	void update();
 
 	const glm::vec3 center() const { return _center; }
+	const float radius() const { return _radius; }
 
 	bool StopPlayerMovement() const { return _cLayout.CanStopMovement(); }
 

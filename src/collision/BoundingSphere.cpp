@@ -12,7 +12,8 @@ BoundingSphere::BoundingSphere(const CollisionLayout& cLayout, const glm::vec3& 
 	_modelMatrix(glm::mat4(1.0f)),
 	_cLayout(cLayout)		
 {
-	scale(1.25);
+	if (cLayout.CanStopMovement())
+		scale(4);
 }
 
 

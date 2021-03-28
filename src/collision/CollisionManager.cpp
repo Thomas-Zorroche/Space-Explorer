@@ -2,6 +2,8 @@
 #include "collision/CollisionGrid.hpp"
 #include "collision/BoundingSphere.hpp"
 
+#include "hud/Hud.hpp"
+
 CollisionManager::CollisionManager(float sizeGrid)
 	: _grid(sizeGrid)
 {
@@ -17,12 +19,14 @@ CollisionManager::CollisionManager(float sizeGrid)
 	}
 }
 
-void CollisionManager::CheckCollisions()
+void CollisionManager::CheckCollisions(Game& game)
 {
 	// Retrieve all active boxes from the current grid case where the player is moving
 	glm::vec3 cameraPosition = _camera->GetPosition();
 	CollisionGridCase playerCase = _grid.getCase(cameraPosition);
 	auto& activeSpheres = _spheres[playerCase];
+
+	std::cout << playerCase.X << " " << playerCase.Y << std::endl;
 
 	// Check all collisions between spheres and camera
 	int countCollision = 0;
@@ -35,12 +39,17 @@ void CollisionManager::CheckCollisions()
 		if (hit)
 		{
 			if (activeSpheres[i]->StopPlayerMovement())
+			{
 				_camera->BlockMovement();
+				game.spaceship()->decelerate(5);
+			}
 
 			activeSpheres[i]->onBeginOverlap();
 			countCollision++;
 		}
 	}
+
+	Hud::get().setCollisionInfo(activeSpheres.size());
 }
 
 void CollisionManager::AddSphere(const std::shared_ptr<BoundingSphere>& sphere)
@@ -53,30 +62,40 @@ void CollisionManager::AddSphere(const std::shared_ptr<BoundingSphere>& sphere)
 	sphere->AddIndex(sphereCase, _spheres[sphereCase].size() - 1);
 
 	// Check whether the sphere is close to others cases 
-	if (sphereCase.X > 0 && sphere->center().x <= sphereCase.X + (_grid.WidthCase() * _grid.Margin()))
+	bool insideLeft = false, insideRight = false;
+	if (sphereCase.Y > 0 && sphere->center().z <= (sphereCase.Y * _grid.WidthCase()) + sphere->radius())
 	{
-		CollisionGridCase left(sphereCase.X - 1, sphereCase.Y);
-		_spheres[left].push_back(sphere);
-		sphere->AddIndex(left, _spheres[left].size() - 1);
+		// LEFT
+		addSphereIntoCase(sphere, sphereCase.X, sphereCase.Y - 1);
+		insideLeft = true;
 	}
-	else if (sphereCase.X < _grid.Resolution() - 1 && sphere->center().x >= sphereCase.X + (_grid.WidthCase() * (1.0 - _grid.Margin())))
+	else if (sphereCase.Y < _grid.Resolution() && sphere->center().z >= ((sphereCase.Y * _grid.WidthCase()) + _grid.WidthCase()) - sphere->radius())
 	{
-		CollisionGridCase right(sphereCase.X + 1, sphereCase.Y);
-		_spheres[right].push_back(sphere);
-		sphere->AddIndex(right, _spheres[right].size() - 1);
+		// RIGHT
+		addSphereIntoCase(sphere, sphereCase.X, sphereCase.Y + 1);
+		insideRight = true;
 	}
-	if (sphereCase.Y > 0 && sphere->center().y <= sphereCase.Y + (_grid.WidthCase() * _grid.Margin()))
+	if (sphereCase.X > 0 && sphere->center().x <= (sphereCase.X * _grid.WidthCase()) + sphere->radius())
 	{
-		CollisionGridCase bottom(sphereCase.X, sphereCase.Y - 1);
-		_spheres[bottom].push_back(sphere);
-		sphere->AddIndex(bottom, _spheres[bottom].size() - 1);
+		// BOTTOM
+		addSphereIntoCase(sphere, sphereCase.X - 1, sphereCase.Y);
+		if (insideLeft) addSphereIntoCase(sphere, sphereCase.X - 1, sphereCase.Y - 1); // BOTTOM LEFT
+		if (insideRight) addSphereIntoCase(sphere, sphereCase.X - 1, sphereCase.Y + 1); // BOTTOM RIGHT
 	}
-	else if (sphereCase.Y < _grid.Resolution() - 1 && sphere->center().y >= sphereCase.Y + (_grid.WidthCase() * (1.0 - _grid.Margin())))
+	else if (sphereCase.X < _grid.Resolution() && sphere->center().x >= ((sphereCase.X * _grid.WidthCase()) + _grid.WidthCase()) - sphere->radius())
 	{
-		CollisionGridCase top(sphereCase.X, sphereCase.Y + 1);
-		_spheres[top].push_back(sphere);
-		sphere->AddIndex(top, _spheres[top].size() - 1);
+		// TOP
+		addSphereIntoCase(sphere, sphereCase.X + 1, sphereCase.Y);
+		if (insideLeft) addSphereIntoCase(sphere, sphereCase.X + 1, sphereCase.Y - 1); // TOP LEFT
+		if (insideRight) addSphereIntoCase(sphere, sphereCase.X + 1, sphereCase.Y + 1); // TOP RIGHT
 	}
+}
+
+void CollisionManager::addSphereIntoCase(const std::shared_ptr<BoundingSphere>& sphere, int X, int Y)
+{
+	CollisionGridCase sphereCase(X, Y);
+	_spheres[sphereCase].push_back(sphere);
+	sphere->AddIndex(sphereCase, _spheres[sphereCase].size() - 1);
 }
 
 void CollisionManager::DeleteSphere(const std::shared_ptr<BoundingSphere>& sphere)

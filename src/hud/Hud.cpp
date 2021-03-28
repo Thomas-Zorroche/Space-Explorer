@@ -59,6 +59,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
         {
             ImGui::Text("Position in the Galaxy (Camera)");
             ImGui::Text("X: %f ; Y: %f ; Z: %f", camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z);
+            ImGui::Text("Actives spheres: %d", _activesSpheresCount);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         }
         ImGui::End();
@@ -82,6 +83,11 @@ void Hud::free()
 void Hud::debugMode()
 {
     _debugMode = _debugMode ? false : true;
+}
+
+void Hud::setCollisionInfo(int activeSpheresCount)
+{
+    _activesSpheresCount = activeSpheresCount;
 }
 
 

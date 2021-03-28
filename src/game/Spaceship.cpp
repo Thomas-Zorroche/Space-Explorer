@@ -33,11 +33,11 @@ void Spaceship::speedUp()
 	}
 }
 
-void Spaceship::decelerate()
+void Spaceship::decelerate(float factor)
 {
 	if (_velocity > _MIN_SPEED)
 	{
-		_stepSpeed -= _acceleration * 0.3;
+		_stepSpeed -= _acceleration * factor;
 		_velocity = exp(0.05 * _stepSpeed);
 	}
 	else

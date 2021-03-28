@@ -11,11 +11,11 @@ public:
 	void update(const glm::vec3& lastFramePosition, const glm::vec3& cameraPosition, float deltaTime);
 
 	void speedUp();
-	void decelerate();
+	void decelerate(float factor = 0.5f);
 
 private:
 	const int _MAX_SPEED;
-	const int _MIN_SPEED = 0.3;
+	const float _MIN_SPEED = 0.1;
 
 	double _stepSpeed;
 	double _acceleration;

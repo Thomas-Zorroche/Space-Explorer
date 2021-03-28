@@ -3,6 +3,7 @@
 #include "collision/BoundingSphere.hpp"
 #include "collision/CollisionGrid.hpp"
 #include "engine/Camera.hpp"
+#include "game/Game.hpp"
 
 #include <vector>
 #include <memory>
@@ -15,7 +16,7 @@ class CollisionManager
 public:
 	CollisionManager(float sizeGrid = 1000.0f);
 
-	void CheckCollisions();
+	void CheckCollisions(Game& game);
 	void AddSphere(const std::shared_ptr<BoundingSphere>& sphere);
 	void DeleteSphere(const std::shared_ptr<BoundingSphere>& sphere);
 
@@ -25,6 +26,7 @@ public:
 
 private:
 	void updateCaseIndices(const CollisionGridCase& gridCase, int indexDeadBox);
+	void addSphereIntoCase(const std::shared_ptr<BoundingSphere>& sphere, int X, int Y);
 
 	CollisionGrid _grid;
 	std::unordered_map<CollisionGridCase, std::vector<std::shared_ptr<BoundingSphere> >> _spheres;
