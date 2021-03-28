@@ -22,7 +22,7 @@ class Terrain;
 class Camera
 {
 public:
-	Camera();
+	Camera(float x, float z);
 	~Camera() {}
 
 

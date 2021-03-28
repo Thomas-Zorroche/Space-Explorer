@@ -40,7 +40,7 @@ namespace std
 class CollisionGrid
 {
 public:
-	CollisionGrid(float size = 200.0f, int res = 10)
+	CollisionGrid(float size = 1000.0f, int res = 10)
 		: _size(size), _resolution(res) {}
 
 	// Return the associate case where the sphere is currently on

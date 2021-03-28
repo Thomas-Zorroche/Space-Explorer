@@ -13,7 +13,7 @@ class Camera;
 class CollisionManager
 {
 public:
-	CollisionManager();
+	CollisionManager(float sizeGrid = 1000.0f);
 
 	void CheckCollisions();
 	void AddSphere(const std::shared_ptr<BoundingSphere>& sphere);

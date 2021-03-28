@@ -13,7 +13,7 @@ class InteractiveObject;
 class Scene
 {
 public:
-	Scene();
+	Scene(float size);
 	~Scene();
 
 	void Init();
@@ -23,6 +23,8 @@ public:
 	std::shared_ptr<StaticMesh>& StaticMeshPtr(int index) { return _staticMeshes[index]; }
 
 	void Free();
+
+	float size() const { return _size; }
 
 private:
 	void AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh);
@@ -34,5 +36,6 @@ private:
 	std::shared_ptr<Galaxy> _galaxy;
 
 	unsigned int _staticMeshesCount = 0;
+	float _size = 1000.0f;
 };
 

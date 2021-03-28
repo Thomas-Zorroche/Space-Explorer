@@ -1,6 +1,7 @@
 #include "Game.hpp"
 
-Game::Game()
+Game::Game(float size)
+	: _WORLD_SIZE(size)
 {
 
 }

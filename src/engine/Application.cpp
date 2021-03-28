@@ -12,31 +12,26 @@
 
 #include "hud/Hud.hpp"
 
-#include <cstdlib>  // for rand(), srand()
-#include <ctime>    // for time()
-
-
 void mainloop(Window& windowObject)
 {
     GLFWwindow* window = windowObject.WindowPtr();
-
-    srand(time(0));
-
-    // Initialisation Collision Manager
-    CollisionManager collisionManager;
-    StaticMesh::SetCollisionManagerPtr(&collisionManager);
-
+    
     // Load all the 
     ResourceManager::Get().LoadAllShaders();
+    
+    Game game(500.0f); // parameter: world size
 
-    Scene scene;
-    Game game;
+    // Initialisation Collision Manager
+    CollisionManager collisionManager(game.worldSize());
+    StaticMesh::SetCollisionManagerPtr(&collisionManager);
+
+    Scene scene(game.worldSize());
     
     Hud::get().init(window);
 
     InteractiveObject::setGamePtr(&game);
 
-    auto camera = std::make_shared<Camera>();
+    auto camera = std::make_shared<Camera>(230, 230); // parameter: (x, z) spawn
     Renderer::Get().SetCamera(camera);
     collisionManager.SetCamera(camera);
 

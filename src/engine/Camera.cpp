@@ -2,8 +2,8 @@
 #include "common.hpp"
 
 
-Camera::Camera()
-	: _Position(2, 5, 0), _LastFramePosition(_Position), _phi(M_PI), _theta(0), _CanTurn(false),
+Camera::Camera(float x, float z)
+	: _Position(x, 0, z), _LastFramePosition(_Position), _phi(M_PI), _theta(0), _CanTurn(false),
 	_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f)
 {
 	computeDirectionVectors();

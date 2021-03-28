@@ -2,7 +2,8 @@
 #include "collision/CollisionGrid.hpp"
 #include "collision/BoundingSphere.hpp"
 
-CollisionManager::CollisionManager()
+CollisionManager::CollisionManager(float sizeGrid)
+	: _grid(sizeGrid)
 {
 	for (size_t i = (size_t)0; i < (size_t)_grid.Resolution(); i++)
 	{

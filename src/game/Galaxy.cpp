@@ -4,19 +4,19 @@
 
 #include "maths/probas.hpp"
 
-Galaxy::Galaxy()
-	: _celestialBodies(std::vector<CelestialBody>())
+Galaxy::Galaxy(float size)
+	: _celestialBodies(std::vector<CelestialBody>()), _size(size)
 {
 	for (size_t i = 0; i < _planetCount; i++)
 	{
-		int x = probas::discreteUniformDistribution(10, 100);
-		int y = probas::discreteUniformDistribution(-2, 2);
-		int z = probas::discreteUniformDistribution(10, 100);
-		int size = probas::continuousUniformDistribution(0.6, 6);
+		int x = probas::discreteUniformDistribution(0, _size);
+		int y = probas::discreteUniformDistribution(-10, 10);
+		int z = probas::discreteUniformDistribution(0, _size);
+		float sizePlanets = probas::continuousUniformDistribution(0.6, 6);
 
-		std::cout << x << " " << y << " " << z << std::endl;
+		std::cout << sizePlanets << std::endl;
 
-		CelestialBody newBody = Planet(glm::vec3(x, y, z), size);
+		CelestialBody newBody = Planet(glm::vec3(x, y, z), sizePlanets);
 		addCelestialBody(newBody);
 	}
 }

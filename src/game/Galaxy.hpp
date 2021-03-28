@@ -7,7 +7,7 @@ class CelestialBody;
 class Galaxy
 {
 public:
-	Galaxy();
+	Galaxy(float size);
 
 	void draw();
 
@@ -18,5 +18,5 @@ private:
 	std::vector<CelestialBody> _celestialBodies;
 	
 	int _planetCount = 10;
-	int _radius = 100;
+	int _size = 100;
 };
