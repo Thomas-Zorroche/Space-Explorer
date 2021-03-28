@@ -1,5 +1,6 @@
 #include "engine/InputHandler.hpp"
 #include "engine/Camera.hpp"
+#include "hud/Hud.hpp"
 
 #include <iostream>
 #include "GLFW/glfw3.h"
@@ -25,6 +26,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && _ActiveKey != ActiveKey::C) // C Qwerty = C Azerty
     {
         collisionManager.debugMode();
+        Hud::get().debugMode();
         _ActiveKey = ActiveKey::C;
     }
     if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE && _ActiveKey == ActiveKey::C)

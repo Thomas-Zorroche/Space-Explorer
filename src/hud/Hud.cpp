@@ -27,18 +27,18 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    // ImGui Content
+    // Main Board
     {
         ImGui::SetNextWindowPos(ImVec2(0, windowObject.Height() - 100));
         ImGui::SetNextWindowSize(ImVec2(windowObject.Width() - 500, 100));
         ImGui::Begin("Main Board");
         {
-            ImGui::Text("Position in the Galaxy");
-            ImGui::Text("X: %f ; Y: %f ; Z: %f", camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z);
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
         }
         ImGui::End();
     }
+
+    // Hints Pannel
     {
         ImGui::SetNextWindowPos(ImVec2(windowObject.Width() - 500, windowObject.Height() - 100));
         ImGui::SetNextWindowSize(ImVec2(500, 100));
@@ -49,6 +49,22 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
         }
         ImGui::End();
     }
+
+    // Debug Pannel
+    if (_debugMode)
+    {
+        ImGui::SetNextWindowPos(ImVec2(0.6 * windowObject.Width(), 0.05 * windowObject.Height()));
+        ImGui::SetNextWindowSize(ImVec2(0.35 * windowObject.Width(), 0.1 * windowObject.Width()));
+        ImGui::Begin("Debug Mode");
+        {
+            ImGui::Text("Position in the Galaxy (Camera)");
+            ImGui::Text("X: %f ; Y: %f ; Z: %f", camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z);
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        }
+        ImGui::End();
+    }
+
+
 
     // Render
     ImGui::Render();
@@ -62,4 +78,10 @@ void Hud::free()
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 }
+
+void Hud::debugMode()
+{
+    _debugMode = _debugMode ? false : true;
+}
+
 

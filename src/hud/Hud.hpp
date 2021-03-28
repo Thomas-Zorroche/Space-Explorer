@@ -24,8 +24,12 @@ public:
 	void init(GLFWwindow* window);
 	void free();
 
+	void debugMode();
+
 private:
 	Hud() = default;
 	~Hud() = default;
+
+	bool _debugMode = false;
 
 };
