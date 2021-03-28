@@ -44,12 +44,10 @@ public:
 	float GetLastX() const  { return _lastX; }
 	float GetLastY() const  { return _lastY; }
 	float GetSensitivity() const  { return _sensitivity; }
-	float GetSpeed() const { return _Speed; };
 	glm::vec3 GetPosition() const { return _Position; };
-	glm::vec3 GetLastPosition() const { return _LastFramePosition; };
 	glm::vec3 GetFrontVector() const { return _FrontVector; };
 
-	void BlockMovement();
+	void RotateAroundPlanet(bool rotate, const glm::vec3& planetPosition = glm::vec3(0));
 	
 	// Setters
 	void SetCanTurn(bool condition) { _CanTurn = condition; }
@@ -64,7 +62,6 @@ private:
 
 
 	glm::vec3 _Position;			  // Position of the camera
-	glm::vec3 _LastFramePosition;	  // Position of the camera on the last frame
 	float _phi;
 	float _theta;
 
@@ -78,12 +75,13 @@ private:
 
 	// Input Data
 	float _sensitivity;
-	float _Speed = 5.0;
 	float _limitNormal = 2.0f;			// Limit value normal where the player can move
 	float _responsiveness = 10.0f;       // Value use for lerp
 	float _cameraTime = 0.0f;
 	float _frequenceShake = 12.0f;
 	float _amplitudeShake = 3.5f;
+	bool _rotateAroundPlanet = false;
+	glm::vec3 _rotationPoint;
 
 	// Technical Data
 	float _fov = 45.0f;

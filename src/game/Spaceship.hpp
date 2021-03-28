@@ -8,8 +8,6 @@ public:
 	
 	float instantSpeed() const;
 
-	void update(const glm::vec3& lastFramePosition, const glm::vec3& cameraPosition, float deltaTime);
-
 	void speedUp();
 	void decelerate(float factor = 0.5f);
 

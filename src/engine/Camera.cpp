@@ -3,7 +3,7 @@
 
 
 Camera::Camera(float x, float z)
-	: _Position(x, 0, z), _LastFramePosition(_Position), _phi(M_PI), _theta(0), _CanTurn(false),
+	: _Position(x, 0, z), _phi(M_PI), _theta(0), _CanTurn(false),
 	_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f)
 {
 	computeDirectionVectors();
@@ -16,20 +16,20 @@ void Camera::Move(float deltaTime, DIRCAM direction)
 
 	float dst = deltaTime;
 
-	_LastFramePosition = _Position;
+
 	MoveX(dst, dir);
 	MoveZ(dst, dir);
 	_Position.y += dst * dir.y;
 
-	//_Position.y = Lerp<float>(_Position.y, _terrain->GetHeightOfTerrain(_Position.x, _Position.z) +_HeightCamera, abs(deltaTime) * _responsiveness);
-	//_Position.y = glm::clamp(_Position.y, 12.0f, 100.0f);
+	if (_rotateAroundPlanet)
+	{
+		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), _rotationPoint);
+		modelMatrix = glm::rotate(modelMatrix, glm::radians(0.05f), glm::vec3(0.0, 1.0, 0.0));
+		modelMatrix = glm::translate(modelMatrix, -_rotationPoint);
 
-	_cameraTime += abs(deltaTime);
-	float offset_factor = sin(_cameraTime * _frequenceShake) * _amplitudeShake;
+		_Position = modelMatrix * glm::vec4(_Position, 1.0);
+	}
 
-	// Wiggle walking effect
-	//rotateUp(offset_factor);
-	
 	computeDirectionVectors();
 }
 
@@ -45,9 +45,17 @@ void Camera::rotateLeft(float angle)
 	computeDirectionVectors();
 }
 
-void Camera::BlockMovement()
+void Camera::RotateAroundPlanet(bool rotate, const glm::vec3& planetPosition)
 {
-	//_Position = _LastFramePosition;
+	if (rotate)
+	{
+		_rotateAroundPlanet = true;
+		_rotationPoint = planetPosition;
+	}
+	else
+	{
+		_rotateAroundPlanet = false;
+	}
 }
 
 /*

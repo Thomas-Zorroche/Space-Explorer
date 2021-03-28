@@ -64,9 +64,6 @@ void mainloop(Window& windowObject)
         // Check Collisions
         collisionManager.CheckCollisions(game);
 
-        // Update spaceship speed
-        game.spaceship()->update(camera->GetPosition(), camera->GetLastPosition(), deltaTime);
-
         // Render scene
         scene.Draw();
 

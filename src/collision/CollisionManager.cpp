@@ -26,10 +26,9 @@ void CollisionManager::CheckCollisions(Game& game)
 	CollisionGridCase playerCase = _grid.getCase(cameraPosition);
 	auto& activeSpheres = _spheres[playerCase];
 
-	std::cout << playerCase.X << " " << playerCase.Y << std::endl;
-
 	// Check all collisions between spheres and camera
 	int countCollision = 0;
+	_camera->RotateAroundPlanet(false);
 	for (size_t i = (size_t)0; i < activeSpheres.size(); i++)
 	{
 		bool hit = activeSpheres[i]->isPointInsideSphere(cameraPosition);
@@ -38,10 +37,10 @@ void CollisionManager::CheckCollisions(Game& game)
 		// If colliding, execute appropriate event
 		if (hit)
 		{
-			if (activeSpheres[i]->StopPlayerMovement())
+			if (activeSpheres[i]->StopPlayerMovement()) // WARNING : We suppose that it is a planet
 			{
-				_camera->BlockMovement();
 				game.spaceship()->decelerate(5);
+				_camera->RotateAroundPlanet(true, activeSpheres[i]->center());
 			}
 
 			activeSpheres[i]->onBeginOverlap();
