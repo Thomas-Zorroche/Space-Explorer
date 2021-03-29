@@ -67,6 +67,7 @@ public:
 	}
 
 	glm::mat4 View() const { return _view;  }
+	glm::mat4 Proj() const { return _projection;  }
 
 private:
 	Renderer() = default;

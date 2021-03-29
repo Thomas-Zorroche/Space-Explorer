@@ -3,6 +3,10 @@
 #include "Planet.hpp"
 #include "Sun.hpp"
 
+#include "engine/Camera.hpp"
+#include "glm/glm.hpp"
+#include "hud/Hud.hpp"
+
 #include "maths/probas.hpp"
 
 Galaxy::Galaxy(float size)
@@ -31,11 +35,22 @@ void Galaxy::addCelestialBody(const CelestialBody& body)
 }
 
 
-void Galaxy::draw()
+void Galaxy::draw(const std::shared_ptr<Camera>& camera)
 {
+	bool focus = false;
 	for (auto& body : _celestialBodies)
 	{
 		body.draw();
+
+		// Test if user focus a planet
+		double dot = glm::dot(camera->GetFrontVector(), glm::normalize(camera->GetPosition() - body.position()));
+		if (dot < -0.98)
+		{
+			Hud::get().setFocusPosition(body.position(), camera);
+			focus = true;
+		}
 	}
+
+	if (!focus) Hud::get().disableFocusPanel();
 }
 

@@ -1,11 +1,14 @@
 #pragma once
 #include "engine/Application.hpp"
+#include "glm/glm.hpp"
+#include "hud/PannelUI.hpp"
 
 #include <memory>
 
 class Camera;
 class Window;
 class Game;
+class Camera;
 
 class Hud
 {
@@ -27,6 +30,9 @@ public:
 	void debugMode();
 	void setCollisionInfo(int activeSpheresCount);
 
+	void setFocusPosition(const glm::vec3& position, const std::shared_ptr<Camera>& camera);
+	void disableFocusPanel();
+
 private:
 	Hud() = default;
 	~Hud() = default;
@@ -34,5 +40,8 @@ private:
 	bool _debugMode = false;
 	
 	int _activesSpheresCount = 0;
+	
+	glm::vec3 _focusPosition;
 
+	PanelUI _focusPanel = PanelUI("res/img/Focus.png", "ui", 0, 0, 0.5);
 };

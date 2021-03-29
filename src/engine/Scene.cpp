@@ -62,7 +62,7 @@ void Scene::Init()
 	LightManager::Get().LoadAllLights();
 }
 
-void Scene::Draw()
+void Scene::Draw(const std::shared_ptr<Camera>& camera)
 {
 	// Render the Skybox
 	// =================================================
@@ -70,7 +70,7 @@ void Scene::Draw()
 
 	// Render the Skybox
 	// =================================================
-	_galaxy->draw();
+	_galaxy->draw(camera);
 
 	// Render all the interactive objects
 	// =================================================
@@ -85,6 +85,8 @@ void Scene::Draw()
 	{
 		//_staticMeshes[i]->Draw();
 	}
+
+
 }
 
 void Scene::AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh)

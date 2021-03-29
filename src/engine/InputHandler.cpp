@@ -54,6 +54,11 @@ void InputHandler::Movement(GLFWwindow* window, const std::shared_ptr<Camera>& c
         game.spaceship()->speedUp();
         camera->Move(deltaTime * game.spaceship()->instantSpeed(), DIRCAM::FRONT);
     }
+    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)   // S Qwerty = S Azerty
+    {
+        game.spaceship()->speedUp();
+        camera->Move(-deltaTime * game.spaceship()->instantSpeed(), DIRCAM::FRONT);
+    }
     else
     {
         game.spaceship()->decelerate();

@@ -3,10 +3,14 @@
 #include "engine/Camera.hpp"
 #include "game/Game.hpp"
 #include "engine/Window.hpp"
+#include "engine/Renderer.hpp"
+#include "engine/Camera.hpp"
+#include "maths/utils.hpp"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+
 
 void Hud::init(GLFWwindow* window)
 {
@@ -65,11 +69,12 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
         ImGui::End();
     }
 
-
-
-    // Render
+    // Render ImGUI
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    // Render PanelUI
+    if (_focusPanel.IsVisible()) _focusPanel.Draw();
 }
 
 void Hud::free()
@@ -89,5 +94,24 @@ void Hud::setCollisionInfo(int activeSpheresCount)
 {
     _activesSpheresCount = activeSpheresCount;
 }
+
+void Hud::setFocusPosition(const glm::vec3& position, const std::shared_ptr<Camera>& camera)
+{
+    _focusPosition = position;
+
+    glm::vec4 clipSpacePos = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(_focusPosition, 1.0));
+    glm::vec3 ndcSpacePos = glm::vec3(clipSpacePos) / clipSpacePos.w;
+
+    _focusPanel.Place(ndcSpacePos.x, ndcSpacePos.y);
+    _focusPanel.Scale(4000 / distanceSqr(camera->GetPosition(), position));
+    _focusPanel.setVisibility(true);
+}
+
+void Hud::disableFocusPanel()
+{
+    _focusPanel.setVisibility(false);
+}
+
+
 
 

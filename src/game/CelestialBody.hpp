@@ -11,6 +11,8 @@ public:
 
 	void draw();
 
+	glm::vec3 position() const { return _position; }
+
 
 private:
 	glm::vec3 _position;

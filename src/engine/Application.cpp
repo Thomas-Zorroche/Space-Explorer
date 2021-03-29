@@ -11,6 +11,7 @@
 #include "game/InteractiveObject.hpp"
 
 #include "hud/Hud.hpp"
+#include "hud/PannelUI.hpp"
 
 void mainloop(Window& windowObject)
 {
@@ -65,7 +66,7 @@ void mainloop(Window& windowObject)
         collisionManager.CheckCollisions(game);
 
         // Render scene
-        scene.Draw();
+        scene.Draw(camera);
 
         // Render Hud
         Hud::get().draw(camera, game, windowObject);

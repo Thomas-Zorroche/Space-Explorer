@@ -9,6 +9,7 @@ class StaticMesh;
 class Skybox;
 class Galaxy;
 class InteractiveObject;
+class Camera;
 
 class Scene
 {
@@ -18,7 +19,7 @@ public:
 
 	void Init();
 
-	void Draw();
+	void Draw(const std::shared_ptr<Camera>& camera);
 
 	std::shared_ptr<StaticMesh>& StaticMeshPtr(int index) { return _staticMeshes[index]; }
 

@@ -251,5 +251,7 @@ void ResourceManager::LoadAllShaders()
 	ResourceManager::Get().LoadShader("res/shaders/Default.vert", "res/shaders/planet.frag", "Planet");
 	// Sun 
 	ResourceManager::Get().LoadShader("res/shaders/Default.vert", "res/shaders/sun.frag", "Sun");
+	// Pannel UI - HUD 
+	ResourceManager::Get().LoadShader("res/shaders/PanelUI.vert", "res/shaders/PanelUI.frag", "PanelUI");
 }
 

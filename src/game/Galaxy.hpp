@@ -1,7 +1,9 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
+class Camera;
 class CelestialBody;
 
 class Galaxy
@@ -9,7 +11,7 @@ class Galaxy
 public:
 	Galaxy(float size);
 
-	void draw();
+	void draw(const std::shared_ptr<Camera>& camera);
 
 private:
 	void addCelestialBody(const CelestialBody& body);
