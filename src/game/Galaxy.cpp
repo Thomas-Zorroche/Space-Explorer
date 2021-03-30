@@ -46,7 +46,7 @@ void Galaxy::draw(const std::shared_ptr<Camera>& camera)
 		double dot = glm::dot(camera->GetFrontVector(), glm::normalize(camera->GetPosition() - body.position()));
 		if (dot < -0.98)
 		{
-			Hud::get().setFocusPosition(body.position(), camera);
+			Hud::get().setFocusPosition(std::make_shared<Planet>(body), camera);
 			focus = true;
 		}
 	}

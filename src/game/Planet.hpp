@@ -10,8 +10,11 @@ class Planet : public CelestialBody
 public:
 	Planet(glm::vec3 position, float radius, const std::string& shaderName = "Planet");
 
+	float radius() const { return _radius; }
+	const std::string& name() const { return _name; }
 
 private:
+	std::string _name = "Terre";
 	float _radius;
 	int _temperature;
 	std::vector<Planet> _moons;

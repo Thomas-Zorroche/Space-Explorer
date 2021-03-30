@@ -9,6 +9,7 @@ class Camera;
 class Window;
 class Game;
 class Camera;
+class Planet;
 
 class Hud
 {
@@ -30,7 +31,7 @@ public:
 	void debugMode();
 	void setCollisionInfo(int activeSpheresCount);
 
-	void setFocusPosition(const glm::vec3& position, const std::shared_ptr<Camera>& camera);
+	void setFocusPosition(const std::shared_ptr<Planet>& focusPlanet, const std::shared_ptr<Camera>& camera);
 	void disableFocusPanel();
 
 private:
@@ -41,7 +42,7 @@ private:
 	
 	int _activesSpheresCount = 0;
 	
-	glm::vec3 _focusPosition;
+	std::shared_ptr<Planet> _focusPlanet = nullptr;
 
 	PanelUI _focusPanel = PanelUI("res/img/Focus.png", "ui", 0, 0, 0.5);
 };

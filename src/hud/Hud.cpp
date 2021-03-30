@@ -2,6 +2,7 @@
 
 #include "engine/Camera.hpp"
 #include "game/Game.hpp"
+#include "game/Planet.hpp"
 #include "engine/Window.hpp"
 #include "engine/Renderer.hpp"
 #include "engine/Camera.hpp"
@@ -38,6 +39,12 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
         ImGui::Begin("Main Board");
         {
             ImGui::Text("Spaceship speed %f m/s", game.spaceship()->instantSpeed() * 100);
+            if (_focusPanel.IsVisible())
+            {
+                /*ImGui::Text("Planet %s %g km", 
+                    _focusPlanet->name(),
+                    distanceSqr(camera->GetPosition(), _focusPlanet->position()));*/
+            }
         }
         ImGui::End();
     }
@@ -95,15 +102,28 @@ void Hud::setCollisionInfo(int activeSpheresCount)
     _activesSpheresCount = activeSpheresCount;
 }
 
-void Hud::setFocusPosition(const glm::vec3& position, const std::shared_ptr<Camera>& camera)
+void Hud::setFocusPosition(const std::shared_ptr<Planet>& focusPlanet, const std::shared_ptr<Camera>& camera)
 {
-    _focusPosition = position;
+    _focusPlanet = focusPlanet;
+    glm::vec3 focusPosition = focusPlanet->position();
+    glm::vec3 focusRadius = glm::vec3(focusPosition.x, focusPosition.y, focusPlanet->radius());
 
-    glm::vec4 clipSpacePos = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(_focusPosition, 1.0));
+    // Compute ndc coordinates of the center of the planet
+    glm::vec4 clipSpacePos = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(focusPosition, 1.0));
     glm::vec3 ndcSpacePos = glm::vec3(clipSpacePos) / clipSpacePos.w;
 
+    // Compute ndc coordinates of the radius of the planet
+    glm::vec4 clipSpacePos_radius = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(focusRadius, 1.0));
+    glm::vec3 ndcSpacePos_radius = glm::vec3(clipSpacePos) / clipSpacePos.w;
+
     _focusPanel.Place(ndcSpacePos.x, ndcSpacePos.y);
-    _focusPanel.Scale(4000 / distanceSqr(camera->GetPosition(), position));
+
+    double scaleFactor = distanceSqr(ndcSpacePos_radius, ndcSpacePos);
+    
+    if (scaleFactor > 0.6) scaleFactor = 0.6;
+    if (scaleFactor < 0.1) scaleFactor = 0.1;
+
+    _focusPanel.Scale(scaleFactor);
     _focusPanel.setVisibility(true);
 }
 
