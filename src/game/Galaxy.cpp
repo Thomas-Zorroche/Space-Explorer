@@ -10,10 +10,11 @@
 #include "maths/probas.hpp"
 
 Galaxy::Galaxy(float size)
-	: _celestialBodies(std::vector<CelestialBody>()), _size(size)
+	: _size(size)
 {
 	// First create the sun
-	addCelestialBody(Sun(glm::vec3(_size / 2.0, 0, _size / 2.0), 10.0f));
+	std::shared_ptr<CelestialBody> sun = std::make_shared<Sun>(glm::vec3(_size / 2.0, 0, _size / 2.0), 10.0f);
+	addCelestialBody(sun);
 
 	// Then the planets
 	for (size_t i = 0; i < _planetCount; i++)
@@ -23,13 +24,13 @@ Galaxy::Galaxy(float size)
 		int z = probas::discreteUniformDistribution(0, _size);
 		float sizePlanets = probas::continuousUniformDistribution(0.6, 6);
 
-		CelestialBody newBody = Planet(glm::vec3(x, y, z), sizePlanets);
+		std::shared_ptr<CelestialBody> newBody = std::make_shared<Planet>(glm::vec3(x, y, z), sizePlanets);
 		addCelestialBody(newBody);
 	}
 }
 
 
-void Galaxy::addCelestialBody(const CelestialBody& body)
+void Galaxy::addCelestialBody(const std::shared_ptr<CelestialBody>& body)
 {
 	_celestialBodies.push_back(body);
 }
@@ -40,14 +41,18 @@ void Galaxy::draw(const std::shared_ptr<Camera>& camera)
 	bool focus = false;
 	for (auto& body : _celestialBodies)
 	{
-		body.draw();
+		body->draw();
 
 		// Test if user focus a planet
-		double dot = glm::dot(camera->GetFrontVector(), glm::normalize(camera->GetPosition() - body.position()));
-		if (dot < -0.98)
+		auto planet = std::dynamic_pointer_cast<Planet>(body);
+		if (planet)
 		{
-			Hud::get().setFocusPosition(std::make_shared<Planet>(body), camera);
-			focus = true;
+			double dot = glm::dot(camera->GetFrontVector(), glm::normalize(camera->GetPosition() - body->position()));
+			if (dot < -0.98)
+			{
+				Hud::get().setFocusPosition(planet, camera);
+				focus = true;
+			}
 		}
 	}
 

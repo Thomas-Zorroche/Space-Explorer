@@ -8,6 +8,7 @@ class CelestialBody
 {
 public:
 	CelestialBody(const StaticMesh& mesh, glm::vec3 position);
+	virtual ~CelestialBody() { _mesh.Free(); };
 
 	void draw();
 

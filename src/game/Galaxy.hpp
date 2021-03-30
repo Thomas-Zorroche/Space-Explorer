@@ -14,10 +14,10 @@ public:
 	void draw(const std::shared_ptr<Camera>& camera);
 
 private:
-	void addCelestialBody(const CelestialBody& body);
+	void addCelestialBody(const std::shared_ptr<CelestialBody>& body);
 
 private:
-	std::vector<CelestialBody> _celestialBodies;
+	std::vector<std::shared_ptr<CelestialBody> > _celestialBodies;
 	
 	int _planetCount = 10;
 	int _size = 100;

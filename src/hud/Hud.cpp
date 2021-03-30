@@ -41,9 +41,9 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
             ImGui::Text("Spaceship speed %f m/s", game.spaceship()->instantSpeed() * 100);
             if (_focusPanel.IsVisible())
             {
-                /*ImGui::Text("Planet %s %g km", 
-                    _focusPlanet->name(),
-                    distanceSqr(camera->GetPosition(), _focusPlanet->position()));*/
+                ImGui::Text("Planet %s %g km", 
+                    _focusPlanet->name().c_str(),
+                    distanceSqr(camera->GetPosition(), _focusPlanet->position()));
             }
         }
         ImGui::End();
@@ -106,7 +106,7 @@ void Hud::setFocusPosition(const std::shared_ptr<Planet>& focusPlanet, const std
 {
     _focusPlanet = focusPlanet;
     glm::vec3 focusPosition = focusPlanet->position();
-    glm::vec3 focusRadius = glm::vec3(focusPosition.x, focusPosition.y, focusPlanet->radius());
+    glm::vec3 focusRadius = glm::vec3(focusPosition.x, focusPosition.y + focusPlanet->radius(), focusPosition.z);
 
     // Compute ndc coordinates of the center of the planet
     glm::vec4 clipSpacePos = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(focusPosition, 1.0));
@@ -114,13 +114,15 @@ void Hud::setFocusPosition(const std::shared_ptr<Planet>& focusPlanet, const std
 
     // Compute ndc coordinates of the radius of the planet
     glm::vec4 clipSpacePos_radius = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(focusRadius, 1.0));
-    glm::vec3 ndcSpacePos_radius = glm::vec3(clipSpacePos) / clipSpacePos.w;
+    glm::vec3 ndcSpacePos_radius = glm::vec3(clipSpacePos_radius) / clipSpacePos_radius.w;
 
     _focusPanel.Place(ndcSpacePos.x, ndcSpacePos.y);
 
-    double scaleFactor = distanceSqr(ndcSpacePos_radius, ndcSpacePos);
+    double scaleFactor = 20 * distanceSqr(ndcSpacePos_radius, ndcSpacePos);
+
+    std::cout << scaleFactor << std::endl;
     
-    if (scaleFactor > 0.6) scaleFactor = 0.6;
+    if (scaleFactor > 0.5) scaleFactor = 0.5;
     if (scaleFactor < 0.1) scaleFactor = 0.1;
 
     _focusPanel.Scale(scaleFactor);
