@@ -50,6 +50,7 @@ uniform vec3 cameraPos;
 
 uniform sampler2D texture_diffuse;
 uniform float uvScale;
+uniform vec3 u_ColorPlanet;
 
 vec3 ComputeDirLight(Material material, DirLight dirLight, vec3 normal, vec3 viewDir);
 vec3 ComputePointLight(Material material, PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
@@ -69,7 +70,7 @@ void main()
         finalColor += ComputePointLight(material, pointLights[i], Normal_vs, vFragPos_vs, viewDir_vs);
 
     // Texture
-    fFragColor = vec4(finalColor, 1.0f) * vec4(0.95, 0.65, 0.2, 1.0);
+    fFragColor = vec4(finalColor, 1.0f) * vec4(u_ColorPlanet, 1.0);
 
 }
 

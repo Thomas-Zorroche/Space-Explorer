@@ -18,6 +18,7 @@ public:
 
 	void Free();
 	void Scale(float alpha);
+	void Rotate(float alpha);
 	void Translate(float x, float y);
 	void Place(float x, float y);
 

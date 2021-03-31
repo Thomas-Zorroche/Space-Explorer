@@ -12,11 +12,14 @@ public:
 
 	float radius() const { return _radius; }
 	const std::string& name() const { return _name; }
+	
+	void sendUniforms(std::shared_ptr<Shader>& shader) override;
 
 private:
 	std::string _name = "Terre";
 	float _radius;
 	int _temperature;
 	std::vector<Planet> _moons;
+	glm::vec3 _color;
 
 };

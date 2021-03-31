@@ -11,6 +11,7 @@ public:
 	virtual ~CelestialBody() { _mesh.Free(); };
 
 	void draw();
+	virtual void sendUniforms(std::shared_ptr<Shader>& shader) {};
 
 	glm::vec3 position() const { return _position; }
 

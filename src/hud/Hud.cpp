@@ -81,7 +81,11 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     // Render PanelUI
-    if (_focusPanel.IsVisible()) _focusPanel.Draw();
+    if (_focusPanel.IsVisible())
+    {
+        _focusPanel.Draw();
+    }
+    
 }
 
 void Hud::free()
@@ -116,15 +120,14 @@ void Hud::setFocusPosition(const std::shared_ptr<Planet>& focusPlanet, const std
     glm::vec4 clipSpacePos_radius = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(focusRadius, 1.0));
     glm::vec3 ndcSpacePos_radius = glm::vec3(clipSpacePos_radius) / clipSpacePos_radius.w;
 
-    _focusPanel.Place(ndcSpacePos.x, ndcSpacePos.y);
 
-    double scaleFactor = 20 * distanceSqr(ndcSpacePos_radius, ndcSpacePos);
+    double scaleFactor = 15 * distanceSqr(ndcSpacePos_radius, ndcSpacePos);
 
-    std::cout << scaleFactor << std::endl;
-    
     if (scaleFactor > 0.5) scaleFactor = 0.5;
     if (scaleFactor < 0.1) scaleFactor = 0.1;
 
+    _focusPanel.Place(ndcSpacePos.x, ndcSpacePos.y);
+    //_focusPanel.Rotate(0.1 * glfwGetTime());
     _focusPanel.Scale(scaleFactor);
     _focusPanel.setVisibility(true);
 }

@@ -52,8 +52,8 @@ void PanelUI::Draw() const {
 
 void PanelUI::ComputeModelMatrix(float x, float y, float scale)
 {
+	Place(x, y);
 	Scale(scale);
-	Translate(x, y);
 }
 
 
@@ -65,6 +65,11 @@ void PanelUI::Scale(float alpha)
 void PanelUI::Translate(float x, float y)
 {
 	_modelMatrix = glm::translate(_modelMatrix, glm::vec3(x, y, 0));
+}
+
+void PanelUI::Rotate(float alpha)
+{
+	_modelMatrix = glm::rotate(_modelMatrix, glm::radians(alpha), glm::vec3(1, 0, 1));
 }
 
 void PanelUI::Place(float x, float y)

@@ -8,6 +8,7 @@ CelestialBody::CelestialBody(const StaticMesh& mesh, glm::vec3 position)
 
 void CelestialBody::draw() 
 {
+	sendUniforms(_mesh.GetShader());
 	_mesh.Draw();
 }
 
