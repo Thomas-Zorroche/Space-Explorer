@@ -8,7 +8,7 @@ double distanceSqr(const glm::vec3& A, const glm::vec3& B)
 		(B.z - A.z) * (B.z - A.z));
 }
 
-const glm::vec3& randomColor(float minThreshold)
+const glm::vec3 randomColor(float minThreshold)
 {
 	return glm::vec3(
 		probas::discreteUniformDistribution(minThreshold, 1.0),
