@@ -8,13 +8,13 @@ struct PanelSettings
 	{
 		main[0] = 0;
 		main[1] = 0.85 * h;
-		main[2] = 0.65 * w;
+		main[2] = 0.3 * w;
 		main[3] = 0.15 * h;
 
-		hint[0] = main[2];
-		hint[1] = main[1];
-		hint[2] = w - main[2];
-		hint[3] = main[3];
+		hint[0] = 0.7 * w;
+		hint[1] = 0;
+		hint[2] = 0.3 * w;
+		hint[3] = h;
 
 		planet[0] = 0.05 * w;
 		planet[1] = 0.05 * w;

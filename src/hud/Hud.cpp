@@ -59,7 +59,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
     }
 
     // Hints Pannel
-    if (!game.endgame())
+    if (!_hideHintPanel && !game.endgame())
     {
         ImGui::SetNextWindowPos(ImVec2(_panelSettings.hint[0], _panelSettings.hint[1]));
         ImGui::SetNextWindowSize(ImVec2(_panelSettings.hint[2], _panelSettings.hint[3]));
@@ -73,7 +73,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
 
     // Endgame Panel
     if (game.endgame())
-        displayEndgamePanel();
+        displayEndgamePanel(game);
 
     // Planet Window 
     if (!game.endgame() && camera->isInOrbit())
@@ -135,7 +135,7 @@ void Hud::displayPlanetPanel() const
     ImGui::End();
 }
 
-void Hud::displayEndgamePanel() const
+void Hud::displayEndgamePanel(const Game& game) const
 {
     ImGui::SetNextWindowPos(ImVec2(_panelSettings.endgame[0], _panelSettings.endgame[1]));
     ImGui::SetNextWindowSize(ImVec2(_panelSettings.endgame[2], _panelSettings.endgame[3]));
@@ -181,7 +181,6 @@ void Hud::setFocusPosition(const std::shared_ptr<Planet>& focusPlanet, const std
         glm::vec4 clipSpacePos_radius = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(focusRadius, 1.0));
         glm::vec3 ndcSpacePos_radius = glm::vec3(clipSpacePos_radius) / clipSpacePos_radius.w;
 
-
         double scaleFactor = 15 * distanceSqr(ndcSpacePos_radius, ndcSpacePos);
 
         if (scaleFactor > 0.5) scaleFactor = 0.5;
@@ -198,6 +197,12 @@ void Hud::disableFocusPanel()
 {
     _focusPanel.setVisibility(false);
 }
+
+void  Hud::hideHintPanel()
+{
+    _hideHintPanel = _hideHintPanel ? false : true;
+}
+
 
 
 

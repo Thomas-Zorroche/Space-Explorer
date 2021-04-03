@@ -52,6 +52,18 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
         {
             _ActiveKey = ActiveKey::NONE;
         }
+
+        // Endgame Button - Land on the planet
+// ===================================================================================================
+        if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS && _ActiveKey != ActiveKey::H)
+        {
+            Hud::get().hideHintPanel();
+            _ActiveKey = ActiveKey::H;
+        }
+        if (glfwGetKey(window, GLFW_KEY_H) == GLFW_RELEASE && _ActiveKey == ActiveKey::H)
+        {
+            _ActiveKey = ActiveKey::NONE;
+        }
     }
 
 }

@@ -35,12 +35,14 @@ public:
 	void setFocusPosition(const std::shared_ptr<Planet>& focusPlanet, const std::shared_ptr<Camera>& camera);
 	void disableFocusPanel();
 
+	void hideHintPanel();
+
 private:
 	Hud() = default;
 	~Hud() = default;
 
 	void displayPlanetPanel() const;
-	void displayEndgamePanel() const;
+	void displayEndgamePanel(const Game& game) const;
 
 private:
 	bool _debugMode = false;
@@ -52,4 +54,6 @@ private:
 	PanelUI _focusPanel = PanelUI("res/img/Focus.png", "ui", 0, 0, 0.5);
 
 	PanelSettings _panelSettings;
+
+	bool _hideHintPanel = true;
 };
