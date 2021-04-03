@@ -54,6 +54,8 @@ public:
 	void SetLastX(float x) { _lastX = x; }
 	void SetLastY(float y) { _lastY = y; }
 
+	bool isInOrbit() const { return _inOrbit; }
+	void inOrbit(bool orbit) { _inOrbit = orbit; }
 
 private:
 	void computeDirectionVectors();
@@ -89,4 +91,6 @@ private:
 	float _heightScreen = 720.0;
 	float _nearPlane = 0.1f;
 	float _farPlane = 5000.0f;
+
+	bool _inOrbit = false;
 };

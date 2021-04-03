@@ -23,6 +23,7 @@ private:
 	std::vector<std::string> _hints;
 
 	std::shared_ptr<Spaceship> _spaceship;
+
 	
 	const float _WORLD_SIZE = 1000.f;
 };

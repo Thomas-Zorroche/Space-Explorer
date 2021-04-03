@@ -1,3 +1,4 @@
+
 #pragma once
 #include "engine/Application.hpp"
 #include "glm/glm.hpp"
@@ -38,6 +39,9 @@ private:
 	Hud() = default;
 	~Hud() = default;
 
+	void displayPlanetWindow() const;
+
+private:
 	bool _debugMode = false;
 	
 	int _activesSpheresCount = 0;

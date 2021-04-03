@@ -3,6 +3,7 @@
 #include "engine/Camera.hpp"
 #include "game/Game.hpp"
 #include "game/Planet.hpp"
+#include "game/PlanetSettings.hpp"
 #include "engine/Window.hpp"
 #include "engine/Renderer.hpp"
 #include "engine/Camera.hpp"
@@ -61,6 +62,12 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
         ImGui::End();
     }
 
+    // Planet Window 
+    if (camera->isInOrbit())
+    {
+        displayPlanetWindow();
+    }
+
     // Debug Pannel
     if (_debugMode)
     {
@@ -81,12 +88,40 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     // Render PanelUI
-    if (_focusPanel.IsVisible())
+    if (!camera->isInOrbit() && _focusPanel.IsVisible())
     {
         _focusPanel.Draw();
     }
     
 }
+
+void Hud::displayPlanetWindow() const
+{
+    PlanetSettings settings = _focusPlanet->settings();
+
+    ImGui::SetNextWindowPos(ImVec2(50, 50));
+    ImGui::SetNextWindowSize(ImVec2(250, 200));
+    ImGui::Begin("Planet Characteristics");
+    {
+        ImGui::Text("Name: %s", settings.name().c_str());
+        ImGui::Text("Temperature: %d degrees", settings.temperature());
+        ImGui::Text("Radioaactivty Level: %f", settings.radioactivityLevel());
+        
+        if (settings.telluric()) ImGui::Text("Telluric");
+        else ImGui::Text("Gaseous");
+        
+        if (settings.hasWater()) ImGui::Text("Has Water");
+        else ImGui::Text("No Water");
+
+        if (settings.atmosphere()) ImGui::Text("Has Atmosphere");
+        else ImGui::Text("No Atmosphere");
+
+        if (settings.magnetosphere()) ImGui::Text("Has Magnetosphere");
+        else ImGui::Text("No Magnetosphere");
+    }
+    ImGui::End();
+}
+
 
 void Hud::free()
 {
@@ -108,28 +143,31 @@ void Hud::setCollisionInfo(int activeSpheresCount)
 
 void Hud::setFocusPosition(const std::shared_ptr<Planet>& focusPlanet, const std::shared_ptr<Camera>& camera)
 {
-    _focusPlanet = focusPlanet;
-    glm::vec3 focusPosition = focusPlanet->position();
-    glm::vec3 focusRadius = glm::vec3(focusPosition.x, focusPosition.y + focusPlanet->radius(), focusPosition.z);
+    if (!camera->isInOrbit())
+    {
+        _focusPlanet = focusPlanet;
+        glm::vec3 focusPosition = focusPlanet->position();
+        glm::vec3 focusRadius = glm::vec3(focusPosition.x, focusPosition.y + focusPlanet->radius(), focusPosition.z);
 
-    // Compute ndc coordinates of the center of the planet
-    glm::vec4 clipSpacePos = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(focusPosition, 1.0));
-    glm::vec3 ndcSpacePos = glm::vec3(clipSpacePos) / clipSpacePos.w;
+        // Compute ndc coordinates of the center of the planet
+        glm::vec4 clipSpacePos = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(focusPosition, 1.0));
+        glm::vec3 ndcSpacePos = glm::vec3(clipSpacePos) / clipSpacePos.w;
 
-    // Compute ndc coordinates of the radius of the planet
-    glm::vec4 clipSpacePos_radius = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(focusRadius, 1.0));
-    glm::vec3 ndcSpacePos_radius = glm::vec3(clipSpacePos_radius) / clipSpacePos_radius.w;
+        // Compute ndc coordinates of the radius of the planet
+        glm::vec4 clipSpacePos_radius = Renderer::Get().Proj() * (Renderer::Get().View() * glm::vec4(focusRadius, 1.0));
+        glm::vec3 ndcSpacePos_radius = glm::vec3(clipSpacePos_radius) / clipSpacePos_radius.w;
 
 
-    double scaleFactor = 15 * distanceSqr(ndcSpacePos_radius, ndcSpacePos);
+        double scaleFactor = 15 * distanceSqr(ndcSpacePos_radius, ndcSpacePos);
 
-    if (scaleFactor > 0.5) scaleFactor = 0.5;
-    if (scaleFactor < 0.1) scaleFactor = 0.1;
+        if (scaleFactor > 0.5) scaleFactor = 0.5;
+        if (scaleFactor < 0.1) scaleFactor = 0.1;
 
-    _focusPanel.Place(ndcSpacePos.x, ndcSpacePos.y);
-    //_focusPanel.Rotate(0.1 * glfwGetTime());
-    _focusPanel.Scale(scaleFactor);
-    _focusPanel.setVisibility(true);
+        _focusPanel.Place(ndcSpacePos.x, ndcSpacePos.y);
+        //_focusPanel.Rotate(0.1 * glfwGetTime());
+        _focusPanel.Scale(scaleFactor);
+        _focusPanel.setVisibility(true);
+    }
 }
 
 void Hud::disableFocusPanel()
