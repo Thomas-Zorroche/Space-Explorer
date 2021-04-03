@@ -14,7 +14,7 @@
 #include "imgui/imgui_impl_opengl3.h"
 
 
-void Hud::init(GLFWwindow* window)
+void Hud::init(GLFWwindow* window, float width, float height)
 {
     // Initialize ImGui
     IMGUI_CHECKVERSION();
@@ -23,6 +23,9 @@ void Hud::init(GLFWwindow* window)
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
+
+    // Init windows sizes
+    _panelSettings.init(width, height);
 }
 
 void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
@@ -34,26 +37,32 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
     ImGui::NewFrame();
 
     // Main Board
+    if (!game.endgame())
     {
-        ImGui::SetNextWindowPos(ImVec2(0, windowObject.Height() - 100));
-        ImGui::SetNextWindowSize(ImVec2(windowObject.Width() - 500, 100));
+        ImGui::SetNextWindowPos(ImVec2(_panelSettings.main[0], _panelSettings.main[1]));
+        ImGui::SetNextWindowSize(ImVec2(_panelSettings.main[2], _panelSettings.main[3]));
         ImGui::Begin("Main Board");
         {
             ImGui::Text("Spaceship speed %f m/s", game.spaceship()->instantSpeed() * 100);
-            if (_focusPanel.IsVisible())
+            if (!camera->isInOrbit() && _focusPanel.IsVisible())
             {
                 ImGui::Text("Planet %s %g km", 
                     _focusPlanet->name().c_str(),
                     distanceSqr(camera->GetPosition(), _focusPlanet->position()));
+            }
+            if (camera->isInOrbit())
+            {
+                ImGui::Text("Press A to land on %s", _focusPlanet->name().c_str());
             }
         }
         ImGui::End();
     }
 
     // Hints Pannel
+    if (!game.endgame())
     {
-        ImGui::SetNextWindowPos(ImVec2(windowObject.Width() - 500, windowObject.Height() - 100));
-        ImGui::SetNextWindowSize(ImVec2(500, 100));
+        ImGui::SetNextWindowPos(ImVec2(_panelSettings.hint[0], _panelSettings.hint[1]));
+        ImGui::SetNextWindowSize(ImVec2(_panelSettings.hint[2], _panelSettings.hint[3]));
         ImGui::Begin("Hint Pannel");
         {
             for (const auto& hint : game.hints())
@@ -62,17 +71,21 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
         ImGui::End();
     }
 
+    // Endgame Panel
+    if (game.endgame())
+        displayEndgamePanel();
+
     // Planet Window 
-    if (camera->isInOrbit())
+    if (!game.endgame() && camera->isInOrbit())
     {
-        displayPlanetWindow();
+        displayPlanetPanel();
     }
 
     // Debug Pannel
     if (_debugMode)
     {
-        ImGui::SetNextWindowPos(ImVec2(0.6 * windowObject.Width(), 0.05 * windowObject.Height()));
-        ImGui::SetNextWindowSize(ImVec2(0.35 * windowObject.Width(), 0.1 * windowObject.Width()));
+        ImGui::SetNextWindowPos(ImVec2(_panelSettings.debug[0], _panelSettings.debug[1]));
+        ImGui::SetNextWindowSize(ImVec2(_panelSettings.debug[2], _panelSettings.debug[3]));
         ImGui::Begin("Debug Mode");
         {
             ImGui::Text("Position in the Galaxy (Camera)");
@@ -95,16 +108,16 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
     
 }
 
-void Hud::displayPlanetWindow() const
+void Hud::displayPlanetPanel() const
 {
     PlanetSettings settings = _focusPlanet->settings();
 
-    ImGui::SetNextWindowPos(ImVec2(50, 50));
-    ImGui::SetNextWindowSize(ImVec2(250, 200));
-    ImGui::Begin("Planet Characteristics");
+    ImGui::SetNextWindowPos(ImVec2(_panelSettings.planet[0], _panelSettings.planet[1]));
+    ImGui::SetNextWindowSize(ImVec2(_panelSettings.planet[2], _panelSettings.planet[3]));
+    ImGui::Begin("Planet Panel");
     {
         ImGui::Text("Name: %s", settings.name().c_str());
-        ImGui::Text("Temperature: %d degrees", settings.temperature());
+        ImGui::Text("Avg Temperature: %d degrees C", settings.temperature());
         ImGui::Text("Radioaactivty Level: %f", settings.radioactivityLevel());
         
         if (settings.telluric()) ImGui::Text("Telluric");
@@ -118,6 +131,17 @@ void Hud::displayPlanetWindow() const
 
         if (settings.magnetosphere()) ImGui::Text("Has Magnetosphere");
         else ImGui::Text("No Magnetosphere");
+    }
+    ImGui::End();
+}
+
+void Hud::displayEndgamePanel() const
+{
+    ImGui::SetNextWindowPos(ImVec2(_panelSettings.endgame[0], _panelSettings.endgame[1]));
+    ImGui::SetNextWindowSize(ImVec2(_panelSettings.endgame[2], _panelSettings.endgame[3]));
+    ImGui::Begin("Endgame");
+    {
+        ImGui::Text("You landed on %s", _focusPlanet->name().c_str());
     }
     ImGui::End();
 }

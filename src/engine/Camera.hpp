@@ -93,4 +93,5 @@ private:
 	float _farPlane = 5000.0f;
 
 	bool _inOrbit = false;
+
 };

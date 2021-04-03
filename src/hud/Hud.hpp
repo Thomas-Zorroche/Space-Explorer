@@ -3,6 +3,7 @@
 #include "engine/Application.hpp"
 #include "glm/glm.hpp"
 #include "hud/PannelUI.hpp"
+#include "hud/PanelSettings.hpp"
 
 #include <memory>
 
@@ -24,9 +25,8 @@ public:
 	Hud(const Hud&) = delete;
 	Hud& operator=(const Hud&) = delete;
 
-	void draw(const std::shared_ptr<Camera>& camera, const Game& game,
-		const Window& windowObject) const;
-	void init(GLFWwindow* window);
+	void draw(const std::shared_ptr<Camera>& camera, const Game& game, const Window& windowObject) const;
+	void init(GLFWwindow* window, float width, float height);
 	void free();
 
 	void debugMode();
@@ -39,7 +39,8 @@ private:
 	Hud() = default;
 	~Hud() = default;
 
-	void displayPlanetWindow() const;
+	void displayPlanetPanel() const;
+	void displayEndgamePanel() const;
 
 private:
 	bool _debugMode = false;
@@ -49,4 +50,6 @@ private:
 	std::shared_ptr<Planet> _focusPlanet = nullptr;
 
 	PanelUI _focusPanel = PanelUI("res/img/Focus.png", "ui", 0, 0, 0.5);
+
+	PanelSettings _panelSettings;
 };

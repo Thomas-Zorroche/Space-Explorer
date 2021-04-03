@@ -28,7 +28,7 @@ void mainloop(Window& windowObject)
 
     Scene scene(game.worldSize());
     
-    Hud::get().init(window);
+    Hud::get().init(window, windowObject.Width(), windowObject.Height());
 
     InteractiveObject::setGamePtr(&game);
 
