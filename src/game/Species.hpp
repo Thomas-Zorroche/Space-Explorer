@@ -15,6 +15,8 @@ public:
 
 	float correlationCoefficient(const std::shared_ptr<Planet>& planet) const;
 
+	std::string name() const { return _name; }
+
 private:
 	std::string _name;
 	int _techLevel;

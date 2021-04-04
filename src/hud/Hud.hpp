@@ -4,6 +4,8 @@
 #include "glm/glm.hpp"
 #include "hud/PannelUI.hpp"
 #include "hud/PanelSettings.hpp"
+#include "game/PlanetSettings.hpp"
+
 
 #include <memory>
 
@@ -43,6 +45,7 @@ private:
 
 	void displayPlanetPanel() const;
 	void displayEndgamePanel(const Game& game) const;
+	void displayPlanetSettings(const PlanetSettings& settings, bool species = false) const;
 
 private:
 	bool _debugMode = false;

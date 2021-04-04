@@ -2,9 +2,9 @@
 
 #include "engine/Camera.hpp"
 #include "game/Game.hpp"
+#include "game/Galaxy.hpp"
 #include "game/Planet.hpp"
 #include "game/Species.hpp"
-#include "game/PlanetSettings.hpp"
 #include "engine/Window.hpp"
 #include "engine/Renderer.hpp"
 #include "engine/Camera.hpp"
@@ -117,21 +117,7 @@ void Hud::displayPlanetPanel() const
     ImGui::SetNextWindowSize(ImVec2(_panelSettings.planet[2], _panelSettings.planet[3]));
     ImGui::Begin("Planet Panel");
     {
-        ImGui::Text("Name: %s", settings.name().c_str());
-        ImGui::Text("Avg Temperature: %d degrees C", settings.temperature());
-        ImGui::Text("Radioaactivty Level: %f", settings.radioactivityLevel());
-        
-        if (settings.telluric()) ImGui::Text("Telluric");
-        else ImGui::Text("Gaseous");
-        
-        if (settings.hasWater()) ImGui::Text("Has Water");
-        else ImGui::Text("No Water");
-
-        if (settings.atmosphere()) ImGui::Text("Has Atmosphere");
-        else ImGui::Text("No Atmosphere");
-
-        if (settings.magnetosphere()) ImGui::Text("Has Magnetosphere");
-        else ImGui::Text("No Magnetosphere");
+        displayPlanetSettings(settings);
     }
     ImGui::End();
 }
@@ -145,8 +131,45 @@ void Hud::displayEndgamePanel(const Game& game) const
         ImGui::Text("You landed on %s, with a correlation coefficient of %f", 
             _focusPlanet->name().c_str(), 
             game.species()->correlationCoefficient(_focusPlanet));
+        ImGui::Separator();
+
+        ImGui::Text("Best Planet for %s Species", game.species()->name().c_str());
+        displayPlanetSettings(game.species()->planetSettings(), true);
+        ImGui::Separator();
+
+        for (const auto& body : game.galaxy()->celestialBodies())
+        {
+            if (auto planet = std::dynamic_pointer_cast<Planet>(body))
+            {
+                displayPlanetSettings(planet->settings());
+                ImGui::Separator();
+            }
+        }
+
     }
     ImGui::End();
+}
+
+void Hud::displayPlanetSettings(const PlanetSettings& settings, bool species) const
+{
+    if (!species)
+    {
+        ImGui::Text("Name: %s", settings.name().c_str());
+    }
+    ImGui::Text("Avg Temperature: %d degrees C", settings.temperature());
+    ImGui::Text("Radioaactivty Level: %f", settings.radioactivityLevel());
+
+    if (settings.telluric()) ImGui::Text("Telluric");
+    else ImGui::Text("Gaseous");
+
+    if (settings.hasWater()) ImGui::Text("Has Water");
+    else ImGui::Text("No Water");
+
+    if (settings.atmosphere()) ImGui::Text("Has Atmosphere");
+    else ImGui::Text("No Atmosphere");
+
+    if (settings.magnetosphere()) ImGui::Text("Has Magnetosphere");
+    else ImGui::Text("No Magnetosphere");
 }
 
 
