@@ -2,6 +2,9 @@
 
 #include "PlanetSettings.hpp"
 #include <string>
+#include <memory>
+
+class Planet;
 
 class Species
 {
@@ -9,6 +12,8 @@ public:
 	Species(const std::string& name, int techLevel, const PlanetSettings& planetSettings);
 
 	const PlanetSettings& planetSettings() const;
+
+	float correlationCoefficient(const std::shared_ptr<Planet>& planet) const;
 
 private:
 	std::string _name;

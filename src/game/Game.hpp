@@ -25,6 +25,7 @@ public:
 	bool endgame() const { return _endgame; }
 
 	std::shared_ptr<Galaxy> galaxyPtr() { return _galaxy; }
+	const std::shared_ptr<Species> species() const { return _species; }
 
 private:
 	std::vector<std::string> _hints;

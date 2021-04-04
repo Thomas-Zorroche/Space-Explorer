@@ -1,4 +1,5 @@
 ﻿#include "Species.hpp"
+#include "Planet.hpp"
 
 Species::Species(
 	const std::string& name, 
@@ -13,4 +14,10 @@ const PlanetSettings& Species::planetSettings() const
 { 
 	return _planetSettings;
 }
+
+float Species::correlationCoefficient(const std::shared_ptr<Planet>& planet) const
+{
+	return _planetSettings.correlationCoefficient(planet->settings());
+}
+
 

@@ -3,6 +3,7 @@
 #include "engine/Camera.hpp"
 #include "game/Game.hpp"
 #include "game/Planet.hpp"
+#include "game/Species.hpp"
 #include "game/PlanetSettings.hpp"
 #include "engine/Window.hpp"
 #include "engine/Renderer.hpp"
@@ -141,7 +142,9 @@ void Hud::displayEndgamePanel(const Game& game) const
     ImGui::SetNextWindowSize(ImVec2(_panelSettings.endgame[2], _panelSettings.endgame[3]));
     ImGui::Begin("Endgame");
     {
-        ImGui::Text("You landed on %s", _focusPlanet->name().c_str());
+        ImGui::Text("You landed on %s, with a correlation coefficient of %f", 
+            _focusPlanet->name().c_str(), 
+            game.species()->correlationCoefficient(_focusPlanet));
     }
     ImGui::End();
 }

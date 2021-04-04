@@ -34,26 +34,6 @@ public:
 		_telluric(telluric), _hasWater(hasWater), _atmosphere(atmosphere), 
 		_magnetosphere(magnetosphere), _radioactivityLevel(radioactivityLevel), _star(false) {}
 
-	float speciesScore(const PlanetSettings& planet)
-	{
-		// Test if (this) is a species
-		if (_radius != -1)
-			return 0;
-		
-		float score = 1.0f;
-		
-		// Float values
-		score += abs(_temperature - planet._temperature);
-		score += abs(_radioactivityLevel - planet._radioactivityLevel);
-
-		// Boolean values
-		score += _telluric == planet._telluric ? 0 : 100.0f;
-		score += _hasWater == planet._hasWater ? 0 : 100.0f;
-		score += _atmosphere == planet._atmosphere ? 0 : 100.0f;
-		score += _magnetosphere == planet._magnetosphere ? 0 : 100.0f;
-
-		return score;
-	}
 
 	// Getters
 	// ===============================
@@ -67,6 +47,27 @@ public:
 	bool magnetosphere() const { return _magnetosphere; }
 	float radioactivityLevel() const { return _radioactivityLevel; }
 	bool star() const { return _star; }
+
+	float correlationCoefficient(const PlanetSettings& planet) const
+	{
+		// Test if (this) is a species
+		if (_radius != -1)
+			return 0;
+
+		float score = 1.0f;
+
+		// Float values
+		score += abs(_temperature - planet._temperature);
+		score += abs(_radioactivityLevel - planet._radioactivityLevel);
+
+		// Boolean values
+		score += _telluric == planet._telluric ? 0 : 100.0f;
+		score += _hasWater == planet._hasWater ? 0 : 100.0f;
+		score += _atmosphere == planet._atmosphere ? 0 : 100.0f;
+		score += _magnetosphere == planet._magnetosphere ? 0 : 100.0f;
+
+		return score;
+	}
 
 private:
 	std::string _name;	// Species Non-Essential
