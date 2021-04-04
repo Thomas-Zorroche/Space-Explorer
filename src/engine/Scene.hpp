@@ -14,7 +14,7 @@ class Camera;
 class Scene
 {
 public:
-	Scene(float size);
+	Scene(float size, const std::shared_ptr<Galaxy>& galaxy);
 	~Scene();
 
 	void Init();

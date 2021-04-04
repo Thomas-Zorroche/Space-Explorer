@@ -23,8 +23,8 @@
 #include <unordered_map>
 
 
-Scene::Scene(float size)
-	:  _skybox(nullptr), _galaxy(nullptr), _size(size)
+Scene::Scene(float size, const std::shared_ptr<Galaxy>& galaxy)
+	:  _skybox(nullptr), _galaxy(galaxy), _size(size)
 {
 	Init();
 }
@@ -45,10 +45,6 @@ void Scene::Init()
 		"back.png"
 	};
 	_skybox = std::make_shared<Skybox>(facesSkybox);
-
-	// Create Galaxy
-	// =================================================
-	_galaxy = std::make_shared<Galaxy>(_size);
 
 	// Create Hints Objects
 	// =================================================

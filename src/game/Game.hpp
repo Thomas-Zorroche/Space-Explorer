@@ -5,6 +5,9 @@
 #include <string>
 #include "game/Spaceship.hpp"
 
+class Species;
+class Galaxy;
+
 class Game
 {
 public:
@@ -14,7 +17,6 @@ public:
 
 	const std::vector<std::string>& hints() const { return _hints; } 
 
-	float worldSize() const { return _WORLD_SIZE; }
 
 	const std::shared_ptr<Spaceship> spaceship() const { return _spaceship; }
 	std::shared_ptr<Spaceship> spaceship() { return _spaceship; }
@@ -22,12 +24,15 @@ public:
 	void setEndgame() { _endgame = true; }
 	bool endgame() const { return _endgame; }
 
+	std::shared_ptr<Galaxy> galaxyPtr() { return _galaxy; }
+
 private:
 	std::vector<std::string> _hints;
 
+	std::shared_ptr<Galaxy> _galaxy;
+	std::shared_ptr<Species> _species;
 	std::shared_ptr<Spaceship> _spaceship;
 
 	bool _endgame = false;
 
-	const float _WORLD_SIZE = 1000.f;
 };

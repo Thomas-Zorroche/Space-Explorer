@@ -4,8 +4,8 @@
 
 #include "hud/Hud.hpp"
 
-CollisionManager::CollisionManager(float sizeGrid)
-	: _grid(sizeGrid)
+CollisionManager::CollisionManager(float worldSize)
+	: _grid(worldSize), _WORLD_SIZE(worldSize)
 {
 	for (size_t i = (size_t)0; i < (size_t)_grid.Resolution(); i++)
 	{

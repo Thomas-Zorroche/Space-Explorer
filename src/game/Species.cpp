@@ -4,13 +4,13 @@ Species::Species(
 	const std::string& name, 
 	int techLevel, 
 	const PlanetSettings& planetSettings)
-	: _name(name), _techLevel(techLevel), _bestPlanetSettings(planetSettings)
+	: _name(name), _techLevel(techLevel), _planetSettings(planetSettings)
 {
 
 }
 
-const Species::PlanetSettings& bestPlanetSettings() const 
+const PlanetSettings& Species::planetSettings() const
 { 
-	return _bestPlanetSettings; 
+	return _planetSettings;
 }
 
