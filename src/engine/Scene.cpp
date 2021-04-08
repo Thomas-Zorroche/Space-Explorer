@@ -3,6 +3,7 @@
 #include "engine/Renderer.hpp"
 #include "engine/Skybox.hpp"
 #include "engine/StaticMesh.hpp"
+#include "engine/HintsImporter.hpp"
 
 #include "opengl/Shader.h"
 
@@ -56,6 +57,7 @@ void Scene::Init()
 	std::shared_ptr<InteractiveObject> hintTest2 = std::make_shared<Hint>(TransformLayout(glm::vec3(0, 0, 5), glm::vec3(0), 0.2), "Z");
 	std::shared_ptr<InteractiveObject> hintTest3 = std::make_shared<Hint>(TransformLayout(glm::vec3(0, 0, 0), glm::vec3(0), 0.2), "0");
 	_interactiveObjects = std::vector<std::shared_ptr<InteractiveObject> >({ hintTest1, hintTest2, hintTest3 } );
+	std::vector<Hint> hints = HintsImporter::Hints("../res/game/hints.txt");
 
 	// Load All Lights
 	// =================================================
