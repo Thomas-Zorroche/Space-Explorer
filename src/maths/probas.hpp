@@ -1,12 +1,19 @@
 #pragma once
 
 #include <cstdlib>  // for rand(), srand()
-#include <math.h>
+#include <cmath>
+#include <iostream>
+#include <vector>
 
 namespace probas
 {
 	// Loi uniforme continue [a ; b]
 	int continuousUniformDistribution(int a, int b);
-	// Loi uniforme discr�te [a ; b]
+	// Loi uniforme discrete [a ; b]
 	int discreteUniformDistribution(int a, int b);
-}; // ns probas
+	// Coefficient binomial
+    int nCr(int n, int r);
+
+    // Tests des probas
+    void TestProbas();
+}; // nos probas
