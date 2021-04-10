@@ -1,2 +1,0 @@
-Mon espèce doit vivre sur une planète avec %f de température moyenne
-La planète doit être %v

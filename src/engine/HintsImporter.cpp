@@ -1,39 +1,51 @@
 #include "HintsImporter.hpp"
-#include <fstream>
-#include <iostream>
 
-std::vector<Hint> HintsImporter::Hints(const std::string &filepath) {
+std::vector<Hint> HintsImporter::Hints(const std::string& filepath) {
     std::vector<Hint> hints;
 
-    std::ifstream stream(filepath);
-    std::string line;
+    mINI::INIFile file(filepath);
+    mINI::INIStructure ini;
+    file.read(ini);
 
     int temperature = 10;
-    std::string type = "rocheuse";
+    bool water = true;
 
-    while(getline(stream, line)){
-
-        if(line.find("%f") != std::string::npos){
-            std::vector<std::string> parts_of_message = SplitMessage("%f", line);
-            std::string message = parts_of_message.at(0) + std::to_string(temperature) + "°C" + parts_of_message.at(1);
-            hints.push_back(Hint(TransformLayout(glm::vec3(0), glm::vec3(0)), message));
-            std::cout << message << std::endl;
-        }
-
-        if(line.find("%v") != std::string::npos) {
-            std::vector<std::string> parts_of_message = SplitMessage("%v", line);
-            std::string message = parts_of_message.at(0) + type + parts_of_message.at(1);
-            hints.push_back(Hint(TransformLayout(glm::vec3(0), glm::vec3(0)), message));
-            std::cout << message << std::endl;
-        }
+    for (auto& category :ini)
+    {
+        if (category.first == "temperature")
+            addToHints(hints, category.second.get("hint1"), "%f", temperature, "°C");
+        if (category.first == "water")
+            addToHints(hints, category.second.get("hint1"), "%b", (water) ? std::string("") : "not");
     }
-
     return hints;
 }
 
-std::vector<std::string> HintsImporter::SplitMessage(const std::string &marker, const std::string &message) {
+std::vector<std::string> HintsImporter::SplitMessage(const std::string& marker, const std::string& message) {
     std::size_t marker_pos = message.find(marker);
     std::string beginning = message.substr(0, marker_pos);
-    std::string end = message.substr(marker_pos + 2, message.length() - marker_pos);
+    std::string end = message.substr(marker_pos + 3, message.length() - marker_pos);
     return { beginning, end };
+}
+
+template <typename T>
+std::vector<Hint>& HintsImporter::addToHints(std::vector<Hint>& hints, const std::string& message,
+                                             const std::string& marker, const T& value, const std::string& unit)
+{
+    std::vector<std::string> parts_of_message = SplitMessage(marker, message);
+    std::string composed_message = parts_of_message.at(0);
+    composed_message += std::to_string(value) + unit + " " + parts_of_message.at(1);
+    hints.emplace_back(TransformLayout(glm::vec3(0), glm::vec3(0)), composed_message);
+    std::cout << composed_message << std::endl;
+    return hints;
+}
+
+std::vector<Hint>& HintsImporter::addToHints(std::vector<Hint>& hints, const std::string& message,
+                                             const std::string& marker, const std::string & value)
+{
+    std::vector<std::string> parts_of_message = SplitMessage(marker, message);
+    std::string composed_message = parts_of_message.at(0);
+    composed_message += value + parts_of_message.at(1);
+    hints.emplace_back(TransformLayout(glm::vec3(0), glm::vec3(0)), composed_message);
+    std::cout << composed_message << std::endl;
+    return hints;
 }
