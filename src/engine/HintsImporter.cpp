@@ -7,22 +7,24 @@ std::vector<Hint> HintsImporter::Hints(const std::string& filepath, const Specie
     mINI::INIStructure ini;
     file.read(ini);
 
-    auto caracs = species.planetSettings();
+    const auto& caracs = species.planetSettings();
+    std::string hi; // hint_index
 
     for (auto& category :ini)
     {
+        hi = std::to_string(probas::discreteUniformDistribution(1, 3));
         if (category.first == "temperature")
-            addToHints(hints, category.second.get("hint1"), "%f", caracs.temperature(), "°C");
+            addToHints(hints, category.second.get("hint" + hi), "%f", caracs.temperature(), "°C");
         if (category.first == "telluric")
-            addToHints(hints, category.second.get("hint1"), "%b", caracs.telluric() ? std::string("") : "not");
+            addToHints(hints, category.second.get("hint" + hi), "%b", caracs.telluric() ? std::string("") : "not");
         if (category.first == "water")
-            addToHints(hints, category.second.get("hint1"), "%b", caracs.hasWater() ? std::string("") : "not");
+            addToHints(hints, category.second.get("hint" + hi), "%b", caracs.hasWater() ? std::string("") : "not");
         if (category.first == "atmosphere")
-            addToHints(hints, category.second.get("hint1"), "%b", caracs.atmosphere() ? std::string("") : "not");
+            addToHints(hints, category.second.get("hint" + hi), "%b", caracs.atmosphere() ? std::string("") : "not");
         if (category.first == "magnetosphere")
-            addToHints(hints, category.second.get("hint1"), "%b", caracs.magnetosphere() ? std::string("") : "not");
+            addToHints(hints, category.second.get("hint" + hi), "%b", caracs.magnetosphere() ? std::string("") : "not");
         if (category.first == "radioactivity")
-            addToHints(hints, category.second.get("hint1"), "%f", caracs.radioactivityLevel(), "Gy");
+            addToHints(hints, category.second.get("hint" + hi), "%f", caracs.radioactivityLevel(), "Gy");
     }
     return hints;
 }

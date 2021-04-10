@@ -4,6 +4,7 @@
 #include "../game/Hint.hpp"
 #include "ini.hpp"
 #include "../game/Species.hpp"
+#include "../maths/probas.hpp"
 
 class HintsImporter {
 public:
