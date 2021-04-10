@@ -16,7 +16,7 @@
 #include "game/InteractiveObject.hpp"
 #include "game/Hint.hpp"
 
-#include "maths/probas.hpp"
+#include "maths/testProbas.hpp"
 
 #include <memory>
 #include <string>
@@ -58,7 +58,8 @@ void Scene::Init()
 	std::shared_ptr<InteractiveObject> hintTest2 = std::make_shared<Hint>(TransformLayout(glm::vec3(0, 0, 5), glm::vec3(0), 0.2), "Z");
 	std::shared_ptr<InteractiveObject> hintTest3 = std::make_shared<Hint>(TransformLayout(glm::vec3(0, 0, 0), glm::vec3(0), 0.2), "0");
 	_interactiveObjects = std::vector<std::shared_ptr<InteractiveObject> >({ hintTest1, hintTest2, hintTest3 } );
-	probas::TestProbas();
+	probas::testBinomialProbability(1e6);
+    probas::testBernoulliProbability(1e6);
 
 	// Load All Lights
 	// =================================================

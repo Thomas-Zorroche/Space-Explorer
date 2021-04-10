@@ -8,16 +8,14 @@
 namespace probas
 {
 	// Loi uniforme continue [a ; b]
-	int continuousUniformDistribution(int a, int b);
+    float continuousUniformDistribution(float a, float b);
 	// Loi uniforme discrete [a ; b]
 	int discreteUniformDistribution(int a, int b);
 	// Coefficient binomial
     int nCr(int n, int r);
     double binomialProbability(int n, int k, float p);
     double poissonProbability(int k, int lambda);
-    double bernoulliProbability(float x, float p);
+    double bernoulliProbability(int x, float p, int n = 1);
     double geometricalProbability(int k, float p);
 
-    // Tests des probas
-    void TestProbas();
 }; // nos probas
