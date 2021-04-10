@@ -27,7 +27,7 @@ public:
 	Hud(const Hud&) = delete;
 	Hud& operator=(const Hud&) = delete;
 
-	void draw(const std::shared_ptr<Camera>& camera, const Game& game, const Window& windowObject) const;
+	void draw(const std::shared_ptr<Camera>& camera, Game& game, const Window& windowObject) const;
 	void init(GLFWwindow* window, float width, float height);
 	void free();
 
@@ -46,6 +46,7 @@ private:
 	void displayPlanetPanel() const;
 	void displayEndgamePanel(const Game& game) const;
 	void displayPlanetSettings(const PlanetSettings& settings, bool species = false) const;
+	void displayLevelWindow(Game& game, const std::shared_ptr<Camera>& camera) const;
 
 private:
 	bool _debugMode = false;

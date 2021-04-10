@@ -19,3 +19,10 @@ void Game::addHint(const std::string& hint)
 	_hints.push_back(hint);
 }
 
+void Game::setDifficultyLevel(Difficulty::Level level) 
+{ 
+	_level = level; 
+	_running = true; 
+}
+
+

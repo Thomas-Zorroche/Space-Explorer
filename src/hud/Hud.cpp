@@ -29,7 +29,7 @@ void Hud::init(GLFWwindow* window, float width, float height)
     _panelSettings.init(width, height);
 }
 
-void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
+void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
     const Window& windowObject) const
 {
     //New Frame
@@ -37,8 +37,12 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    // Level Window
+    if (!game.run())
+        displayLevelWindow(game, camera);
+
     // Main Board
-    if (!game.endgame())
+    if (game.run())
     {
         ImGui::SetNextWindowPos(ImVec2(_panelSettings.main[0], _panelSettings.main[1]));
         ImGui::SetNextWindowSize(ImVec2(_panelSettings.main[2], _panelSettings.main[3]));
@@ -60,7 +64,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
     }
 
     // Hints Pannel
-    if (!_hideHintPanel && !game.endgame())
+    if (!_hideHintPanel && game.run())
     {
         ImGui::SetNextWindowPos(ImVec2(_panelSettings.hint[0], _panelSettings.hint[1]));
         ImGui::SetNextWindowSize(ImVec2(_panelSettings.hint[2], _panelSettings.hint[3]));
@@ -73,11 +77,11 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
     }
 
     // Endgame Panel
-    if (game.endgame())
+    if (game.engame())
         displayEndgamePanel(game);
 
     // Planet Window 
-    if (!game.endgame() && camera->isInOrbit())
+    if (game.run() && camera->isInOrbit())
     {
         displayPlanetPanel();
     }
@@ -90,6 +94,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, const Game& game,
         ImGui::Begin("Debug Mode");
         {
             ImGui::Text("Position in the Galaxy (Camera)");
+            ImGui::Text("Difficulty Level: %s", Difficulty::LevelNames[game.getDifficultyLevel()]);
             ImGui::Text("X: %f ; Y: %f ; Z: %f", camera->GetPosition().x, camera->GetPosition().y, camera->GetPosition().z);
             ImGui::Text("Actives spheres: %d", _activesSpheresCount);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -145,7 +150,6 @@ void Hud::displayEndgamePanel(const Game& game) const
                 ImGui::Separator();
             }
         }
-
     }
     ImGui::End();
 }
@@ -171,6 +175,36 @@ void Hud::displayPlanetSettings(const PlanetSettings& settings, bool species) co
     if (settings.magnetosphere()) ImGui::Text("Has Magnetosphere");
     else ImGui::Text("No Magnetosphere");
 }
+
+void Hud::displayLevelWindow(Game& game, const std::shared_ptr<Camera>& camera) const
+{
+    ImGui::SetNextWindowPos(ImVec2(_panelSettings.endgame[0], _panelSettings.endgame[1]));
+    ImGui::SetNextWindowSize(ImVec2(_panelSettings.endgame[2], _panelSettings.endgame[3]));
+    ImGui::Begin("Level of Difficulty");
+    {
+        ImGui::Text("Welcome to Space Explorer .......;");
+
+        ImGui::Separator();
+
+        ImGui::Text("Please, choose your level of difficulty");
+
+        const Difficulty::Level all_Levels[] = {
+            Difficulty::Easy, Difficulty::Medium, Difficulty::Hard,
+        };
+
+        for (const auto& lvl : all_Levels)
+        {
+            if (ImGui::Button(Difficulty::LevelNames[lvl]))
+            {
+                game.setDifficultyLevel(lvl);
+                camera->SetCanTurn(true);
+            }
+            ImGui::SameLine();
+        }
+    }
+    ImGui::End();
+}
+
 
 
 void Hud::free()

@@ -14,8 +14,10 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    if (!game.endgame())
+    if (game.run())
     {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
         // Sprint 
         // ===================================================================================================
         float boostSprint = 1.0f;
@@ -54,7 +56,7 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
         }
 
         // Endgame Button - Land on the planet
-// ===================================================================================================
+        // ===================================================================================================
         if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS && _ActiveKey != ActiveKey::H)
         {
             Hud::get().hideHintPanel();
@@ -64,6 +66,13 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
         {
             _ActiveKey = ActiveKey::NONE;
         }
+    }
+
+    // Level Window
+    else
+    {
+        camera->SetCanTurn(false);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
 
 }

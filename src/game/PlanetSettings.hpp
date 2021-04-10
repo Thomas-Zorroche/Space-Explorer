@@ -73,6 +73,7 @@ private:
 	std::string _name;	// Species Non-Essential
 	float _radius;		// Species Non-Essential
 	glm::vec3 _color;	// Species Non-Essential
+	
 	int _temperature;
 	bool _telluric;
 	bool _hasWater;
