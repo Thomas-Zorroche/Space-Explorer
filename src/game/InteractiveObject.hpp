@@ -28,5 +28,5 @@ private:
 
 	glm::vec3 _position;
 	StaticMesh _mesh;
-	bool _active = true;
+	bool _active = false;
 };

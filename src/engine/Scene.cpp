@@ -72,7 +72,8 @@ void Scene::Draw(const std::shared_ptr<Camera>& camera)
 
 	// Render the Skybox
 	// =================================================
-	_galaxy->draw(camera);
+	if (_galaxy)
+		_galaxy->draw(camera);
 
 	// Render all the interactive objects
 	// =================================================

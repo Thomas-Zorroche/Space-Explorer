@@ -46,11 +46,14 @@ public:
 	Difficulty::Level getDifficultyLevel() const { return _level; }
 
 private:
+	void initialize();
+
+private:
 	std::vector<std::string> _hints;
 
 	std::shared_ptr<Galaxy> _galaxy;
-	std::shared_ptr<Species> _species;
-	std::shared_ptr<Spaceship> _spaceship;
+	std::shared_ptr<Species> _species = nullptr;
+	std::shared_ptr<Spaceship> _spaceship = nullptr;;
 
 	bool _running = false;
 	bool _endgame = false;
