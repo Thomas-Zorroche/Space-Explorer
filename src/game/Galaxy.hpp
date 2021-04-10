@@ -13,6 +13,8 @@ public:
 
 	void draw(const std::shared_ptr<Camera>& camera);
 
+	std::vector<std::shared_ptr<CelestialBody> > celestialBodies() { return _celestialBodies; }
+
 private:
 	void addCelestialBody(const std::shared_ptr<CelestialBody>& body);
 

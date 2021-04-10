@@ -4,8 +4,8 @@
 
 #include "hud/Hud.hpp"
 
-CollisionManager::CollisionManager(float sizeGrid)
-	: _grid(sizeGrid)
+CollisionManager::CollisionManager(float worldSize)
+	: _grid(worldSize), _WORLD_SIZE(worldSize)
 {
 	for (size_t i = (size_t)0; i < (size_t)_grid.Resolution(); i++)
 	{
@@ -29,6 +29,7 @@ void CollisionManager::CheckCollisions(Game& game)
 	// Check all collisions between spheres and camera
 	int countCollision = 0;
 	_camera->RotateAroundPlanet(false);
+	bool inOrbit = false;
 	for (size_t i = (size_t)0; i < activeSpheres.size(); i++)
 	{
 		bool hit = activeSpheres[i]->isPointInsideSphere(cameraPosition);
@@ -45,6 +46,7 @@ void CollisionManager::CheckCollisions(Game& game)
 					game.spaceship()->decelerate(5);
 				}
 				_camera->RotateAroundPlanet(true, activeSpheres[i]->center());
+				inOrbit = true;
 			}
 
 			activeSpheres[i]->onBeginOverlap();
@@ -52,6 +54,7 @@ void CollisionManager::CheckCollisions(Game& game)
 		}
 	}
 
+	_camera->inOrbit(inOrbit);
 	Hud::get().setCollisionInfo(activeSpheres.size());
 }
 

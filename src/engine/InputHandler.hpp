@@ -15,7 +15,8 @@ enum class ActiveKey {
 	NONE, 
 	C,
 	E,	
-	A	
+	A,
+	H
 };
 
 class InputHandler

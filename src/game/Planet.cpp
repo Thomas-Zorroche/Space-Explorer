@@ -1,12 +1,14 @@
 #include "Planet.hpp"
 #include "maths/utils.hpp"
 
-Planet::Planet(glm::vec3 position, float radius, const std::string& shaderName)
+Planet::Planet(const glm::vec3& position, const PlanetSettings& settings)
 	: CelestialBody(
-	  StaticMesh(Model("res/models/planet01.obj"), TransformLayout(position, glm::vec3(0, 0, 0), radius), shaderName),
+	  StaticMesh(Model("res/models/planet01.obj"), 
+	  TransformLayout(position, glm::vec3(0, 0, 0), settings.radius()), 
+		  settings.star() ? "Sun" : "Planet"),
 	  position
 	  ),
-	  _radius(radius), _color(randomColor(0.25))
+	  _settings(settings)
 {
 
 }
@@ -14,7 +16,7 @@ Planet::Planet(glm::vec3 position, float radius, const std::string& shaderName)
 void Planet::sendUniforms(std::shared_ptr<Shader>& shader)
 {
 	shader->Bind();
-	shader->SetUniform3f("u_ColorPlanet", _color);
+	shader->SetUniform3f("u_ColorPlanet", _settings.color());
 	shader->Unbind();
 }
 

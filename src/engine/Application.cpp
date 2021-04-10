@@ -20,15 +20,15 @@ void mainloop(Window& windowObject)
     // Load all the 
     ResourceManager::Get().LoadAllShaders();
     
-    Game game(500.0f); // parameter: world size
-
     // Initialisation Collision Manager
-    CollisionManager collisionManager(game.worldSize());
+    CollisionManager collisionManager(500.0f); // parameter: world size
     StaticMesh::SetCollisionManagerPtr(&collisionManager);
 
-    Scene scene(game.worldSize());
+    Game game(collisionManager.worldSize());
+
+    Scene scene(collisionManager.worldSize(), game.galaxyPtr());
     
-    Hud::get().init(window);
+    Hud::get().init(window, windowObject.Width(), windowObject.Height());
 
     InteractiveObject::setGamePtr(&game);
 

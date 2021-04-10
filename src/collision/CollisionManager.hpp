@@ -14,7 +14,7 @@ class Camera;
 class CollisionManager
 {
 public:
-	CollisionManager(float sizeGrid = 1000.0f);
+	CollisionManager(float worldSize);
 
 	void CheckCollisions(Game& game);
 	void AddSphere(const std::shared_ptr<BoundingSphere>& sphere);
@@ -23,6 +23,8 @@ public:
 	void SetCamera(const std::shared_ptr<Camera>& cameraPtr) { _camera = cameraPtr; }
 
 	void debugMode();
+
+	float worldSize() const { return _WORLD_SIZE; }
 
 private:
 	void updateCaseIndices(const CollisionGridCase& gridCase, int indexDeadBox);
@@ -33,4 +35,6 @@ private:
 	std::shared_ptr<Camera> _camera;
 
 	bool _debugMode = false;
+	const float _WORLD_SIZE = 1000.f;
+
 };
