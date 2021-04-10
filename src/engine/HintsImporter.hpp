@@ -1,13 +1,13 @@
 #pragma once
 
 #include <iostream>
-#include <string>
 #include "../game/Hint.hpp"
 #include "ini.hpp"
+#include "../game/Species.hpp"
 
 class HintsImporter {
 public:
-    static std::vector<Hint> Hints(const std::string& filepath);
+    static std::vector<Hint> Hints(const std::string& filepath, const Species& species);
 
 private:
     static std::vector<std::string> SplitMessage(const std::string& marker, const std::string& message);

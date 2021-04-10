@@ -2,6 +2,7 @@
 #include "PlanetSettings.hpp"
 #include "Galaxy.hpp"
 #include "Species.hpp"
+#include "../engine/HintsImporter.hpp"
 
 Game::Game(float size)
 	: _galaxy(std::make_shared<Galaxy>(size))
@@ -50,7 +51,7 @@ void Game::initialize()
 
 	// Hints
 	{
-		
+        std::vector<Hint> hints = HintsImporter::Hints("../res/game/hints.ini", *_species);
 	}
 }
 

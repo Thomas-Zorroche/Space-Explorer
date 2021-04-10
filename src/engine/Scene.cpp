@@ -59,7 +59,6 @@ void Scene::Init()
 		TransformLayout(glm::vec3(210, -1, 195), glm::vec3(0), 0.2),
 		"Une atmosphere est necessaire.");
 	_interactiveObjects = std::vector<std::shared_ptr<InteractiveObject> >({ hintTest1, hintTest2, hintTest3 } );
-	std::vector<Hint> hints = HintsImporter::Hints("../res/game/hints.ini");
 
 	// Load All Lights
 	// =================================================

@@ -1,29 +1,40 @@
 #include "HintsImporter.hpp"
 
-std::vector<Hint> HintsImporter::Hints(const std::string& filepath) {
+std::vector<Hint> HintsImporter::Hints(const std::string& filepath, const Species& species) {
     std::vector<Hint> hints;
 
     mINI::INIFile file(filepath);
     mINI::INIStructure ini;
     file.read(ini);
 
-    int temperature = 10;
-    bool water = true;
+    auto caracs = species.planetSettings();
 
     for (auto& category :ini)
     {
         if (category.first == "temperature")
-            addToHints(hints, category.second.get("hint1"), "%f", temperature, "°C");
+            addToHints(hints, category.second.get("hint1"), "%f", caracs.temperature(), "°C");
+        if (category.first == "telluric")
+            addToHints(hints, category.second.get("hint1"), "%b", caracs.telluric() ? std::string("") : "not");
         if (category.first == "water")
-            addToHints(hints, category.second.get("hint1"), "%b", (water) ? std::string("") : "not");
+            addToHints(hints, category.second.get("hint1"), "%b", caracs.hasWater() ? std::string("") : "not");
+        if (category.first == "atmosphere")
+            addToHints(hints, category.second.get("hint1"), "%b", caracs.atmosphere() ? std::string("") : "not");
+        if (category.first == "magnetosphere")
+            addToHints(hints, category.second.get("hint1"), "%b", caracs.magnetosphere() ? std::string("") : "not");
+        if (category.first == "radioactivity")
+            addToHints(hints, category.second.get("hint1"), "%f", caracs.radioactivityLevel(), "Gy");
     }
     return hints;
 }
 
 std::vector<std::string> HintsImporter::SplitMessage(const std::string& marker, const std::string& message) {
     std::size_t marker_pos = message.find(marker);
-    std::string beginning = message.substr(0, marker_pos);
-    std::string end = message.substr(marker_pos + 3, message.length() - marker_pos);
+    std::string beginning = message.substr(0, marker_pos - 1);
+    std::string end;
+    if (marker_pos + 2 > message.size() - 1)
+        end = message.substr(marker_pos + 2, message.length() - marker_pos);
+    else
+        end = message.substr(marker_pos + 3, message.length() - marker_pos);
     return { beginning, end };
 }
 
@@ -33,7 +44,7 @@ std::vector<Hint>& HintsImporter::addToHints(std::vector<Hint>& hints, const std
 {
     std::vector<std::string> parts_of_message = SplitMessage(marker, message);
     std::string composed_message = parts_of_message.at(0);
-    composed_message += std::to_string(value) + unit + " " + parts_of_message.at(1);
+    composed_message += " " + std::to_string(value) + unit + " " + parts_of_message.at(1);
     hints.emplace_back(TransformLayout(glm::vec3(0), glm::vec3(0)), composed_message);
     std::cout << composed_message << std::endl;
     return hints;
@@ -44,7 +55,7 @@ std::vector<Hint>& HintsImporter::addToHints(std::vector<Hint>& hints, const std
 {
     std::vector<std::string> parts_of_message = SplitMessage(marker, message);
     std::string composed_message = parts_of_message.at(0);
-    composed_message += value + parts_of_message.at(1);
+    composed_message += " " + value + ((value.empty()) ? "" : " ") + parts_of_message.at(1);
     hints.emplace_back(TransformLayout(glm::vec3(0), glm::vec3(0)), composed_message);
     std::cout << composed_message << std::endl;
     return hints;
