@@ -1,5 +1,7 @@
 #include "probas.hpp"
 
+#include <cmath>
+
 
 namespace probas
 {
@@ -30,17 +32,36 @@ namespace probas
         return value;
     }
 
-    float binomialProbabilty(int n, int k, float p)
+    double bernoulliProbability(float x, float p, float n = 1)
     {
-	    return static_cast<float>(nCr(n, k) * pow(p, k) * pow(1 - p, n - k));
+	    return std::pow(p, x) * std::pow(1 - p, n - x);
+    }
+
+    double binomialProbability(int n, int k, float p)
+    {
+	    return nCr(n, k) * bernoulliProbability(static_cast<float>(k), p, static_cast<float>(n));
+    }
+
+    double poissonProbability(int k, int lambda)
+    {
+	    auto value = pow(lambda, k) * exp(-lambda);
+	    for (int i = 2; i <= k; i++)
+	        value /= i;
+	    return value;
+    }
+
+    double geometricalProbability(int k, float p)
+    {
+	    return std::pow(1 - p, k - 1) * p;
     }
 
     void TestProbas() {
         std::cout << "20 parmi 30 = " << probas::nCr(30, 20) << std::endl;
 	    std::cout << "Test loi binomiale : " << std::endl;
-	    std::cout << "On lance une pièce de monnaie 8 fois, schéma de Bernouilli : n = 8, p = 0.5" << std::endl;
+	    std::cout << "On lance une pièce de monnaie 8 fois, schéma de Bernoulli : n = 8, p = 0.5" << std::endl;
 	    std::cout << "Succès = obtenir face. On note X le nombre de succès." << std::endl;
-	    std::cout << "La probabilité théorique d'obtenir 4 fois face est :    P(X = 4) = " << probas::binomialProbabilty(8, 4, 0.5) << std::endl;
+	    std::cout << "La probabilité théorique d'obtenir 4 fois face est :    P(X = 4) = " << probas::binomialProbability(
+                8, 4, 0.5) << std::endl;
 
 	    int lancer;
 	    int sum_faces = 0;
