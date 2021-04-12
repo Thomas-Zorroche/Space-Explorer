@@ -40,9 +40,9 @@ namespace probas
 	    return nCr(n, k) * bernoulliProbability(k, p, n);
     }
 
-    double poissonProbability(int k, int lambda)
+    double poissonProbability(int k, float lambda)
     {
-	    auto value = pow(lambda, k) * exp(-lambda);
+	    auto value = pow(lambda, k) * std::exp(-lambda);
 	    for (int i = 2; i <= k; i++)
 	        value /= i;
 	    return value;

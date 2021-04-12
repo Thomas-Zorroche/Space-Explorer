@@ -60,6 +60,8 @@ void Scene::Init()
 	_interactiveObjects = std::vector<std::shared_ptr<InteractiveObject> >({ hintTest1, hintTest2, hintTest3 } );
 	probas::testBinomialProbability(1e6);
     probas::testBernoulliProbability(1e6);
+    probas::testPoissonProbability(1e6);
+    probas::testGeometricalProbability(1e6);
 
 	// Load All Lights
 	// =================================================

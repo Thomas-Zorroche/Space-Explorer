@@ -14,7 +14,7 @@ namespace probas
 	// Coefficient binomial
     int nCr(int n, int r);
     double binomialProbability(int n, int k, float p);
-    double poissonProbability(int k, int lambda);
+    double poissonProbability(int k, float lambda);
     double bernoulliProbability(int x, float p, int n = 1);
     double geometricalProbability(int k, float p);
 
