@@ -3,6 +3,7 @@
 #include "engine/Renderer.hpp"
 #include "engine/Skybox.hpp"
 #include "engine/StaticMesh.hpp"
+#include "engine/HintsImporter.hpp"
 
 #include "opengl/Shader.h"
 
@@ -23,8 +24,8 @@
 #include <unordered_map>
 
 
-Scene::Scene(float size)
-	:  _skybox(nullptr), _galaxy(nullptr), _size(size)
+Scene::Scene(float size, const std::shared_ptr<Galaxy>& galaxy)
+	:  _skybox(nullptr), _galaxy(galaxy), _size(size)
 {
 	Init();
 }
@@ -46,15 +47,17 @@ void Scene::Init()
 	};
 	_skybox = std::make_shared<Skybox>(facesSkybox);
 
-	// Create Galaxy
+	// Create Hints Objects
 	// =================================================
-	_galaxy = std::make_shared<Galaxy>(_size);
-
-	// Create Interactive Objects
-	// =================================================
-	std::shared_ptr<InteractiveObject> hintTest1 = std::make_shared<Hint>(TransformLayout(glm::vec3(5, 0, 0), glm::vec3(0), 0.2), "X");
-	std::shared_ptr<InteractiveObject> hintTest2 = std::make_shared<Hint>(TransformLayout(glm::vec3(0, 0, 5), glm::vec3(0), 0.2), "Z");
-	std::shared_ptr<InteractiveObject> hintTest3 = std::make_shared<Hint>(TransformLayout(glm::vec3(0, 0, 0), glm::vec3(0), 0.2), "0");
+	std::shared_ptr<InteractiveObject> hintTest1 = std::make_shared<Hint>(
+		TransformLayout(glm::vec3(200, 1, 210), glm::vec3(0), 0.2),
+		"Le niveau de radioactivite de doit \n pas etre au dessus de 0.3");
+	std::shared_ptr<InteractiveObject> hintTest2 = std::make_shared<Hint>(
+		TransformLayout(glm::vec3(190, 0, 201), glm::vec3(0), 0.2),
+		"L eau, c est pour les faibles.");
+	std::shared_ptr<InteractiveObject> hintTest3 = std::make_shared<Hint>(
+		TransformLayout(glm::vec3(210, -1, 195), glm::vec3(0), 0.2),
+		"Une atmosphere est necessaire.");
 	_interactiveObjects = std::vector<std::shared_ptr<InteractiveObject> >({ hintTest1, hintTest2, hintTest3 } );
 
 	// Load All Lights
@@ -70,13 +73,15 @@ void Scene::Draw(const std::shared_ptr<Camera>& camera)
 
 	// Render the Skybox
 	// =================================================
-	_galaxy->draw(camera);
+	if (_galaxy)
+		_galaxy->draw(camera);
 
 	// Render all the interactive objects
 	// =================================================
 	for (size_t i = 0; i < _interactiveObjects.size(); i++)
 	{
-		if (_interactiveObjects[i]->isActive()) _interactiveObjects[i]->draw();
+		if (_interactiveObjects[i]->isActive()) 
+			_interactiveObjects[i]->draw();
 	}
 
 	// Render all the static meshes

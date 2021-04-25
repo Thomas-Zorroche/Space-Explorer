@@ -1,5 +1,6 @@
 #include "Galaxy.hpp"
 #include "CelestialBody.hpp"
+#include "PlanetSettings.hpp"
 #include "Planet.hpp"
 #include "Sun.hpp"
 
@@ -8,12 +9,14 @@
 #include "hud/Hud.hpp"
 
 #include "maths/probas.hpp"
+#include "maths/utils.hpp"
 
 Galaxy::Galaxy(float size)
 	: _size(size)
 {
 	// First create the sun
-	std::shared_ptr<CelestialBody> sun = std::make_shared<Sun>(glm::vec3(_size / 2.0, 0, _size / 2.0), 10.0f);
+	PlanetSettings settingSun("Sun", 8, 5505, false, randomColor(), false, true, true, 1.0, true);
+	std::shared_ptr<CelestialBody> sun = std::make_shared<Planet>(glm::vec3(_size / 2.0, 0, _size / 2.0), settingSun);
 	addCelestialBody(sun);
 
 	// Then the planets
@@ -24,7 +27,8 @@ Galaxy::Galaxy(float size)
 		int z = probas::discreteUniformDistribution(0, _size);
 		float sizePlanets = probas::continuousUniformDistribution(0.6, 6);
 
-		std::shared_ptr<CelestialBody> newBody = std::make_shared<Planet>(glm::vec3(x, y, z), sizePlanets);
+		PlanetSettings settingPlanet("Tatooine", sizePlanets, 40, true, randomColor(), true, true, true, 0.71);
+		std::shared_ptr<CelestialBody> newBody = std::make_shared<Planet>(glm::vec3(x,y,z) , settingPlanet);
 		addCelestialBody(newBody);
 	}
 }

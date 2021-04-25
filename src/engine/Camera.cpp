@@ -3,7 +3,7 @@
 
 
 Camera::Camera(float x, float z)
-	: _Position(x, 0, z), _phi(M_PI), _theta(0), _CanTurn(false),
+	: _Position(x, 0, z), _phi(M_PI), _theta(0), _CanTurn(true),
 	_lastX(450.0f), _lastY(320.0f), _sensitivity(8.0f)
 {
 	computeDirectionVectors();
