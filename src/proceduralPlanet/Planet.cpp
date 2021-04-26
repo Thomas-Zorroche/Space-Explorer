@@ -28,14 +28,17 @@ Planet::Planet(int resolution)
 		TerrainFace(_shapeGenerator, resolution, glm::vec3( 0,  0, -1)), // FORWARD
 		TerrainFace(_shapeGenerator, resolution, glm::vec3( 0,  0,  1))  // BACK
 	},
-	_staticMesh({ 
-		_terrainFaces[0].mesh(), 
-		_terrainFaces[1].mesh(),
-		_terrainFaces[2].mesh(),
-		_terrainFaces[3].mesh(),
-		_terrainFaces[4].mesh(),
-		_terrainFaces[5].mesh(),
-	}, TransformLayout(glm::vec3(0)), "ProceduralPlanet")
+	_staticMesh(std::make_shared<StaticMesh>(
+		std::vector<std::shared_ptr<Mesh> > {
+			_terrainFaces[0].mesh(),
+			_terrainFaces[1].mesh(),
+			_terrainFaces[2].mesh(),
+			_terrainFaces[3].mesh(),
+			_terrainFaces[4].mesh(),
+			_terrainFaces[5].mesh()
+		}
+		, TransformLayout(glm::vec3(0)), "ProceduralPlanet")
+	)
 {
 	generatePlanet();
 }
@@ -145,7 +148,7 @@ void Planet::reset()
 
 void Planet::Rotate(const glm::vec3& angles)
 {
-	_staticMesh.Rotate(angles);
+	_staticMesh->Rotate(angles);
 }
 
 void Planet::RandomGenerate()

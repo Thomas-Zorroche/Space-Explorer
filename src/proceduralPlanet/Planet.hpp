@@ -60,7 +60,7 @@ public:
 
 	void RandomGenerate();
 
-	StaticMesh& GetStaticMesh() { return _staticMesh; }
+	std::shared_ptr<StaticMesh> GetStaticMesh() { return _staticMesh; }
 	void sendUniforms(std::shared_ptr<Shader>& shader);
 
 private:
@@ -76,7 +76,7 @@ private:
 	std::shared_ptr<ShapeGenerator> _shapeGenerator;
 
 	TerrainFace _terrainFaces[6];
-	StaticMesh _staticMesh;
+	std::shared_ptr<StaticMesh> _staticMesh;
 
 	FaceRenderMask _faceRenderMask = FaceRenderMask::All;
 

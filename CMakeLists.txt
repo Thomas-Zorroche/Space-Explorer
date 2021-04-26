@@ -134,3 +134,7 @@ file(COPY ${CMAKE_SOURCE_DIR}/res/img/
 # Add Planets Ini Files
 file(COPY ${CMAKE_SOURCE_DIR}/res/planets/
 	DESTINATION ${CMAKE_BINARY_DIR}/res/planets)
+
+# Add Models
+file(COPY ${CMAKE_SOURCE_DIR}/res/models/
+	DESTINATION ${CMAKE_BINARY_DIR}/res/models)
