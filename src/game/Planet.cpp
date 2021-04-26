@@ -5,11 +5,10 @@
 
 Planet::Planet(const glm::vec3& position, const PlanetSettings& settings)
 	: CelestialBody(nullptr, position),
-	_proceduralPlanet(std::make_shared<proceduralPlanet::Planet>(64)),
+	_proceduralPlanet(std::make_shared<proceduralPlanet::Planet>(128)),
 	_settings(settings)
 {
 	proceduralPlanet::IOManager::get().open("res/planets/InitPlanet.ini", _proceduralPlanet);
-	//_proceduralPlanet->RandomGenerate();
 
 	_mesh = _proceduralPlanet->GetStaticMesh();
 	_mesh->Translate(position);
