@@ -13,9 +13,13 @@ namespace probas
 	int discreteUniformDistribution(int a, int b);
 	// Coefficient binomial
     int nCr(int n, int r);
-    double binomialProbability(int n, int k, float p);
-    double poissonProbability(int k, float lambda);
-    double bernoulliProbability(int x, float p, int n = 1);
-    double geometricalProbability(int k, float p);
+    double bernoulliProbability(const int& x, const float& p, const int& n = 1);
+    int simulateBernoulliProb(const float& p);
+    double binomialProbability(const int& n, const int& k, const float& p);
+    int simulateBinomialProb(const int& n, const float& p);
+    double poissonProbability(const int& k, const float& lambda);
+    int simulatePoissonProb(const float& lambda);
+    double geometricalProbability(const int& k, const float& p);
+    int simulateGeometricalProb(const float& p);
 
 }; // nos probas
