@@ -8,6 +8,20 @@ struct Material
     vec3 specular;
 };
 
+struct PointLight 
+{
+    float intensity;
+    vec3 position;  
+  
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+	
+    float constant;
+    float linear;
+    float quadratic;
+}; 
+
 struct DirLight 
 {
     float intensity;
@@ -30,6 +44,7 @@ in float depth;
 
 uniform Material material;
 uniform DirLight dirLight;
+uniform PointLight pointLight;
 
 uniform vec3[MAX_COLOR_STEPS] u_colors;
 uniform float[MAX_COLOR_STEPS] u_steps;
@@ -38,6 +53,7 @@ uniform float u_oceanDepth;
 uniform vec3 u_oceanColor;
 
 vec3 ComputeDirLight(vec3 planetColor, Material material, DirLight dirLight, vec3 normal, vec3 viewDir);
+vec3 ComputePointLight(Material material, PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 void main()
 {
@@ -65,7 +81,8 @@ void main()
             {
                 diffuseColorRamp = mix(diffuseColorRamp, u_colors[i], smoothstep(u_steps[i - 1], u_steps[i], elevation));
             }
-            finalColor += ComputeDirLight(diffuseColorRamp, material, dirLight, Normal_vs, viewDir_vs);
+            finalColor += ComputePointLight(material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
+            //finalColor += ComputeDirLight(diffuseColorRamp, material, dirLight, Normal_vs, viewDir_vs);
         }
         // Simple Color
         else
@@ -91,6 +108,25 @@ vec3 ComputeDirLight(vec3 planetColor, Material material, DirLight light, vec3 n
     vec3 ambient = light.ambient * material.ambient;
     vec3 diffuse = light.diffuse * planetColor * diffuseStrength;
     vec3 specular = light.specular * material.specular * specularStrength;
+
+    return vec3(ambient + diffuse + specular) * light.intensity;
+}
+
+vec3 ComputePointLight(Material material, PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
+{
+    float distance = length(light.position - fragPos);
+    vec3 lightDir = normalize(light.position - fragPos);
+
+    vec3 reflectDir = reflect(-lightDir, normal);
+
+    float diffuseStrength = max(dot(normal, lightDir), 0.0);
+    float specularStrength = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+
+    float attenuation = 1.0 / (1.0f + light.linear * distance + light.quadratic * (distance * distance));  
+    
+    vec3 ambient = light.ambient * material.ambient * attenuation;
+    vec3 diffuse = light.diffuse * material.diffuse * diffuseStrength * attenuation;
+    vec3 specular = light.specular * material.specular * specularStrength * attenuation;
 
     return vec3(ambient + diffuse + specular) * light.intensity;
 }

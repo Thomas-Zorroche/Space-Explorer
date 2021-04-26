@@ -21,7 +21,7 @@ public:
 	LightManager(const LightManager&) = delete;
 	LightManager& operator=(const LightManager&) = delete;
 
-	void LoadAllLights();
+	void LoadAllLights(float size);
 
 	void SendUniforms(const std::shared_ptr<Shader>& shader);
 	

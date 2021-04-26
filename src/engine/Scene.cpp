@@ -62,7 +62,7 @@ void Scene::Init()
 
 	// Load All Lights
 	// =================================================
-	LightManager::Get().LoadAllLights();
+	LightManager::Get().LoadAllLights(_size);
 }
 
 void Scene::Draw(const std::shared_ptr<Camera>& camera)
