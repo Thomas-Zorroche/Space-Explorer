@@ -21,11 +21,12 @@ void LightManager::SendUniforms(const std::shared_ptr<Shader>& shader)
 
 	//shader->SetUniform3f("dirLight.direction", LightDirection.x, LightDirection.y, LightDirection.z);
 
+	shader->SetUniform1f("pointLight.intensity", _light->Intensity());
 	shader->SetUniform3f("pointLight.ambient", _light->Ambient());
 	shader->SetUniform3f("pointLight.diffuse", _light->Diffuse());
 	shader->SetUniform3f("pointLight.specular", _light->Specular());
 	std::vector<glm::vec3> data = _light->GetSpecialData();
-	glm::vec3 position = glm::vec3(Renderer::Get().View() * glm::vec4(_light->GetSpecialData()[0], 1));
+	glm::vec4 position = Renderer::Get().View() * glm::vec4(data[0], 1);
 	shader->SetUniform3f("pointLight.position", position);
 	shader->SetUniform1f("pointLight.constant", 1.0f);
 	shader->SetUniform1f("pointLight.linear", data[1].y);
@@ -45,7 +46,7 @@ void LightManager::LoadAllLights(float worldSize)
 	// Point Light (Sun)
 	// =========================================================================
 	_light = std::make_shared<PointLight>(
-		600.0f,						// Intensity
+		1.0f,						// Intensity
 		glm::vec3(0.8, 0.8, 0.8),	// Color
 		glm::vec3(worldSize / 2, 0, worldSize / 2));		// Position
 }

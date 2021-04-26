@@ -53,7 +53,7 @@ uniform float u_oceanDepth;
 uniform vec3 u_oceanColor;
 
 vec3 ComputeDirLight(vec3 planetColor, Material material, DirLight dirLight, vec3 normal, vec3 viewDir);
-vec3 ComputePointLight(Material material, PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
+vec3 ComputePointLight(vec3 planetColor, Material material, PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 void main()
 {
@@ -68,7 +68,8 @@ void main()
     {
         float inverseDepth = clamp(1 - abs(u_oceanDepth * depth), 0.25, 1);
         diffuseColorRamp = inverseDepth * u_oceanColor;
-        finalColor += ComputeDirLight(diffuseColorRamp, material, dirLight, Normal_vs, viewDir_vs);
+        //finalColor += ComputeDirLight(diffuseColorRamp, material, dirLight, Normal_vs, viewDir_vs);
+        finalColor += ComputePointLight(diffuseColorRamp, material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
     }
     // Land
     else
@@ -81,13 +82,13 @@ void main()
             {
                 diffuseColorRamp = mix(diffuseColorRamp, u_colors[i], smoothstep(u_steps[i - 1], u_steps[i], elevation));
             }
-            finalColor += ComputePointLight(material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
             //finalColor += ComputeDirLight(diffuseColorRamp, material, dirLight, Normal_vs, viewDir_vs);
+            finalColor += ComputePointLight(diffuseColorRamp, material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
         }
         // Simple Color
         else
         {
-            finalColor += ComputeDirLight(material.diffuse, material, dirLight, Normal_vs, viewDir_vs);
+            finalColor += ComputePointLight(diffuseColorRamp, material, pointLight, Normal_vs, vFragPos_vs, viewDir_vs);
         }
     }
 
@@ -99,10 +100,10 @@ void main()
 vec3 ComputeDirLight(vec3 planetColor, Material material, DirLight light, vec3 normal, vec3 viewDir)
 {
     vec3 lightDir = normalize(light.direction);
-    float diffuseStrength = max(dot(normal, lightDir), 0.0);
-
     vec3 reflectDir = reflect(-lightDir, normal);
 
+
+    float diffuseStrength = max(dot(normal, lightDir), 0.0);
     float specularStrength = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 
     vec3 ambient = light.ambient * material.ambient;
@@ -112,21 +113,17 @@ vec3 ComputeDirLight(vec3 planetColor, Material material, DirLight light, vec3 n
     return vec3(ambient + diffuse + specular) * light.intensity;
 }
 
-vec3 ComputePointLight(Material material, PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
+vec3 ComputePointLight(vec3 planetColor, Material material, PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
-    float distance = length(light.position - fragPos);
     vec3 lightDir = normalize(light.position - fragPos);
-
     vec3 reflectDir = reflect(-lightDir, normal);
 
     float diffuseStrength = max(dot(normal, lightDir), 0.0);
     float specularStrength = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 
-    float attenuation = 1.0 / (1.0f + light.linear * distance + light.quadratic * (distance * distance));  
-    
-    vec3 ambient = light.ambient * material.ambient * attenuation;
-    vec3 diffuse = light.diffuse * material.diffuse * diffuseStrength * attenuation;
-    vec3 specular = light.specular * material.specular * specularStrength * attenuation;
+    vec3 ambient = light.ambient * material.ambient;
+    vec3 diffuse = light.diffuse * planetColor * diffuseStrength;
+    vec3 specular = light.specular * material.specular * specularStrength;
 
     return vec3(ambient + diffuse + specular) * light.intensity;
 }
