@@ -16,3 +16,13 @@ const glm::vec3 randomColor(float minThreshold)
 		probas::discreteUniformDistribution(minThreshold, 1.0)
 	);
 }
+
+std::string generateName(const int& nb_syllabes)
+{
+    std::vector<std::string> syllabes = { "bra", "cha", "zu", "bro", "tan", "noi", "pon", "chè", "gu", "tin", "soi", "grou" };
+    std::string name;
+    for(int i = 0; i < nb_syllabes; i++)
+        name += syllabes.at(probas::discreteUniformDistribution(0, syllabes.size() - 1));
+    name[0] = std::toupper(name[0]);
+    return name;
+}

@@ -3,6 +3,7 @@
 #include <string>
 #include "glm/glm.hpp"
 #include "maths/probas.hpp"
+#include "maths/utils.hpp"
 
 class PlanetSettings
 {
@@ -50,7 +51,8 @@ public:
 	bool star() const { return _star; }
 
 	float correlationCoefficient(const PlanetSettings& planet) const;
-    static PlanetSettings generatePlanetSettings();
+    static PlanetSettings generateSpeciesSettings();
+	static PlanetSettings generatePlanetSettings(const float& dist_from_sun);
 
 private:
 	std::string _name;	// Species Non-Essential

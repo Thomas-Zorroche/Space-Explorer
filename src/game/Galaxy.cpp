@@ -22,12 +22,12 @@ Galaxy::Galaxy(float size)
 	// Then the planets
 	for (size_t i = 0; i < _planetCount; i++)
 	{
-		int x = probas::discreteUniformDistribution(0, _size);
-		int y = probas::discreteUniformDistribution(-10, 10);
-		int z = probas::discreteUniformDistribution(0, _size);
-		float sizePlanets = probas::continuousUniformDistribution(0.6, 6);
+		int x = probas::continuousUniformDistribution(0, size);
+		int y = probas::continuousUniformDistribution(-probas::simulatePoissonProb(3), probas::simulatePoissonProb(12));
+		int z = probas::continuousUniformDistribution(0, size);
+		std::cout << x << " " << y << " " << z;
 
-		PlanetSettings settingPlanet("Tatooine", sizePlanets, 40, true, randomColor(), true, true, true, 0.71);
+		PlanetSettings settingPlanet = PlanetSettings::generatePlanetSettings(glm::distance(glm::vec3(size / 2), glm::vec3(x, y, z)));
 		std::shared_ptr<CelestialBody> newBody = std::make_shared<Planet>(glm::vec3(x,y,z) , settingPlanet);
 		addCelestialBody(newBody);
 	}
