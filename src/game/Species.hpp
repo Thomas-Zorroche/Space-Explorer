@@ -9,11 +9,12 @@ class Planet;
 class Species
 {
 public:
-	Species(const std::string& name, int techLevel, const PlanetSettings& planetSettings);
+	Species(int techLevel);
 
 	const PlanetSettings& planetSettings() const;
 
 	float correlationCoefficient(const std::shared_ptr<Planet>& planet) const;
+    static std::string generateName(const int& nb_syllabes);
 
 	std::string name() const { return _name; }
 
