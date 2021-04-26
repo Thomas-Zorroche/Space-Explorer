@@ -11,7 +11,6 @@
 namespace proceduralPlanet
 {
 class Planet;
-}
 
 
 class IOManager
@@ -55,3 +54,4 @@ private:
 	//GLFWwindow* _windowPtr = nullptr;
 };
 
+}	// ns procedural planet

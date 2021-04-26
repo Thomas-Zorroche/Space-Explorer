@@ -6,7 +6,9 @@
 #include <iostream>
 #include <filesystem>
 
-using namespace proceduralPlanet;
+
+namespace proceduralPlanet
+{
 
 void IOManager::newFile()
 {
@@ -39,7 +41,7 @@ bool IOManager::saveAs(const std::string& outputFileName, std::shared_ptr<Planet
 
 		std::string type = (layer->noiseSettings()->GetFilterType() == FilterType::Simple) ? "simple" : "rigid"; // TODO for the moment, there is just 2 type of noise...
 		ini[section]["type"] = type;
-		
+
 		ini[section]["seed"] = std::to_string(planet->shapeGenerator()->noiseFilter(layerCount - 1)->Seed());
 
 		ini[section]["strength"] = std::to_string(layer->noiseSettings()->strength());
@@ -117,18 +119,18 @@ void IOManager::loadValues(const mINI::INIStructure& ini, std::shared_ptr<Planet
 	{
 		std::string section = "noiseSettings_" + std::to_string(i);
 		// Read values
-		std::string& typeStr		  = ini.get(section).get("type");
-		std::string& seedStr		  = ini.get(section).get("seed");
-		std::string& strengthStr      = ini.get(section).get("strength");
-		std::string& layersCountStr   = ini.get(section).get("layersCount");
+		std::string& typeStr = ini.get(section).get("type");
+		std::string& seedStr = ini.get(section).get("seed");
+		std::string& strengthStr = ini.get(section).get("strength");
+		std::string& layersCountStr = ini.get(section).get("layersCount");
 		std::string& baseRoughnessStr = ini.get(section).get("baseRoughness");
-		std::string& roughnessStr     = ini.get(section).get("roughness");
-		std::string& centerXStr       = ini.get(section).get("centerX");
-		std::string& centerYStr       = ini.get(section).get("centerY");
-		std::string& centerZStr       = ini.get(section).get("centerZ");
-		std::string& minValueStr      = ini.get(section).get("minValue");
-		std::string& weightMultiplierStr      = ini.get(section).get("weightMultiplier");
-	
+		std::string& roughnessStr = ini.get(section).get("roughness");
+		std::string& centerXStr = ini.get(section).get("centerX");
+		std::string& centerYStr = ini.get(section).get("centerY");
+		std::string& centerZStr = ini.get(section).get("centerZ");
+		std::string& minValueStr = ini.get(section).get("minValue");
+		std::string& weightMultiplierStr = ini.get(section).get("weightMultiplier");
+
 		// Assign values
 		planet->shapeSettings()->noiseLayer(i - 1)->noiseSettings()->GetFilterType() = (typeStr == "simple") ? FilterType::Simple : FilterType::Rigid;
 		planet->shapeGenerator()->noiseFilter(i - 1)->Reseed(std::atof(seedStr.c_str()));
@@ -166,4 +168,6 @@ void IOManager::setUnsavedValues()
 		updateTitleWindow();
 	}
 }
+
+}	// ns procedural planet
 

@@ -7,6 +7,7 @@
 #include "glm/glm.hpp"
 #include <vector>
 #include <string>
+#include <memory>
 
 class Planet : public CelestialBody
 {
@@ -21,6 +22,6 @@ public:
 	const PlanetSettings& settings() const { return _settings; }
 
 private:
-	proceduralPlanet::Planet _proceduralPlanet;
+	std::shared_ptr<proceduralPlanet::Planet> _proceduralPlanet;
 	PlanetSettings _settings;
 };

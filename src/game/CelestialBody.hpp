@@ -15,8 +15,10 @@ public:
 
 	glm::vec3 position() const { return _position; }
 
+protected:
+	StaticMesh _mesh;
+
 private:
 	glm::vec3 _position;
-	StaticMesh _mesh;
 	int _solarDst;
 };

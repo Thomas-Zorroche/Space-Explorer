@@ -126,3 +126,11 @@ VS_RegisterFiles("${MY_SCENES}")
 # copy shader files to build directory
 file(COPY ${CMAKE_SOURCE_DIR}/res/shaders/
   DESTINATION ${CMAKE_BINARY_DIR}/res/shaders)
+
+# Add Textures
+file(COPY ${CMAKE_SOURCE_DIR}/res/img/
+	DESTINATION ${CMAKE_BINARY_DIR}/res/img)
+
+# Add Planets Ini Files
+file(COPY ${CMAKE_SOURCE_DIR}/res/planets/
+	DESTINATION ${CMAKE_BINARY_DIR}/res/planets)

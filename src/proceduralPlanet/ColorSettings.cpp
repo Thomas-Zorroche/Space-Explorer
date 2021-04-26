@@ -61,7 +61,7 @@ void ColorSettings::SetRandomColors(std::uint32_t seed)
 	std::default_random_engine generator(seed);
 	std::uniform_real_distribution<float> random(0, 1);
 
-	for (std::size_t i = 0; i < 4; i++)
+	for (std::size_t i = 0; i < 2; i++)
 	{
 		auto pos = random(generator);
 		ImColor color(
