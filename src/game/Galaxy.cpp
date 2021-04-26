@@ -16,7 +16,7 @@ Galaxy::Galaxy(float size)
 {
 	// First create the sun
 	PlanetSettings settingSun("Sun", 8, 5505, false, randomColor(), false, true, true, 1.0, true);
-	std::shared_ptr<CelestialBody> sun = std::make_shared<Planet>(glm::vec3(_size / 2.0, 0, _size / 2.0), settingSun);
+	std::shared_ptr<CelestialBody> sun = std::make_shared<Sun>(glm::vec3(_size / 2.0, 0, _size / 2.0), settingSun);
 	addCelestialBody(sun);
 
 	// Then the planets

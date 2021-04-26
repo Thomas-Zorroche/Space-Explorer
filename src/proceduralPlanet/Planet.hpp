@@ -38,7 +38,7 @@ enum class FaceRenderMask
 class Planet
 {
 public:
-	Planet(int resolution = 64);
+	Planet(int resolution = 64, TransformLayout transLayout = TransformLayout());
 
 	void draw();
 

@@ -15,7 +15,7 @@
 namespace proceduralPlanet
 {
 
-Planet::Planet(int resolution)
+Planet::Planet(int resolution, TransformLayout transLayout)
 	: _resolution(resolution),
 	_shapeSettings(std::make_shared<ShapeSettings>(1.0f)),
 	_colorSettings(std::make_shared<ColorSettings>()),
@@ -37,7 +37,7 @@ Planet::Planet(int resolution)
 			_terrainFaces[4].mesh(),
 			_terrainFaces[5].mesh()
 		}
-		, TransformLayout(glm::vec3(0)), "ProceduralPlanet")
+		, transLayout, "ProceduralPlanet")
 	)
 {
 	RandomGenerate();
