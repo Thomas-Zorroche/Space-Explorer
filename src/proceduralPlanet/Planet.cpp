@@ -40,7 +40,7 @@ Planet::Planet(int resolution, TransformLayout transLayout)
 		, transLayout, "ProceduralPlanet")
 	)
 {
-	RandomGenerate();
+	
 }
 
 void Planet::draw()

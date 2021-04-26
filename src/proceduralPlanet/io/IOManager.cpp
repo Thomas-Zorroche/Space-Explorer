@@ -96,6 +96,8 @@ bool IOManager::open(const std::string& inputFileName, std::shared_ptr<Planet>& 
 	_unsavedValues = false;
 	updateTitleWindow();
 
+	planet->RandomGenerate();
+
 	return true;
 }
 
