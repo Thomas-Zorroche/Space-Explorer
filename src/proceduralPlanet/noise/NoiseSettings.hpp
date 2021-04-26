@@ -8,12 +8,6 @@
 #include <memory>
 
 
-namespace editor
-{
-class ParameterBase;
-using ParametersMap = std::unordered_map < std::string, std::shared_ptr<ParameterBase> >;
-}
-
 namespace proceduralPlanet
 {
 
@@ -29,8 +23,6 @@ public:
 
 public:
 	NoiseSettings();
-
-	void Display();
 
 	float strength() const;
 	float& strength();
@@ -59,13 +51,9 @@ public:
 	FilterType& GetFilterType();
 
 private:
-	friend const std::shared_ptr<editor::ParameterBase>& GetParameterByName(const editor::ParametersMap& parameters, const std::string& name);
 
 private:
 	enum FilterType _filterType = FilterType::Simple;
-
-	editor::ParametersMap _parameters;
-	std::vector<std::string> _parametersNames; // liste triée
 
 	// Simple
 	float _strength = 1.0f;

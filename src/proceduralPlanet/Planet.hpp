@@ -17,6 +17,13 @@
 namespace proceduralPlanet
 {
 
+enum class ObserverFlag
+{
+	RESOLUTION = 0,
+	COLOR,
+	MESH
+};
+
 enum class FaceRenderMask
 {
 	All = 0,
@@ -53,11 +60,13 @@ public:
 
 	void RandomGenerate();
 
+	StaticMesh& GetStaticMesh() { return _staticMesh; }
+	void sendUniforms(std::shared_ptr<Shader>& shader);
+
 private:
 	void generatePlanet();
 	void generateMesh();
 	void generateColors();
-	void sendUniforms();
 
 private:
 	int _resolution;

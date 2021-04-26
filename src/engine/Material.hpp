@@ -44,6 +44,8 @@ public:
 	const glm::vec3& Specular() const { return _specular; }
 	float Shininess() const { return _shininess; }
 
+	void SetDiffuse(const glm::vec3& color) { _diffuse = color; }
+
 
 private:
 

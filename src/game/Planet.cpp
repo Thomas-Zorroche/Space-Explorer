@@ -1,22 +1,19 @@
 #include "Planet.hpp"
 #include "maths/utils.hpp"
+#include "proceduralPlanet/Planet.hpp"
 
 Planet::Planet(const glm::vec3& position, const PlanetSettings& settings)
-	: CelestialBody(
-	  StaticMesh(Model("res/models/planet01.obj"), 
-	  TransformLayout(position, glm::vec3(0, 0, 0), settings.radius()), 
-		  settings.star() ? "Sun" : "Planet"),
-	  position
-	  ),
-	  _settings(settings)
+	: CelestialBody(proceduralPlanet::Planet(50).GetStaticMesh(), position),
+	_proceduralPlanet(12),
+	_settings(settings)
 {
-
+	_proceduralPlanet.RandomGenerate();
 }
 
 void Planet::sendUniforms(std::shared_ptr<Shader>& shader)
 {
 	shader->Bind();
-	shader->SetUniform3f("u_ColorPlanet", _settings.color());
+	_proceduralPlanet.sendUniforms(shader);
 	shader->Unbind();
 }
 

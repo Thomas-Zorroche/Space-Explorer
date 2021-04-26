@@ -1,7 +1,26 @@
-cmake_minimum_required (VERSION 2.8)
-cmake_policy(VERSION 2.8)
+cmake_minimum_required (VERSION 3.8)
+
+# Hide "ALL_BUILD" and "ZERO_CHECK" in a folder
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+# /////////////////////////////////////////////////////////////////////////////
+# ////////////////////////// FUNCTIONS ////////////////////////////////////////
+# /////////////////////////////////////////////////////////////////////////////
+# Recreate the folder architecture inside the Visual Studio solution (might work for other IDEs as well)
+function(VS_RegisterFiles _FILES)
+    foreach(_file IN ITEMS ${_FILES})
+        get_filename_component(_filepath "${_file}" PATH)
+        string(REPLACE "${CMAKE_SOURCE_DIR}" "" _group_path "${_filepath}")
+        string(REPLACE "/" "\\" _group_path "${_group_path}")
+        source_group("${_group_path}" FILES "${_file}")
+    endforeach()
+endfunction()
 
 project (Space_Explorer)
+
+# Set C++ version
+set(CXX_STANDARD 17)
+
 
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
@@ -15,8 +34,6 @@ if(NOT WIN32)
 endif(NOT WIN32)
 
 link_directories(${CMAKE_SOURCE_DIR}/lib)
-
-list(APPEND CMAKE_CXX_FLAGS "-std=c++11")
 
 # find the required packages
 if(UNIX)
@@ -71,15 +88,6 @@ macro(makeLink src dest target)
   add_custom_command(TARGET ${target} POST_BUILD COMMAND ${CMAKE_COMMAND} -E create_symlink ${src} ${dest}  DEPENDS  ${dest} COMMENT "mklink ${src} -> ${dest}")
 endmacro()
 
-# Add source files
-file(GLOB_RECURSE SOURCE_FILES
-	${CMAKE_SOURCE_DIR}/src/*.c
-	${CMAKE_SOURCE_DIR}/src/*.cpp)
-
-# Add header files
-file(GLOB_RECURSE HEADER_FILES
-	${CMAKE_SOURCE_DIR}/src/*.h
-	${CMAKE_SOURCE_DIR}/src/*.hpp)
 
 # Configure assets header file
 configure_file(src/helpers/RootDir.h src/helpers/RootDir.h)
@@ -88,24 +96,32 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/src
   ${CMAKE_SOURCE_DIR}/include)
 
+# Grab all the source files
+file(GLOB_RECURSE MY_SOURCES ${CMAKE_SOURCE_DIR}/src/*)
+file(GLOB_RECURSE MY_SHADERS ${CMAKE_SOURCE_DIR}/res/shaders/*)
+file(GLOB_RECURSE MY_MODELS ${CMAKE_SOURCE_DIR}/res/models/*)
+file(GLOB_RECURSE MY_SCENES ${CMAKE_SOURCE_DIR}/res/scene/*)
+
 # Add .lib files
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
-# RESOURCES
-# Add Shaders
-file(GLOB_RECURSE RES_FILES *.frag *.vert *.glsl *.shader)
-# Add Textures
-file(COPY ${CMAKE_SOURCE_DIR}/res/img/
-	DESTINATION ${CMAKE_BINARY_DIR}/res/img)
-# Add Models
-file(COPY ${CMAKE_SOURCE_DIR}/res/models/
-	DESTINATION ${CMAKE_BINARY_DIR}/res/models)
+# Create target executable
+add_executable(${PROJECT_NAME}
+  ${MY_SOURCES}
+  ${MY_SHADERS} # we include them here only so that they will appear in the solution explorer of Visual Studio
+  ${MY_SCENES}
+)
 
-add_executable(${PROJECT_NAME} ${HEADER_FILES} ${RES_FILES} ${SOURCE_FILES})
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD ${CXX_STANDARD})
 
 # define the include dirs
 MESSAGE(STATUS " ${LIBS}")
 target_link_libraries(${PROJECT_NAME} ${LIBS})
+
+# Recreate the folder architecture inside the Visual Studio solution (might work for other IDEs as well)
+VS_RegisterFiles("${MY_SOURCES}")
+VS_RegisterFiles("${MY_SHADERS}")
+VS_RegisterFiles("${MY_SCENES}")
 
 # copy shader files to build directory
 file(COPY ${CMAKE_SOURCE_DIR}/res/shaders/

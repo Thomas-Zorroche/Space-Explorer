@@ -35,26 +35,26 @@ Planet::Planet(int resolution)
 		_terrainFaces[3].mesh(),
 		_terrainFaces[4].mesh(),
 		_terrainFaces[5].mesh(),
-	}, TransformLayout(glm::vec3(0)), "Planet")
+	}, TransformLayout(glm::vec3(0)), "ProceduralPlanet")
 {
 	generatePlanet();
 }
 
 void Planet::draw()
 {
-	sendUniforms();
-	_staticMesh.Draw();
+	/*sendUniforms();
+	_staticMesh.Draw();*/
 }
 
-void Planet::sendUniforms()
+void Planet::sendUniforms(std::shared_ptr<Shader>& shader)
 {
-	auto shader = _staticMesh.GetShader();
-	shader->Bind();
+	//auto shader = _staticMesh.GetShader();
+	//shader->Bind();
 
 	_colorSettings->SendUniforms(shader);
 	shader->SetUniform1f("u_maxElevation", _maxElevation);
 
-	shader->Unbind();
+	//shader->Unbind();
 }
 
 /* Generate Fonctions */
@@ -64,18 +64,10 @@ void Planet::generateMesh()
 	_maxElevation = 0;
 	for (TerrainFace& face : _terrainFaces)
 	{
-		if (_faceRenderMask == FaceRenderMask::All || (int)_faceRenderMask - 1 == i)
+		face.constructMesh();
+		if (face.maxElevation() > _maxElevation)
 		{
-			face.setVisibility(true);
-			face.constructMesh();
-			if (face.maxElevation() > _maxElevation)
-			{
-				_maxElevation = face.maxElevation();
-			}
-		}
-		else
-		{
-			face.setVisibility(false);
+			_maxElevation = face.maxElevation();
 		}
 		i++;
 	}
@@ -171,8 +163,8 @@ void Planet::RandomGenerate()
 	_colorSettings->SetRandomColors(seed);
 
 	// Update Mesh
-	editor::Application::Get().Update(ObserverFlag::MESH);
-	editor::Application::Get().Update(ObserverFlag::COLOR);
+	update(ObserverFlag::MESH);
+	update(ObserverFlag::COLOR);
 }
 
 } // ns Procedural Planet

@@ -5,15 +5,17 @@
 #include "common.hpp"
 #include "opengl/Shader.h"
 #include "engine/Material.hpp"
+#include "proceduralPlanet/Color.hpp"
+
 
 class Material;
 
 class Mesh
 {
 public:
-	Mesh(const std::vector<ShapeVertex> & vertices, 
-		 const std::shared_ptr<Material>& material,
-		 const std::vector<unsigned int>& indices  = std::vector<unsigned int>());   // Optional Argument
+	Mesh(const std::vector<ShapeVertex>& vertices = std::vector<ShapeVertex>(),
+		const std::shared_ptr<Material>& material = std::make_shared<Material>(),
+		const std::vector<unsigned int>& indices = std::vector<unsigned int>());
 
 	void Free();
 
@@ -25,6 +27,17 @@ public:
 
 	const std::shared_ptr<Material>& MaterialPtr() const { return _material; }
 
+	void UpdateGeometry(const std::vector<ShapeVertex>& vertices, const std::vector<unsigned int>& indices);
+
+	void setColor(const Color& color);
+
+
+private:
+	void SetupMesh(bool generateBuffers = true);
+	void Clear();
+	void recalculateNormals();
+	glm::vec3 calculateSurfaceNormal(const glm::vec3& A, const glm::vec3& B, const glm::vec3& C);
+
 
 private:
 	std::vector<ShapeVertex>  _vertices;
@@ -34,5 +47,4 @@ private:
 
 	std::shared_ptr<Material> _material;
 
-	void SetupMesh();
 };
