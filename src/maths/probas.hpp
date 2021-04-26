@@ -12,7 +12,7 @@ namespace probas
 	// Loi uniforme discrete [a ; b]
 	int discreteUniformDistribution(int a, int b);
 	// Coefficient binomial
-    int nCr(int n, int r);
+    int nCr(const int& n, int r);
     double bernoulliProbability(const int& x, const float& p, const int& n = 1);
     int simulateBernoulliProb(const float& p);
     double binomialProbability(const int& n, const int& k, const float& p);
