@@ -37,6 +37,11 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    static bool demo = false;
+    if (demo) ImGui::ShowDemoWindow(&demo);
+    else
+    {
+
     // Level Window
     if (!game.run() && !game.endgame())
         displayLevelWindow(game, camera);
@@ -51,7 +56,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
             ImGui::Text("Spaceship speed %f m/s", game.spaceship()->instantSpeed() * 100);
             if (!camera->isInOrbit() && _focusPanel.IsVisible())
             {
-                ImGui::Text("Planet %s %g km", 
+                ImGui::Text("Planet %s %g km",
                     _focusPlanet->name().c_str(),
                     distanceSqr(camera->GetPosition(), _focusPlanet->position()));
             }
@@ -102,6 +107,9 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
         ImGui::End();
     }
 
+
+    }
+
     // Render ImGUI
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -111,6 +119,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
     {
         _focusPanel.Draw();
     }
+
     
 }
 
@@ -137,13 +146,15 @@ void Hud::displayEndgamePanel(const Game& game) const
 
     ImGui::Begin("Endgame", &endgameOpen, window_flags);
     {
-        ImGui::Text("You landed on %s, with a correlation coefficient of %f", 
+        ImGui::Text("You landed on %s, with a correlation coefficient of %f \n", 
             _focusPlanet->name().c_str(), 
             game.species()->correlationCoefficient(_focusPlanet));
+        ImGui::NewLine();
         ImGui::Separator();
 
         ImGui::Text("Best Planet for %s Species", game.species()->name().c_str());
         displayPlanetSettings(game.species()->planetSettings(), true);
+        ImGui::NewLine();
         ImGui::Separator();
 
         for (const auto& body : game.galaxy()->celestialBodies())
@@ -151,6 +162,7 @@ void Hud::displayEndgamePanel(const Game& game) const
             if (auto planet = std::dynamic_pointer_cast<Planet>(body))
             {
                 displayPlanetSettings(planet->settings());
+                ImGui::NewLine();
                 ImGui::Separator();
             }
         }
@@ -210,6 +222,38 @@ void Hud::displayLevelWindow(Game& game, const std::shared_ptr<Camera>& camera) 
         }
     }
     ImGui::End();
+}
+
+void Hud::displayLoadingWindow(float rate, GLFWwindow* window) const
+{
+    glClearColor(0, 0, 0, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+     
+    //New Frame
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+    static bool loadingOpen = true;
+
+    ImGui::SetNextWindowPos(ImVec2(_panelSettings.endgame[0], _panelSettings.endgame[1]));
+    ImGui::SetNextWindowSize(ImVec2(_panelSettings.endgame[2], _panelSettings.endgame[3]));
+    ImGui::Begin("Loading screen", &loadingOpen, window_flags);
+    {
+        ImGui::Text("Loading %f %", rate * 100.0f);
+
+        ImGui::ProgressBar(rate, ImVec2(0.0f, 0.0f));
+
+        ImGui::Separator();
+    }
+    ImGui::End();
+
+    // Render ImGUI
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    glfwSwapBuffers(window);
 }
 
 

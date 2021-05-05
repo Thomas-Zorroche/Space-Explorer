@@ -46,4 +46,5 @@ struct PanelSettings
 
 	// Endgame Panel
 	float endgame[4];
+
 };

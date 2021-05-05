@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 #include <string>
+
+#include "engine/Application.hpp"
 #include "game/Spaceship.hpp"
 
 class Species;
@@ -25,7 +27,7 @@ namespace Difficulty
 class Game
 {
 public:
-	Game(float size = 1000.0f);
+	Game(float size = 1000.0f, GLFWwindow * window = nullptr);
 
 	void addHint(const std::string& hint);
 

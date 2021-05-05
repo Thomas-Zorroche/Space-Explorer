@@ -5,7 +5,7 @@
 
 Planet::Planet(const glm::vec3& position, const PlanetSettings& settings)
 	: CelestialBody(nullptr, position),
-	_proceduralPlanet(std::make_shared<proceduralPlanet::Planet>(20, TransformLayout(position, glm::vec3(0), settings.radius()))),
+	_proceduralPlanet(std::make_shared<proceduralPlanet::Planet>(120, TransformLayout(position, glm::vec3(0), settings.radius()))),
 	_settings(settings)
 {
 	proceduralPlanet::IOManager::get().open("res/planets/InitPlanet.ini", _proceduralPlanet);

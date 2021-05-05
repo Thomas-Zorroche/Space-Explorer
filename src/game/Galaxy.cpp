@@ -11,7 +11,7 @@
 #include "maths/probas.hpp"
 #include "maths/utils.hpp"
 
-Galaxy::Galaxy(float size)
+Galaxy::Galaxy(float size, GLFWwindow* window)
 	: _size(size)
 {
 	// First create the sun
@@ -19,18 +19,22 @@ Galaxy::Galaxy(float size)
 	std::shared_ptr<CelestialBody> sun = std::make_shared<Sun>(glm::vec3(_size / 2.0, 0, _size / 2.0), settingSun);
 	addCelestialBody(sun);
 
+	Hud::get().displayLoadingWindow(0, window);
 	// Then the planets
 	for (size_t i = 0; i < _planetCount; i++)
 	{
 		int x = probas::continuousUniformDistribution(0, size);
 		int y = probas::continuousUniformDistribution(-probas::simulatePoissonProb(3), probas::simulatePoissonProb(12));
 		int z = probas::continuousUniformDistribution(0, size);
-		std::cout << x << " " << y << " " << z;
 
 		PlanetSettings settingPlanet = PlanetSettings::generatePlanetSettings(glm::distance(glm::vec3(size / 2), glm::vec3(x, y, z)));
 		std::shared_ptr<CelestialBody> newBody = std::make_shared<Planet>(glm::vec3(x,y,z) , settingPlanet);
 		addCelestialBody(newBody);
+
+		Hud::get().displayLoadingWindow(i / (float)_planetCount, window);
 	}
+
+	Hud::get().displayLoadingWindow(1, window);
 }
 
 

@@ -1,11 +1,12 @@
 #include "Game.hpp"
+
 #include "PlanetSettings.hpp"
 #include "Galaxy.hpp"
 #include "Species.hpp"
 #include "../engine/HintsImporter.hpp"
 
-Game::Game(float size)
-	: _galaxy(std::make_shared<Galaxy>(size))
+Game::Game(float size, GLFWwindow* window)
+	: _galaxy(std::make_shared<Galaxy>(size, window))
 {
 
 }

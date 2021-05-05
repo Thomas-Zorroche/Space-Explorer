@@ -3,13 +3,15 @@
 #include <vector>
 #include <memory>
 
+#include "engine/Application.hpp"
+
 class Camera;
 class CelestialBody;
 
 class Galaxy
 {
 public:
-	Galaxy(float size);
+	Galaxy(float size, GLFWwindow* window);
 
 	void draw(const std::shared_ptr<Camera>& camera);
 

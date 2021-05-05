@@ -16,25 +16,30 @@
 void mainloop(Window& windowObject)
 {
     GLFWwindow* window = windowObject.WindowPtr();
+
+    auto camera = std::make_shared<Camera>(200, 230); // parameter: (x, z) spawn
+    Renderer::Get().SetCamera(camera);
+    CollisionManager collisionManager(500.0f); // parameter: world size
+    collisionManager.SetCamera(camera);
     
     // Load all the 
     ResourceManager::Get().LoadAllShaders();
     
     // Initialisation Collision Manager
-    CollisionManager collisionManager(500.0f); // parameter: world size
     StaticMesh::SetCollisionManagerPtr(&collisionManager);
 
-    Game game(collisionManager.worldSize());
-
-    Scene scene(collisionManager.worldSize(), game.galaxyPtr());
-    
     Hud::get().init(window, windowObject.Width(), windowObject.Height());
 
-    InteractiveObject::setGamePtr(&game);
+    // Render loading screen
+    //glClearColor(0, 0, 0, 1.0f);
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //Hud::get().displayLoadingWindow(0);
+    //glfwSwapBuffers(window);
 
-    auto camera = std::make_shared<Camera>(200, 230); // parameter: (x, z) spawn
-    Renderer::Get().SetCamera(camera);
-    collisionManager.SetCamera(camera);
+    // Load all planets
+    Game game(collisionManager.worldSize(), window);
+    Scene scene(collisionManager.worldSize(), game.galaxyPtr());
+    InteractiveObject::setGamePtr(&game);
 
     // Initialize GLFW Callbacks and Inputs
     InputHandler inputHandler;

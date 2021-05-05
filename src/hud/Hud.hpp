@@ -39,6 +39,8 @@ public:
 
 	void hideHintPanel();
 
+	void displayLoadingWindow(float rate, GLFWwindow* window) const;
+
 private:
 	Hud() = default;
 	~Hud() = default;
