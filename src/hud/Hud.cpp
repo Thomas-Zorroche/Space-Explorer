@@ -129,9 +129,13 @@ void Hud::displayPlanetPanel() const
 
 void Hud::displayEndgamePanel(const Game& game) const
 {
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+    static bool endgameOpen = true;
+
     ImGui::SetNextWindowPos(ImVec2(_panelSettings.endgame[0], _panelSettings.endgame[1]));
     ImGui::SetNextWindowSize(ImVec2(_panelSettings.endgame[2], _panelSettings.endgame[3]));
-    ImGui::Begin("Endgame");
+
+    ImGui::Begin("Endgame", &endgameOpen, window_flags);
     {
         ImGui::Text("You landed on %s, with a correlation coefficient of %f", 
             _focusPlanet->name().c_str(), 
@@ -178,9 +182,12 @@ void Hud::displayPlanetSettings(const PlanetSettings& settings, bool species) co
 
 void Hud::displayLevelWindow(Game& game, const std::shared_ptr<Camera>& camera) const
 {
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+    static bool levelOpen = true;
+
     ImGui::SetNextWindowPos(ImVec2(_panelSettings.endgame[0], _panelSettings.endgame[1]));
     ImGui::SetNextWindowSize(ImVec2(_panelSettings.endgame[2], _panelSettings.endgame[3]));
-    ImGui::Begin("Level of Difficulty");
+    ImGui::Begin("Level of Difficulty", &levelOpen, window_flags);
     {
         ImGui::Text("Welcome to Space Explorer .......;");
 
