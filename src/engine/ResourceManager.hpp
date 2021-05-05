@@ -45,7 +45,6 @@ public:
 	std::shared_ptr<Material> CachePBRColorMaterial(const std::string& name, const glm::vec3& diffuse);
 
 
-	
 	int SizeLoadedTextures() const { return _textureCache.size(); }
 	int SizeLoadedModels() const { return _modelCache.size(); }
 	int SizeLoadedMaterials() const { return _materialCache.size(); }

@@ -2,10 +2,12 @@
 
 #include "CelestialBody.hpp"
 #include "PlanetSettings.hpp"
+#include "proceduralPlanet/Planet.hpp"
 
 #include "glm/glm.hpp"
 #include <vector>
 #include <string>
+#include <memory>
 
 class Planet : public CelestialBody
 {
@@ -20,8 +22,6 @@ public:
 	const PlanetSettings& settings() const { return _settings; }
 
 private:
+	std::shared_ptr<proceduralPlanet::Planet> _proceduralPlanet;
 	PlanetSettings _settings;
-
-	//std::vector<Planet> _moons;
-
 };

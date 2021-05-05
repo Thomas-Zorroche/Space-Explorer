@@ -16,21 +16,56 @@
 
 
 
-StaticMesh::StaticMesh(const Model& model, const TransformLayout& transLayout, 
+// Default Constructor
+StaticMesh::StaticMesh(const std::shared_ptr<Model>& model, const TransformLayout& transLayout, 
 	const std::string& shaderName, const CollisionLayout& collisionLayout)
-	: _model(model), _transformLayout(transLayout), _shader(ResourceManager::Get().GetShader(shaderName)),
-	  _modelMatrix(glm::mat4(1.0f)),
-	  _boundingSphere(std::make_shared<BoundingSphere>(collisionLayout))
+	: _model(model),
+	_transformLayout(transLayout),
+	_shader(ResourceManager::Get().GetShader(shaderName)),
+	_modelMatrix(glm::mat4(1.0f)),
+	_boundingSphere(std::make_shared<BoundingSphere>(collisionLayout))
 {
+	// Translate the mesh to the correct location
 	Translate(_transformLayout.Location());
 	Rotate(_transformLayout.Rotation());
 	Scale(_transformLayout.Scale());
 }
 
+// Constructor with one mesh
+StaticMesh::StaticMesh(const std::shared_ptr<Mesh>& mesh, const TransformLayout& transLayout, 
+	const std::string& shaderName, const CollisionLayout& collisionLayout)
+	: _model(std::make_shared<Model>(mesh)),
+	_transformLayout(transLayout),
+	_shader(ResourceManager::Get().GetShader(shaderName)),
+	_modelMatrix(glm::mat4(1.0f)),
+	_boundingSphere(std::make_shared<BoundingSphere>(collisionLayout))
+{
+	// Translate the mesh to the correct location
+	Translate(_transformLayout.Location());
+	Rotate(_transformLayout.Rotation());
+	Scale(_transformLayout.Scale());
+}
+
+// Constructor with multiples meshes
+StaticMesh::StaticMesh(const std::vector<std::shared_ptr<Mesh>>& meshes, const TransformLayout& transLayout, 
+	const std::string& shaderName, const CollisionLayout& collisionLayout)
+	: _model(std::make_shared<Model>(meshes)),
+	_transformLayout(transLayout),
+	_shader(ResourceManager::Get().GetShader(shaderName)),
+	_modelMatrix(glm::mat4(1.0f)),
+	_boundingSphere(std::make_shared<BoundingSphere>(collisionLayout))
+{
+	// Translate the mesh to the correct location
+	Translate(_transformLayout.Location());
+	Rotate(_transformLayout.Rotation());
+	Scale(_transformLayout.Scale());
+}
+
+
 void StaticMesh::Draw(bool isParticuleInstance, int countParticule)
 {
 	SendUniforms();
-	_model.Draw(_shader, isParticuleInstance, countParticule);
+	_model->Draw(_shader, isParticuleInstance, countParticule);
 }
 
 /*
@@ -111,6 +146,6 @@ void StaticMesh::SetCollisionManagerPtr(CollisionManager* cm_Ptr)
 */
 void StaticMesh::Free()
 {
-	_model.Free();
+	_model->Free();
 }
 

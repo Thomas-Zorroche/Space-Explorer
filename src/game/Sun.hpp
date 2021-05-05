@@ -1,12 +1,26 @@
 #pragma once
 
-#include "game/Planet.hpp"
-#include "game/PlanetSettings.hpp"
-#include "glm/glm.hpp"
+#include "CelestialBody.hpp"
+#include "PlanetSettings.hpp"
 
-class Sun : public Planet
+#include "glm/glm.hpp"
+#include <vector>
+#include <string>
+#include <memory>
+
+class Sun : public CelestialBody
 {
 public:
-	Sun(const glm::vec3& position, const PlanetSettings& setting)
-		: Planet(position, setting) {}
+	Sun(const glm::vec3& position, const PlanetSettings& settings);
+
+	void sendUniforms(std::shared_ptr<Shader>& shader) override;
+
+	float radius() const { return _settings.radius(); }
+	const std::string& name() const { return _settings.name(); }
+
+	const PlanetSettings& settings() const { return _settings; }
+
+private:
+	PlanetSettings _settings;
+	glm::vec3 _color;
 };

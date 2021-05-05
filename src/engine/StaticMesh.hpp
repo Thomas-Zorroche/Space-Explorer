@@ -19,7 +19,10 @@ class BoundingSphere;
 class TransformLayout
 {
 public:
-	TransformLayout(const glm::vec3& loc, const glm::vec3& rot = glm::vec3(0, 0, 0), float scale = 1.0f, float uvScale = 1.0f)
+	TransformLayout(const glm::vec3& loc = glm::vec3(0, 0, 0),
+		const glm::vec3& rot = glm::vec3(0, 0, 0),
+		float scale = 1.0f,
+		float uvScale = 1.0f)
 		: _location(loc), _rotation(rot), _scale(scale), _uvScale(uvScale) {}
 
 	glm::vec3 Location() const { return _location; }
@@ -39,9 +42,17 @@ private:
 class StaticMesh
 {
 public:
-	// Constructor
-	StaticMesh(const Model& model, const TransformLayout& transLayout, const std::string& shaderName = "Default", 
-		const CollisionLayout& collisionLayout = CollisionLayout());
+	// Default Constructor
+	StaticMesh(const std::shared_ptr<Model>& model = std::make_shared<Model>(), const TransformLayout& transLayout = TransformLayout(),
+		const std::string& shaderName = "DefaultLighting", const CollisionLayout& collisionLayout = CollisionLayout());
+
+	// Constructor with one mesh
+	StaticMesh(const std::shared_ptr<Mesh>& mesh, const TransformLayout& transLayout = TransformLayout(),
+		const std::string& shaderName = "DefaultLighting", const CollisionLayout& collisionLayout = CollisionLayout());
+
+	// Constructor with multiples meshes
+	StaticMesh(const std::vector<std::shared_ptr<Mesh>>& meshes, const TransformLayout& transLayout = TransformLayout(),
+		const std::string& shaderName = "DefaultLighting", const CollisionLayout& collisionLayout = CollisionLayout());
 
 	void Draw(bool isParticuleInstance = false, int countParticule = 0);
 
@@ -55,7 +66,7 @@ public:
 	void updateBoundingSphere();
 	void disableBoundingBox();
 	
-	unsigned int GetVAO() const { return _model.GetVAO(); }
+	unsigned int GetVAO() const { return _model->GetVAO(); }
 
 	void Free();
 
@@ -64,7 +75,7 @@ public:
 private:
 	void SendUniforms();
 
-	Model _model;
+	std::shared_ptr<Model> _model;
 
 	TransformLayout _transformLayout;
 	std::shared_ptr<Shader> _shader;

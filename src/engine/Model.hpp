@@ -16,18 +16,26 @@
 class Model
 {
 public:
-	// Constructor
-	Model(const std::string& path);
+	// Import a 3D Model with Assimp
+	Model(const std::string& path = "res/models/sphere.obj");
+
+	// Build a Static Mesh with a meshe
+	Model(const std::shared_ptr<Mesh>& mesh);
+
+	// Build a Static Mesh with a vector of meshes
+	Model(const std::vector<std::shared_ptr<Mesh> >& meshes);
+
+
 	void Draw(std::shared_ptr<Shader>& shader, bool isParticuleInstance = false, int countParticule = 0);
 
 	// Retrieve mesh vao (when there is a single mesh in the model)
 	// Useful for particule system
-	unsigned int GetVAO() const { return _meshes[0].GetVAO(); }
+	unsigned int GetVAO() const { return _meshes[0]->GetVAO(); }
 
 	void Free();
 
 private:
-	std::vector<Mesh> _meshes;
+	std::vector<std::shared_ptr<Mesh> > _meshes;
 	std::string _directory;
 
 
