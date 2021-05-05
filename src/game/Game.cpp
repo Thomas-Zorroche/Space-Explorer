@@ -37,11 +37,7 @@ void Game::initialize()
 		* Easy = 10
 		*/
 		techLevel = 100 - ( ((int)_level + 1) * 30);
-		_species = std::make_shared<Species>(
-			speciesName,
-			15,
-			PlanetSettings(90, true, false, true, false, 0.15)
-		);
+		_species = std::make_shared<Species>(15);
 	}
 
 	// Spaceship

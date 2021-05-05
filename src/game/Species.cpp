@@ -1,13 +1,9 @@
 ﻿#include "Species.hpp"
 #include "Planet.hpp"
 
-Species::Species(
-	const std::string& name, 
-	int techLevel, 
-	const PlanetSettings& planetSettings)
-	: _name(name), _techLevel(techLevel), _planetSettings(planetSettings)
+Species::Species(int techLevel): _techLevel(techLevel), _planetSettings(PlanetSettings::generateSpeciesSettings())
 {
-
+    _name = generateName(probas::discreteUniformDistribution(3, 6));
 }
 
 const PlanetSettings& Species::planetSettings() const

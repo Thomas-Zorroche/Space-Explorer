@@ -9,7 +9,7 @@ class Planet;
 class Species
 {
 public:
-	Species(const std::string& name, int techLevel, const PlanetSettings& planetSettings);
+	Species(int techLevel);
 
 	const PlanetSettings& planetSettings() const;
 
