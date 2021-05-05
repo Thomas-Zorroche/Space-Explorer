@@ -38,7 +38,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
     ImGui::NewFrame();
 
     // Level Window
-    if (!game.run())
+    if (!game.run() && !game.endgame())
         displayLevelWindow(game, camera);
 
     // Main Board
@@ -77,7 +77,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
     }
 
     // Endgame Panel
-    if (game.engame())
+    if (game.endgame())
         displayEndgamePanel(game);
 
     // Planet Window 

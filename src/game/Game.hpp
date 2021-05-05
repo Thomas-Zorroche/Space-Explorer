@@ -36,7 +36,7 @@ public:
 
 	void setEndgame() { _running = false; _endgame = true; }
 	bool run() const { return _running; }
-	bool engame() const { return _endgame; }
+	bool endgame() const { return _endgame; }
 
 	std::shared_ptr<Galaxy> galaxyPtr() { return _galaxy; }
 	const std::shared_ptr<Galaxy> galaxy() const { return _galaxy; }
