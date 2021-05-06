@@ -41,10 +41,17 @@ void CollisionManager::CheckCollisions(Game& game)
 			if (activeSpheres[i]->StopPlayerMovement()) // WARNING : We suppose that it is a planet
 			{
 				glm::vec3 cameraToPlanet = activeSpheres[i]->center() - _camera->GetPosition();
-				if (glm::dot(_camera->GetFrontVector(), cameraToPlanet) > 0)
+				// We have to prevent movement if the player go in the direction of the planet
+				// Two cases :
+				// The player moves forward : if FrontVector . cameraToPlanet is POSITIVE, prevent move
+				// The player moves backward : FrontVector . cameraToPlanet is NEGATIVE, prevent move
+				std::cout << glm::dot(_camera->GetFrontVector(), cameraToPlanet) << std::endl;
+				if ((game.spaceship()->getDirection() == DIRCAM::FRONT && glm::dot(_camera->GetFrontVector(), cameraToPlanet) > 0) ||
+					(game.spaceship()->getDirection() == DIRCAM::BACK && glm::dot(_camera->GetFrontVector(), cameraToPlanet) < 0))
 				{
 					game.spaceship()->decelerate(5);
 				}
+
 				_camera->RotateAroundPlanet(true, activeSpheres[i]->center());
 				inOrbit = true;
 			}
