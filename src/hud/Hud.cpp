@@ -234,17 +234,15 @@ void Hud::displayLoadingWindow(float rate, GLFWwindow* window) const
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
     static bool loadingOpen = true;
 
-    ImGui::SetNextWindowPos(ImVec2(_panelSettings.endgame[0], _panelSettings.endgame[1]));
-    ImGui::SetNextWindowSize(ImVec2(_panelSettings.endgame[2], _panelSettings.endgame[3]));
+    ImGui::SetNextWindowPos(ImVec2(_panelSettings.endgame[0], _panelSettings.endgame[1] + 200));
+    ImGui::SetNextWindowSize(ImVec2(_panelSettings.endgame[2], 75));
     ImGui::Begin("Loading screen", &loadingOpen, window_flags);
     {
-        ImGui::Text("Loading %f %", rate * 100.0f);
-
+        ImGui::Text("Loading...");
         ImGui::ProgressBar(rate, ImVec2(0.0f, 0.0f));
-
         ImGui::Separator();
     }
     ImGui::End();
