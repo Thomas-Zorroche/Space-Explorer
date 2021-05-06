@@ -16,6 +16,8 @@ public:
 	void setDirection(DIRCAM dir) { _direction = dir; }
 	DIRCAM getDirection() const { return _direction; }
 
+	float getVelocityRate() const { return _velocity / _MAX_SPEED; }
+
 private:
 	const int _MAX_SPEED;
 	const float _MIN_SPEED = 0.1;

@@ -60,6 +60,9 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
         ImGui::Begin("Main Board");
         {
             ImGui::Text("Spaceship speed %f m/s", game.spaceship()->instantSpeed() * 100);
+
+            ImGui::ProgressBar(game.spaceship()->getVelocityRate(), ImVec2(0.0f, 0.0f));
+
             if (!camera->isInOrbit() && _focusPanel.IsVisible())
             {
                 ImGui::Text("Planet %s %g km",
