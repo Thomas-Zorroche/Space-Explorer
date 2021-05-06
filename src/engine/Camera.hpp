@@ -12,11 +12,8 @@
 
 #include "engine/Application.hpp"
 #include "game/Spaceship.hpp"
+#include "common.hpp"
 
-enum class DIRCAM
-{
-	FRONT = 0, LEFT
-};
 
 class Terrain;
 

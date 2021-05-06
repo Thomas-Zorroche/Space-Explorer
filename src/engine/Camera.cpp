@@ -12,10 +12,24 @@ Camera::Camera(float x, float z)
 void Camera::Move(float deltaTime, DIRCAM direction)
 {
 	glm::vec3 dir;
-	(direction == DIRCAM::FRONT) ? dir = _FrontVector : dir = _LeftVector;
+
+	switch (direction)
+	{
+	case DIRCAM::FRONT:
+		dir = _FrontVector;
+		break;
+	case DIRCAM::BACK:
+		dir = -_FrontVector;
+		break;
+	case DIRCAM::LEFT:
+		dir = _LeftVector;
+		break;
+	default:
+		dir = _FrontVector;
+		break;
+	}
 
 	float dst = deltaTime;
-
 
 	MoveX(dst, dir);
 	MoveZ(dst, dir);

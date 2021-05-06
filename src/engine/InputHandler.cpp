@@ -1,5 +1,5 @@
 #include "engine/InputHandler.hpp"
-#include "engine/Camera.hpp"
+#include "common.hpp"
 #include "hud/Hud.hpp"
 #include "game/Game.hpp"
 
@@ -78,17 +78,31 @@ void InputHandler::ProcessInput(GLFWwindow* window, const std::shared_ptr<Camera
 }
 
 void InputHandler::Movement(GLFWwindow* window, const std::shared_ptr<Camera>& camera, float deltaTime, Game& game) {
-    // Movement Inputs
+    // Avancer
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)        // W Qwerty = Z Azerty
     {
         game.spaceship()->speedUp();
+        game.spaceship()->setDirection(DIRCAM::FRONT);
         camera->Move(deltaTime * game.spaceship()->instantSpeed(), DIRCAM::FRONT);
+    }
+    // Reculer
+    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)        // W Qwerty = Z Azerty
+    {
+        game.spaceship()->speedUp();
+        game.spaceship()->setDirection(DIRCAM::BACK);
+        camera->Move(deltaTime * game.spaceship()->instantSpeed(), DIRCAM::BACK);
     }
     else
     {
         game.spaceship()->decelerate();
-        camera->Move(deltaTime * game.spaceship()->instantSpeed(), DIRCAM::FRONT);
+        camera->Move(deltaTime * game.spaceship()->instantSpeed(), game.spaceship()->getDirection());
     }
+
+    //else
+    //{
+    //    game.spaceship()->decelerate();
+    //    camera->Move(deltaTime * game.spaceship()->instantSpeed(), DIRCAM::BACK);
+    //}
     
     //else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)   // A Qwerty = Q Azerty
     //    camera->Move(deltaTime, DIRCAM::LEFT);

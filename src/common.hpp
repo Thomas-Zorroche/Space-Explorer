@@ -4,6 +4,10 @@
 #include "glm/glm.hpp"
 #include <iostream>
 
+enum class DIRCAM
+{
+    FRONT = 0, BACK, LEFT
+};
 
 template<typename T>
 T Lerp(T start, T end, T t)

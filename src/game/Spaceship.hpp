@@ -1,6 +1,8 @@
 #pragma once
 #include "glm/glm.hpp"
 
+#include "common.hpp"
+
 class Spaceship
 {
 public:
@@ -11,6 +13,9 @@ public:
 	void speedUp();
 	void decelerate(float factor = 0.5f);
 
+	void setDirection(DIRCAM dir) { _direction = dir; }
+	DIRCAM getDirection() const { return _direction; }
+
 private:
 	const int _MAX_SPEED;
 	const float _MIN_SPEED = 0.1;
@@ -18,5 +23,7 @@ private:
 	double _stepSpeed;
 	double _acceleration;
 	double _velocity;
+
+	DIRCAM _direction = DIRCAM::FRONT;
 	
 };
