@@ -42,6 +42,12 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
     else
     {
 
+    // Render PanelUI
+    if (!camera->isInOrbit() && _focusPanel.IsVisible())
+    {
+        _focusPanel.Draw();
+    }
+
     // Level Window
     if (!game.run() && !game.endgame())
         displayLevelWindow(game, camera);
@@ -106,21 +112,12 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
         }
         ImGui::End();
     }
-
-
+    
     }
 
     // Render ImGUI
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-    // Render PanelUI
-    if (!camera->isInOrbit() && _focusPanel.IsVisible())
-    {
-        _focusPanel.Draw();
-    }
-
-    
 }
 
 void Hud::displayPlanetPanel() const
