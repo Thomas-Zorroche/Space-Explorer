@@ -146,26 +146,50 @@ void Hud::displayEndgamePanel(const Game& game) const
 
     ImGui::Begin("Endgame", &endgameOpen, window_flags);
     {
-        ImGui::Text("You landed on %s, with a correlation coefficient of %f \n", 
-            _focusPlanet->name().c_str(), 
-            game.species()->correlationCoefficient(_focusPlanet));
-        ImGui::NewLine();
-        ImGui::Separator();
-
-        ImGui::Text("Best Planet for %s Species", game.species()->name().c_str());
-        displayPlanetSettings(game.species()->planetSettings(), true);
-        ImGui::NewLine();
-        ImGui::Separator();
-
-        for (const auto& body : game.galaxy()->celestialBodies())
+        ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+        if (ImGui::BeginTabBar("Endgame", tab_bar_flags))
         {
-            if (auto planet = std::dynamic_pointer_cast<Planet>(body))
+            if (ImGui::BeginTabItem("Galaxy Settings"))
             {
-                displayPlanetSettings(planet->settings());
+                ImGui::Text("You landed on %s, with a correlation coefficient of %f \n",
+                    _focusPlanet->name().c_str(),
+                    game.species()->correlationCoefficient(_focusPlanet));
                 ImGui::NewLine();
                 ImGui::Separator();
+
+                if (ImGui::CollapsingHeader("Species"))
+                {
+                    ImGui::Text("Best Planet for %s Species", game.species()->name().c_str());
+                    displayPlanetSettings(game.species()->planetSettings(), true);
+                    ImGui::NewLine();
+                    ImGui::Separator();
+                }
+
+                if (ImGui::CollapsingHeader("Planets"))
+                {
+                    for (const auto& body : game.galaxy()->celestialBodies())
+                    {
+                        if (auto planet = std::dynamic_pointer_cast<Planet>(body))
+                        {
+                            displayPlanetSettings(planet->settings());
+                            ImGui::NewLine();
+                            ImGui::Separator();
+                        }
+                    }
+                }
+
+                ImGui::EndTabItem();
             }
+
+            if (ImGui::BeginTabItem("Statistiques"))
+            {
+
+                ImGui::EndTabItem();
+            }
+            
+            ImGui::EndTabBar();
         }
+
     }
     ImGui::End();
 }

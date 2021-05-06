@@ -45,7 +45,6 @@ void CollisionManager::CheckCollisions(Game& game)
 				// Two cases :
 				// The player moves forward : if FrontVector . cameraToPlanet is POSITIVE, prevent move
 				// The player moves backward : FrontVector . cameraToPlanet is NEGATIVE, prevent move
-				std::cout << glm::dot(_camera->GetFrontVector(), cameraToPlanet) << std::endl;
 				if ((game.spaceship()->getDirection() == DIRCAM::FRONT && glm::dot(_camera->GetFrontVector(), cameraToPlanet) > 0) ||
 					(game.spaceship()->getDirection() == DIRCAM::BACK && glm::dot(_camera->GetFrontVector(), cameraToPlanet) < 0))
 				{
