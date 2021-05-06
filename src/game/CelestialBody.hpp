@@ -16,6 +16,8 @@ public:
 
 	glm::vec3 position() const { return _position; }
 
+	std::shared_ptr<StaticMesh> getMeshPtr() { return _mesh; }
+
 protected:
 	std::shared_ptr<StaticMesh> _mesh;
 
