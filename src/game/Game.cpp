@@ -33,7 +33,7 @@ void Game::initialize()
 	{
 		const std::string speciesName = "Cho Chokolah";
 		/*
-		* Easy = 70
+		* Difficult = 70
 		* Medium = 40
 		* Easy = 10
 		*/

@@ -89,15 +89,6 @@ void Scene::Draw(const std::shared_ptr<Camera>& camera)
 		if (_interactiveObjects[i]->isActive()) 
 			_interactiveObjects[i]->draw();
 	}
-
-	// Render all the static meshes
-	// =================================================
-	for (size_t i = 0; i < _staticMeshesCount; i++)
-	{
-		//_staticMeshes[i]->Draw();
-	}
-
-
 }
 
 void Scene::AddStaticMesh(const std::shared_ptr<StaticMesh>& mesh)

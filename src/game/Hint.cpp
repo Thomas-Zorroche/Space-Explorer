@@ -6,7 +6,7 @@
 
 Hint::Hint(const TransformLayout& transform, const std::string& message)
 	: InteractiveObject(
-		StaticMesh(std::make_shared<Model>("res/models/sphere.obj"), transform, "Default", CollisionLayout(true, false, this)),
+		StaticMesh(std::make_shared<Model>("res/models/capsule.obj"), transform, "Default", CollisionLayout(true, false, this)),
 		transform.Location()
 	), 
 	  _message(message)
