@@ -113,7 +113,7 @@ std::vector<std::string> IOManager::getAllFilesFromFolder(const std::string& pat
 
 void IOManager::loadValues(const mINI::INIStructure& ini, std::shared_ptr<Planet>& planet)
 {
-	std::string& layersCountStr = ini.get("layers").get("count");
+	const std::string& layersCountStr = ini.get("layers").get("count");
 	const int layersCount = std::atoi(layersCountStr.c_str());
 	planet->updateNoiseLayersCount(layersCount);
 
@@ -121,17 +121,17 @@ void IOManager::loadValues(const mINI::INIStructure& ini, std::shared_ptr<Planet
 	{
 		std::string section = "noiseSettings_" + std::to_string(i);
 		// Read values
-		std::string& typeStr = ini.get(section).get("type");
-		std::string& seedStr = ini.get(section).get("seed");
-		std::string& strengthStr = ini.get(section).get("strength");
-		std::string& layersCountStr = ini.get(section).get("layersCount");
-		std::string& baseRoughnessStr = ini.get(section).get("baseRoughness");
-		std::string& roughnessStr = ini.get(section).get("roughness");
-		std::string& centerXStr = ini.get(section).get("centerX");
-		std::string& centerYStr = ini.get(section).get("centerY");
-		std::string& centerZStr = ini.get(section).get("centerZ");
-		std::string& minValueStr = ini.get(section).get("minValue");
-		std::string& weightMultiplierStr = ini.get(section).get("weightMultiplier");
+		const std::string& typeStr = ini.get(section).get("type");
+		const std::string& seedStr = ini.get(section).get("seed");
+		const std::string& strengthStr = ini.get(section).get("strength");
+		const std::string& layersCountStr = ini.get(section).get("layersCount");
+		const std::string& baseRoughnessStr = ini.get(section).get("baseRoughness");
+		const std::string& roughnessStr = ini.get(section).get("roughness");
+		const std::string& centerXStr = ini.get(section).get("centerX");
+		const std::string& centerYStr = ini.get(section).get("centerY");
+		const std::string& centerZStr = ini.get(section).get("centerZ");
+		const std::string& minValueStr = ini.get(section).get("minValue");
+		const std::string& weightMultiplierStr = ini.get(section).get("weightMultiplier");
 
 		// Assign values
 		planet->shapeSettings()->noiseLayer(i - 1)->noiseSettings()->GetFilterType() = (typeStr == "simple") ? FilterType::Simple : FilterType::Rigid;
