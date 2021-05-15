@@ -36,7 +36,7 @@ bool BoundingSphere::isPointInsideSphere(const glm::vec3& point) const
 
 void BoundingSphere::applyTransforms()
 {
-	_radius = 1.0f;
+	_radius = 5.0f;
 	_center = glm::vec3(0.0f);
 }
 

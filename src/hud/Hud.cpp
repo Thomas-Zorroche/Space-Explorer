@@ -222,10 +222,14 @@ void Hud::displayLevelWindow(Game& game, const std::shared_ptr<Camera>& camera) 
     static bool levelOpen = true;
 
     ImGui::SetNextWindowPos(ImVec2(_panelSettings.endgame[0], _panelSettings.endgame[1]));
-    ImGui::SetNextWindowSize(ImVec2(_panelSettings.endgame[2], _panelSettings.endgame[3]));
+    ImGui::SetNextWindowSize(ImVec2(_panelSettings.endgame[2], 200));
     ImGui::Begin("Level of Difficulty", &levelOpen, window_flags);
     {
-        ImGui::Text("Welcome to Space Explorer .......;");
+        ImGui::Text("You embody an individual of an alien species at the controls of a spaceship.This one is adrift and damaged,\n\
+it must land on a planet as quickly as possible to carry out repairs.You are in a solar system made up of several planets.\n\
+However, the on - board computer had been damaged so the ship is unable to tell you which planet to land on.\n\
+Your objective is to explore the system for information on the various planetsand the species you play as.\n\
+Your goal is therefore to find the planet in the system that best matches your species.");
 
         ImGui::Separator();
 
@@ -266,7 +270,9 @@ void Hud::displayLoadingWindow(float rate, GLFWwindow* window) const
     ImGui::Begin("Loading screen", &loadingOpen, window_flags);
     {
         ImGui::Text("Loading...");
+        ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.99);
         ImGui::ProgressBar(rate, ImVec2(0.0f, 0.0f));
+        ImGui::PopItemWidth();
         ImGui::Separator();
     }
     ImGui::End();

@@ -79,7 +79,7 @@ HintSettings HintsImporter::computePositionAndVelocity()
     int zpos = probas::continuousUniformDistribution(100, 400);
 
     // Random velocity
-    float velocity = 3;
+    float velocity = 1;
 
     switch (_level)
     {

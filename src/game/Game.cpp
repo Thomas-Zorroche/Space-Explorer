@@ -32,17 +32,23 @@ void Game::initialize()
 	{
 		const std::string speciesName = "Cho Chokolah";
 		/*
-		* Difficult = 70
+		* Easy = 70
 		* Medium = 40
-		* Easy = 10
+		* Diffiuclt = 10
 		*/
 		techLevel = 100 - ( ((int)_level + 1) * 30);
+		std::cout << techLevel << std::endl;
 		_species = std::make_shared<Species>(15);
 	}
 
 	// Spaceship
 	{
-		_spaceship = std::make_shared<Spaceship>(10 * (techLevel / 100.0f), 0.2 + (techLevel / 100.0f));
+		float boost = 1;
+		if (_level == Difficulty::Easy)		boost = 0.8;	// 2200
+		if (_level == Difficulty::Medium)	boost = 1.2;	// 1900
+		if (_level == Difficulty::Hard)		boost = 2.5;	// 1000
+
+		_spaceship = std::make_shared<Spaceship>(40 * (techLevel / 100.0f) * boost, 0.2 + (techLevel / 100.0f));
 	}
 }
 
