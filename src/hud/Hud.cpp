@@ -170,27 +170,36 @@ void Hud::displayEndgamePanel(const Game& game) const
 
                 if (ImGui::CollapsingHeader("Planets"))
                 {
-                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImColor(255, 0, 0)));
+                    // Display Planet Focus Settings
+                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImColor(46, 196, 242)));
+                    displayPlanetSettings(_focusPlanet->settings());
+                    ImGui::NewLine();
+                    ImGui::Separator();
+                    ImGui::PopStyleColor(1);
+                    
+                    // Display other planets
                     for (const auto& body : game.galaxy()->celestialBodies())
                     {
                         if (auto planet = std::dynamic_pointer_cast<Planet>(body))
                         {
-                            displayPlanetSettings(planet->settings());
-                            ImGui::NewLine();
-                            ImGui::Separator();
+                            if (planet->name() != _focusPlanet->name())
+                            {
+                                displayPlanetSettings(planet->settings());
+                                ImGui::NewLine();
+                                ImGui::Separator();
+                            }
                         }
                     }
-                    ImGui::PopStyleColor(1);
                 }
 
                 ImGui::EndTabItem();
             }
 
-            if (ImGui::BeginTabItem("Statistiques"))
-            {
+            //if (ImGui::BeginTabItem("Statistiques"))
+            //{
 
-                ImGui::EndTabItem();
-            }
+            //    ImGui::EndTabItem();
+            //}
             
             ImGui::EndTabBar();
         }
