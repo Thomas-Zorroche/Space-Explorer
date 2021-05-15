@@ -74,7 +74,7 @@ void StaticMesh::Draw(bool isParticuleInstance, int countParticule)
 
 void StaticMesh::Scale(float alpha)
 {
-	_modelMatrix = _modelMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(alpha));
+	_modelMatrix =  glm::scale(_modelMatrix, glm::vec3(alpha));
 	
 	// Bouding Sphere
 	_boundingSphere->scale(alpha);
@@ -83,7 +83,7 @@ void StaticMesh::Scale(float alpha)
 
 void StaticMesh::Translate(const glm::vec3& delta)
 {
-	_modelMatrix = _modelMatrix * glm::translate(glm::mat4(1.0f), delta);
+	_modelMatrix = glm::translate(_modelMatrix, delta);
 
 	// Bouding Sphere
 	_boundingSphere->translate(delta);
@@ -92,9 +92,11 @@ void StaticMesh::Translate(const glm::vec3& delta)
 
 void StaticMesh::Rotate(const glm::vec3& alpha)
 {
-	_modelMatrix *= glm::rotate(glm::mat4(1.0f), glm::radians(alpha.x), glm::vec3(1, 0, 0));
-	_modelMatrix *= glm::rotate(glm::mat4(1.0f), glm::radians(alpha.y), glm::vec3(0, 1, 0));
-	_modelMatrix *= glm::rotate(glm::mat4(1.0f), glm::radians(alpha.z), glm::vec3(0, 0, 1));
+	_modelMatrix = glm::rotate(_modelMatrix, glm::radians(alpha.x), glm::vec3(1, 0, 0));
+	_modelMatrix = glm::rotate(_modelMatrix, glm::radians(alpha.y), glm::vec3(0, 1, 0));
+	_modelMatrix = glm::rotate(_modelMatrix, glm::radians(alpha.z), glm::vec3(0, 0, 1));
+	_boundingSphere->rotate(alpha);
+	updateBoundingSphere();
 }
 
 void StaticMesh::updateBoundingSphere()
@@ -108,8 +110,6 @@ void StaticMesh::disableBoundingBox()
 {
 	_collisionManagerPtr->DeleteSphere(_boundingSphere);
 }
-
-
 
 
 /*

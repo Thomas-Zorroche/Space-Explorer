@@ -8,12 +8,11 @@ class Game;
 class InteractiveObject
 {
 public:
-	InteractiveObject(const StaticMesh& mesh, const glm::vec3& position)
-		: _position(position), _mesh(mesh) {};
+	InteractiveObject(const StaticMesh& mesh);
 
 	virtual void onOverlapEvent() = 0;
 
-	void draw() { _mesh.Draw(); }
+	void draw();
 
 	void disable();
 
@@ -25,6 +24,7 @@ protected:
 	static Game* _gamePtr;
 
 private:
+	const float _VELOCITY = 20;
 
 	glm::vec3 _position;
 	StaticMesh _mesh;

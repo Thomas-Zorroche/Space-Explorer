@@ -4,11 +4,9 @@
 #include <iostream>
 #include <memory>
 
-Hint::Hint(const TransformLayout& transform, const std::string& message)
+Hint::Hint(const std::string& message)
 	: InteractiveObject(
-		StaticMesh(std::make_shared<Model>("res/models/capsule.obj"), transform, "Default", CollisionLayout(true, false, this)),
-		transform.Location()
-	), 
+		StaticMesh(std::make_shared<Model>("res/models/capsule.obj"), TransformLayout(), "Default", CollisionLayout(true, false, this))), 
 	  _message(message)
 {
 

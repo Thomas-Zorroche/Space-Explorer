@@ -17,7 +17,7 @@ void mainloop(Window& windowObject)
 {
     GLFWwindow* window = windowObject.WindowPtr();
 
-    auto camera = std::make_shared<Camera>(200, 230); // parameter: (x, z) spawn
+    auto camera = std::make_shared<Camera>(210, 210); // parameter: (x, z) spawn
     Renderer::Get().SetCamera(camera);
     CollisionManager collisionManager(500.0f); // parameter: world size
     collisionManager.SetCamera(camera);
@@ -29,12 +29,6 @@ void mainloop(Window& windowObject)
     StaticMesh::SetCollisionManagerPtr(&collisionManager);
 
     Hud::get().init(window, windowObject.Width(), windowObject.Height());
-
-    // Render loading screen
-    //glClearColor(0, 0, 0, 1.0f);
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //Hud::get().displayLoadingWindow(0);
-    //glfwSwapBuffers(window);
 
     // Load all planets
     Game game(collisionManager.worldSize(), window);
