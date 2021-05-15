@@ -80,12 +80,15 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
     // Hints Pannel
     if (!_hideHintPanel && game.run())
     {
-        ImGui::SetNextWindowPos(ImVec2(_panelSettings.hint[0], _panelSettings.hint[1]));
-        ImGui::SetNextWindowSize(ImVec2(_panelSettings.hint[2], _panelSettings.hint[3]));
+        ImGui::SetNextWindowPos(ImVec2(_panelSettings.hint[0] - 150, _panelSettings.hint[1]));
+        ImGui::SetNextWindowSize(ImVec2(_panelSettings.hint[2] + 150, 250));
         ImGui::Begin("Hint Pannel");
         {
             for (const auto& hint : game.hints())
+            {
                 ImGui::Text(hint.c_str());
+                ImGui::Separator();
+            }
         }
         ImGui::End();
     }
@@ -167,6 +170,7 @@ void Hud::displayEndgamePanel(const Game& game) const
 
                 if (ImGui::CollapsingHeader("Planets"))
                 {
+                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImColor(255, 0, 0)));
                     for (const auto& body : game.galaxy()->celestialBodies())
                     {
                         if (auto planet = std::dynamic_pointer_cast<Planet>(body))
@@ -176,6 +180,7 @@ void Hud::displayEndgamePanel(const Game& game) const
                             ImGui::Separator();
                         }
                     }
+                    ImGui::PopStyleColor(1);
                 }
 
                 ImGui::EndTabItem();
