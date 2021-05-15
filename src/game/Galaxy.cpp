@@ -63,7 +63,7 @@ void Galaxy::draw(const std::shared_ptr<Camera>& camera)
 
 			// Rotate planet
 			auto meshPtr = body->getMeshPtr();
-			//meshPtr->Rotate(glm::vec3(0, 0.025, 0));
+			meshPtr->Rotate(glm::vec3(0, 0.025, 0));
 		}
 
 		body->draw();

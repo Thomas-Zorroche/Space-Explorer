@@ -47,7 +47,7 @@ std::vector<Hint>& HintsImporter::addToHints(std::vector<Hint>& hints, const std
     std::vector<std::string> parts_of_message = SplitMessage(marker, message);
     std::string composed_message = parts_of_message.at(0);
     composed_message += " " + std::to_string(value) + unit + " " + parts_of_message.at(1);
-    hints.emplace_back(composed_message);
+    hints.emplace_back(TransformLayout(glm::vec3(0), glm::vec3(0)), composed_message);
     std::cout << composed_message << std::endl;
     return hints;
 }
@@ -58,7 +58,7 @@ std::vector<Hint>& HintsImporter::addToHints(std::vector<Hint>& hints, const std
     std::vector<std::string> parts_of_message = SplitMessage(marker, message);
     std::string composed_message = parts_of_message.at(0);
     composed_message += " " + value + ((value.empty()) ? "" : " ") + parts_of_message.at(1);
-    hints.emplace_back(composed_message);
+    hints.emplace_back(TransformLayout(glm::vec3(0), glm::vec3(0)), composed_message);
     std::cout << composed_message << std::endl;
     return hints;
 }

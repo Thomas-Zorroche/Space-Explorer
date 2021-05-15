@@ -9,7 +9,7 @@ class TransfromLayout;
 class Hint : public InteractiveObject
 {
 public:
-	Hint(const std::string& message);
+	Hint(const TransformLayout& transform, const std::string& message);
 
 	void onOverlapEvent() override;
 

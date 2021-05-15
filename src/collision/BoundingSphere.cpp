@@ -40,14 +40,6 @@ void BoundingSphere::scale(float alpha)
 	update();
 }
 
-void BoundingSphere::rotate(const glm::vec3& alpha)
-{
-	_center = glm::vec3(glm::rotate(glm::mat4(1.0), alpha.x, glm::vec3(1, 0, 0)) * glm::vec4(_center, 1.0f));
-	_center = glm::vec3(glm::rotate(glm::mat4(1.0), alpha.y, glm::vec3(0, 1, 0)) * glm::vec4(_center, 1.0f));
-	_center = glm::vec3(glm::rotate(glm::mat4(1.0), alpha.z, glm::vec3(0, 0, 1)) * glm::vec4(_center, 1.0f));
-	update();
-}
-
 void BoundingSphere::translate(const glm::vec3& delta)
 {
 	_center += delta;
@@ -59,7 +51,6 @@ void BoundingSphere::update()
 	_modelMatrix = glm::mat4(1.0f);
 	_modelMatrix = _modelMatrix * glm::translate(glm::mat4(1.0f), _center);
 	_modelMatrix = _modelMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(_radius));
-
 }
 
 

@@ -21,7 +21,6 @@ public:
 
 	void scale(float alpha);
 	void translate(const glm::vec3& delta);
-	void rotate(const glm::vec3& alpha);
 
 	void update();
 

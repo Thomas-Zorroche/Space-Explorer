@@ -57,7 +57,6 @@ public:
 	void Draw(bool isParticuleInstance = false, int countParticule = 0);
 
 	glm::mat4 GetModelMatrix() const { return _modelMatrix; }
-	glm::mat4& GetModelMatrix() { return _modelMatrix; }
 	std::shared_ptr<Shader>& GetShader() { return _shader; }
 
 	void Translate(const glm::vec3& delta);
@@ -72,8 +71,6 @@ public:
 	void Free();
 
 	static void SetCollisionManagerPtr(CollisionManager* cm_Ptr);
-
-	void ApplyTransforms() { _modelMatrix = glm::mat4(1.0f); }
 
 private:
 	void SendUniforms();
