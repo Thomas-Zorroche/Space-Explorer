@@ -36,6 +36,8 @@ public:
 
 	void draw();
 
+	void applyTransforms();
+
 private:
 	glm::vec3 _center = glm::vec3(0, 0, 0);
 	float _radius = 1.0f;
