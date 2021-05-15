@@ -1,6 +1,10 @@
 #include "HintsImporter.hpp"
 #include "maths/probas.hpp"
 
+
+Difficulty::Level HintsImporter::_level = Difficulty::Easy;
+
+
 std::vector< std::shared_ptr<Hint> > HintsImporter::Hints(const std::string& filepath, const std::shared_ptr<Species>& species) {
     std::vector<std::shared_ptr<Hint> > hints;
 
@@ -71,11 +75,12 @@ void HintsImporter::addToHints(std::vector<std::shared_ptr<Hint> >& hints, const
 HintSettings HintsImporter::computePositionAndVelocity()
 {
     // Random position
-    int xpos = probas::continuousUniformDistribution(0, 500);
-    int zpos = probas::continuousUniformDistribution(0, 500);
+    int xpos = probas::continuousUniformDistribution(100, 400);
+    int zpos = probas::continuousUniformDistribution(100, 400);
 
     // Random velocity
-    float velocity = 10;
+    float velocity = 3;
+
     switch (_level)
     {
     case Difficulty::Easy:

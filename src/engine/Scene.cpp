@@ -107,7 +107,7 @@ void Scene::LoadHints(const Game& game)
 
 	HintsImporter::setLevel(game.getDifficultyLevel());
 
-	auto& hints = HintsImporter::Hints("../res/game/hints.ini", game.getSpecies());
+	const auto& hints = HintsImporter::Hints("../res/game/hints.ini", game.getSpecies());
 
 	for (const auto& hint : hints)
 	{
