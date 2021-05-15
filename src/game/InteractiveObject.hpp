@@ -13,7 +13,7 @@ public:
 
 	virtual void onOverlapEvent() = 0;
 
-	void draw() { _mesh.Draw(); }
+	void draw();
 
 	void disable();
 

@@ -52,15 +52,15 @@ void Scene::Init()
 	// Create Hints Objects
 	// =================================================
 	std::shared_ptr<InteractiveObject> hintTest1 = std::make_shared<Hint>(
-		TransformLayout(glm::vec3(200, 1, 210), glm::vec3(0), 0.2),
+		TransformLayout(),
 		"Le niveau de radioactivite de doit \n pas etre au dessus de 0.3");
-	std::shared_ptr<InteractiveObject> hintTest2 = std::make_shared<Hint>(
+	/*std::shared_ptr<InteractiveObject> hintTest2 = std::make_shared<Hint>(
 		TransformLayout(glm::vec3(190, 0, 201), glm::vec3(0), 0.2),
 		"L eau, c est pour les faibles.");
 	std::shared_ptr<InteractiveObject> hintTest3 = std::make_shared<Hint>(
 		TransformLayout(glm::vec3(210, -1, 195), glm::vec3(0), 0.2),
-		"Une atmosphere est necessaire.");
-	_interactiveObjects = std::vector<std::shared_ptr<InteractiveObject> >({ hintTest1, hintTest2, hintTest3 } );
+		"Une atmosphere est necessaire.");*/
+	_interactiveObjects = std::vector<std::shared_ptr<InteractiveObject> >({ hintTest1 } );
 	probas::testBinomialProbability(1e6);
     probas::testBernoulliProbability(1e6);
     probas::testPoissonProbability(1e6);

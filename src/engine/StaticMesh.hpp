@@ -72,6 +72,8 @@ public:
 
 	static void SetCollisionManagerPtr(CollisionManager* cm_Ptr);
 
+	void ApplyTransforms();
+
 private:
 	void SendUniforms();
 

@@ -72,6 +72,13 @@ void StaticMesh::Draw(bool isParticuleInstance, int countParticule)
 * Transfromations
 */
 
+void StaticMesh::ApplyTransforms()
+{ 
+	_modelMatrix = glm::mat4(1.0f);
+	_boundingSphere->applyTransforms();
+}
+
+
 void StaticMesh::Scale(float alpha)
 {
 	_modelMatrix = _modelMatrix * glm::scale(glm::mat4(1.0f), glm::vec3(alpha));

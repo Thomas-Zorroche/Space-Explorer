@@ -28,11 +28,17 @@ bool BoundingSphere::isPointInsideSphere(const glm::vec3& point) const
 	if (!_cLayout.HasCollision()) return false;
 
 	float distanceSqr = ((point.x - _center.x) * (point.x - _center.x) +
-				         (point.y - _center.y) * (point.y - _center.y) +
-					     (point.z - _center.z) * (point.z - _center.z));
+		(point.y - _center.y) * (point.y - _center.y) +
+		(point.z - _center.z) * (point.z - _center.z));
 
 	return distanceSqr <= _radius * _radius;
-}	
+}
+
+void BoundingSphere::applyTransforms()
+{
+	_radius = 1.0f;
+	_center = glm::vec3(0.0f);
+}
 
 void BoundingSphere::scale(float alpha)
 { 
