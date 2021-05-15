@@ -81,7 +81,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
     if (!_hideHintPanel && game.run())
     {
         ImGui::SetNextWindowPos(ImVec2(_panelSettings.hint[0] - 150, _panelSettings.hint[1]));
-        ImGui::SetNextWindowSize(ImVec2(_panelSettings.hint[2] + 150, 250));
+        ImGui::SetNextWindowSize(ImVec2(_panelSettings.hint[2] + 150, 200));
         ImGui::Begin("Hint Pannel");
         {
             for (const auto& hint : game.hints())
@@ -100,7 +100,7 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
     // Planet Window 
     if (game.run() && camera->isInOrbit())
     {
-        displayPlanetPanel();
+        displayPlanetPanel(game);
     }
 
     // Debug Pannel
@@ -126,15 +126,13 @@ void Hud::draw(const std::shared_ptr<Camera>& camera, Game& game,
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void Hud::displayPlanetPanel() const
+void Hud::displayPlanetPanel(const Game& game) const
 {
-    PlanetSettings settings = _focusPlanet->settings();
-
     ImGui::SetNextWindowPos(ImVec2(_panelSettings.planet[0], _panelSettings.planet[1]));
     ImGui::SetNextWindowSize(ImVec2(_panelSettings.planet[2], _panelSettings.planet[3]));
     ImGui::Begin("Planet Panel");
     {
-        displayPlanetSettings(settings);
+        displayPlanetSettings(_focusPlanet->settings(), game);
     }
     ImGui::End();
 }
@@ -154,16 +152,16 @@ void Hud::displayEndgamePanel(const Game& game) const
         {
             if (ImGui::BeginTabItem("Galaxy Settings"))
             {
-                ImGui::Text("You landed on %s, with a correlation coefficient of %f \n",
+                ImGui::Text("You landed on %s, with a correlation coefficient of %f \n (1.0 is the best score)",
                     _focusPlanet->name().c_str(),
-                    game.species()->correlationCoefficient(_focusPlanet));
+                    game.species()->correlationCoefficient(_focusPlanet->settings()));
                 ImGui::NewLine();
                 ImGui::Separator();
 
                 if (ImGui::CollapsingHeader("Species"))
                 {
                     ImGui::Text("Best Planet for %s Species", game.species()->name().c_str());
-                    displayPlanetSettings(game.species()->planetSettings(), true);
+                    displayPlanetSettings(game.species()->planetSettings(), game, true);
                     ImGui::NewLine();
                     ImGui::Separator();
                 }
@@ -172,7 +170,7 @@ void Hud::displayEndgamePanel(const Game& game) const
                 {
                     // Display Planet Focus Settings
                     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImColor(46, 196, 242)));
-                    displayPlanetSettings(_focusPlanet->settings());
+                    displayPlanetSettings(_focusPlanet->settings(), game);
                     ImGui::NewLine();
                     ImGui::Separator();
                     ImGui::PopStyleColor(1);
@@ -184,7 +182,7 @@ void Hud::displayEndgamePanel(const Game& game) const
                         {
                             if (planet->name() != _focusPlanet->name())
                             {
-                                displayPlanetSettings(planet->settings());
+                                displayPlanetSettings(planet->settings(), game);
                                 ImGui::NewLine();
                                 ImGui::Separator();
                             }
@@ -208,11 +206,13 @@ void Hud::displayEndgamePanel(const Game& game) const
     ImGui::End();
 }
 
-void Hud::displayPlanetSettings(const PlanetSettings& settings, bool species) const
+void Hud::displayPlanetSettings(const PlanetSettings& settings, const Game& game, bool species) const
 {
     if (!species)
     {
         ImGui::Text("Name: %s", settings.name().c_str());
+        if (game.endgame())
+            ImGui::Text("Correlation Score: %f", game.species()->correlationCoefficient(settings));
     }
     ImGui::Text("Avg Temperature: %d degrees C", settings.temperature());
     ImGui::Text("Radioaactivty Level: %f", settings.radioactivityLevel());

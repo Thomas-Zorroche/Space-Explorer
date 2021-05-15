@@ -13,7 +13,7 @@ public:
 
 	const PlanetSettings& planetSettings() const;
 
-	float correlationCoefficient(const std::shared_ptr<Planet>& planet) const;
+	float correlationCoefficient(const PlanetSettings& settings) const;
 
 	std::string name() const { return _name; }
 

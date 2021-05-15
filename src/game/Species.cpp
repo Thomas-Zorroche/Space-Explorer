@@ -11,9 +11,9 @@ const PlanetSettings& Species::planetSettings() const
 	return _planetSettings;
 }
 
-float Species::correlationCoefficient(const std::shared_ptr<Planet>& planet) const
+float Species::correlationCoefficient(const PlanetSettings& settings) const
 {
-	return _planetSettings.correlationCoefficient(planet->settings());
+	return _planetSettings.correlationCoefficient(settings);
 }
 
 

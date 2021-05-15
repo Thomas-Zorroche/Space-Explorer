@@ -45,9 +45,9 @@ private:
 	Hud() = default;
 	~Hud() = default;
 
-	void displayPlanetPanel() const;
+	void displayPlanetPanel(const Game& game) const;
 	void displayEndgamePanel(const Game& game) const;
-	void displayPlanetSettings(const PlanetSettings& settings, bool species = false) const;
+	void displayPlanetSettings(const PlanetSettings& settings, const Game& game, bool species = false) const;
 	void displayLevelWindow(Game& game, const std::shared_ptr<Camera>& camera) const;
 
 private:
