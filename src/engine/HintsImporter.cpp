@@ -1,13 +1,14 @@
 #include "HintsImporter.hpp"
+#include "maths/probas.hpp"
 
-std::vector<Hint> HintsImporter::Hints(const std::string& filepath, const Species& species) {
-    std::vector<Hint> hints;
+std::vector< std::shared_ptr<Hint> > HintsImporter::Hints(const std::string& filepath, const std::shared_ptr<Species>& species) {
+    std::vector<std::shared_ptr<Hint> > hints;
 
     mINI::INIFile file(filepath);
     mINI::INIStructure ini;
     file.read(ini);
 
-    const auto& caracs = species.planetSettings();
+    const auto& caracs = species->planetSettings();
     std::string hi; // hint_index
 
     for (auto& category :ini)
@@ -41,24 +42,53 @@ std::vector<std::string> HintsImporter::SplitMessage(const std::string& marker, 
 }
 
 template <typename T>
-std::vector<Hint>& HintsImporter::addToHints(std::vector<Hint>& hints, const std::string& message,
+void HintsImporter::addToHints(std::vector<std::shared_ptr<Hint> >& hints, const std::string& message,
                                              const std::string& marker, const T& value, const std::string& unit)
 {
     std::vector<std::string> parts_of_message = SplitMessage(marker, message);
     std::string composed_message = parts_of_message.at(0);
     composed_message += " " + std::to_string(value) + unit + " " + parts_of_message.at(1);
-    hints.emplace_back(TransformLayout(glm::vec3(0), glm::vec3(0)), composed_message);
+
+    HintSettings settings = computePositionAndVelocity();
+
+    hints.emplace_back(std::make_shared<Hint> (TransformLayout(glm::vec3(settings.xpos, 0, settings.zpos), glm::vec3(0)), composed_message, settings.velocity) );
     std::cout << composed_message << std::endl;
-    return hints;
 }
 
-std::vector<Hint>& HintsImporter::addToHints(std::vector<Hint>& hints, const std::string& message,
+void HintsImporter::addToHints(std::vector<std::shared_ptr<Hint> >& hints, const std::string& message,
                                              const std::string& marker, const std::string & value)
 {
     std::vector<std::string> parts_of_message = SplitMessage(marker, message);
     std::string composed_message = parts_of_message.at(0);
     composed_message += " " + value + ((value.empty()) ? "" : " ") + parts_of_message.at(1);
-    hints.emplace_back(TransformLayout(glm::vec3(0), glm::vec3(0)), composed_message);
+
+    HintSettings settings = computePositionAndVelocity();
+
+    hints.emplace_back(std::make_shared<Hint>(TransformLayout(glm::vec3(settings.xpos, 0, settings.zpos), glm::vec3(0)), composed_message, settings.velocity));
     std::cout << composed_message << std::endl;
-    return hints;
 }
+
+HintSettings HintsImporter::computePositionAndVelocity()
+{
+    // Random position
+    int xpos = probas::continuousUniformDistribution(0, 500);
+    int zpos = probas::continuousUniformDistribution(0, 500);
+
+    // Random velocity
+    float velocity = 10;
+    switch (_level)
+    {
+    case Difficulty::Easy:
+        velocity += probas::simulateBinomialProb(50, 0.2);
+        break;
+    case Difficulty::Medium:
+        velocity += probas::simulateBinomialProb(50, 0.5);
+        break;
+    case Difficulty::Hard:
+        velocity += probas::simulateBinomialProb(50, 0.8);
+        break;
+    }  
+
+    return { xpos, zpos, velocity };
+}
+

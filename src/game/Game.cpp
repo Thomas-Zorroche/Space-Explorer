@@ -3,7 +3,6 @@
 #include "PlanetSettings.hpp"
 #include "Galaxy.hpp"
 #include "Species.hpp"
-#include "../engine/HintsImporter.hpp"
 
 Game::Game(float size, GLFWwindow* window)
 	: _galaxy(std::make_shared<Galaxy>(size, window))
@@ -44,11 +43,6 @@ void Game::initialize()
 	// Spaceship
 	{
 		_spaceship = std::make_shared<Spaceship>(10 * (techLevel / 100.0f), 0.2 + (techLevel / 100.0f));
-	}
-
-	// Hints
-	{
-        std::vector<Hint> hints = HintsImporter::Hints("../res/game/hints.ini", *_species);
 	}
 }
 

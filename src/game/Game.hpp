@@ -6,23 +6,11 @@
 
 #include "engine/Application.hpp"
 #include "game/Spaceship.hpp"
+#include "common.hpp"
 
 class Species;
 class Galaxy;
 
-namespace Difficulty
-{
-	using Level = uint16_t;
-
-	enum : Level
-	{
-		Easy = 0,
-		Medium,
-		Hard
-	};
-
-	static const char* LevelNames[] = { "Easy", "Medium", "Hard" };
-}
 
 class Game
 {
@@ -46,6 +34,8 @@ public:
 
 	void setDifficultyLevel(Difficulty::Level level);
 	Difficulty::Level getDifficultyLevel() const { return _level; }
+
+	std::shared_ptr<Species> getSpecies() const { return _species; }
 
 private:
 	void initialize();

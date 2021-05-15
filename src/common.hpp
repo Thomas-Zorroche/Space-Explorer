@@ -9,6 +9,20 @@ enum class DIRCAM
     FRONT = 0, BACK, LEFT
 };
 
+namespace Difficulty
+{
+    using Level = uint16_t;
+
+    enum : Level
+    {
+        Easy = 0,
+        Medium,
+        Hard
+    };
+
+    static const char* LevelNames[] = { "Easy", "Medium", "Hard" };
+}
+
 template<typename T>
 T Lerp(T start, T end, T t)
 {

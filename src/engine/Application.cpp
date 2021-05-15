@@ -30,15 +30,9 @@ void mainloop(Window& windowObject)
 
     Hud::get().init(window, windowObject.Width(), windowObject.Height());
 
-    // Render loading screen
-    //glClearColor(0, 0, 0, 1.0f);
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //Hud::get().displayLoadingWindow(0);
-    //glfwSwapBuffers(window);
-
     // Load all planets
     Game game(collisionManager.worldSize(), window);
-    Scene scene(collisionManager.worldSize(), game.galaxyPtr());
+    Scene scene(collisionManager.worldSize(), game);
     InteractiveObject::setGamePtr(&game);
 
     // Initialize GLFW Callbacks and Inputs
@@ -68,10 +62,11 @@ void mainloop(Window& windowObject)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Check Collisions
-        collisionManager.CheckCollisions(game);
+        if (game.run())
+            collisionManager.CheckCollisions(game);
 
         // Render scene
-        scene.Draw(camera);
+        scene.Draw(camera, game);
 
         // Render Hud
         Hud::get().draw(camera, game, windowObject);
