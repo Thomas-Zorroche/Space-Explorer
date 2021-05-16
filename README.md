@@ -9,8 +9,8 @@ Your objective is to explore the system for information on the various planets a
 Your goal is therefore to find the planet in the system that best matches your species.
 
 ## Screenshots
-![screenshot01](doc/Space_Explorer_01.PNG)
+![screenshot01](doc/Space_Explorer_01.jpg)
 
-![[screenshot02]](doc/Space_Explorer_02.PNG)
+![[screenshot02]](doc/Space_Explorer_02.jpg)
 
-![[screenshot03]](doc/Space_Explorer_03.PNG)
+![[screenshot03]](doc/Space_Explorer_03.jpg)
