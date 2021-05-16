@@ -5,6 +5,7 @@
 #include "hud/PannelUI.hpp"
 #include "hud/PanelSettings.hpp"
 #include "game/PlanetSettings.hpp"
+#include "game/CelestialBody.hpp"
 
 
 #include <memory>
@@ -34,7 +35,7 @@ public:
 	void debugMode();
 	void setCollisionInfo(int activeSpheresCount);
 
-	void setFocusPosition(const std::shared_ptr<Planet>& focusPlanet, const std::shared_ptr<Camera>& camera);
+	void setFocusPosition(const std::shared_ptr<CelestialBody>& focusPlanet, const std::shared_ptr<Camera>& camera);
 	void disableFocusPanel();
 
 	void hideHintPanel();
@@ -55,7 +56,7 @@ private:
 	
 	int _activesSpheresCount = 0;
 	
-	std::shared_ptr<Planet> _focusPlanet = nullptr;
+	std::shared_ptr<CelestialBody> _focusPlanet = nullptr;
 
 	PanelUI _focusPanel = PanelUI("res/img/Focus.png", "ui", 0, 0, 0.5);
 

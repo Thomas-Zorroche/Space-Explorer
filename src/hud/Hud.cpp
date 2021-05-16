@@ -318,7 +318,7 @@ void Hud::setCollisionInfo(int activeSpheresCount)
     _activesSpheresCount = activeSpheresCount;
 }
 
-void Hud::setFocusPosition(const std::shared_ptr<Planet>& focusPlanet, const std::shared_ptr<Camera>& camera)
+void Hud::setFocusPosition(const std::shared_ptr<CelestialBody>& focusPlanet, const std::shared_ptr<Camera>& camera)
 {
     if (!camera->isInOrbit())
     {

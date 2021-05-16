@@ -35,7 +35,7 @@ PlanetSettings PlanetSettings::generateSpeciesSettings()
 PlanetSettings PlanetSettings::generatePlanetSettings(const float& dist_from_sun)
 {
     std::string name = generateName(probas::discreteUniformDistribution(2, 5));
-    float radius = probas::continuousUniformDistribution(0.5, 7);
+    float radius = probas::continuousUniformDistribution(0.5, 10);
     const glm::vec3& color = randomColor();
     int temperature = 222 - probas::simulateBinomialProb(dist_from_sun, 0.7);
     bool telluric = probas::simulateBernoulliProb(0.4);

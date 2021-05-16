@@ -50,24 +50,19 @@ void Galaxy::draw(const std::shared_ptr<Camera>& camera)
 	float dstFocus = 1000000.0f;
 	for (auto& body : _celestialBodies)
 	{
-		// Test if body is a planet
-		auto planet = std::dynamic_pointer_cast<Planet>(body);
-		if (planet)
+		// Focus planet
+		double dot = glm::dot(camera->GetFrontVector(), glm::normalize(camera->GetPosition() - body->position()));
+		float dstPlanet = distanceSqr(camera->GetPosition(), body->position());
+		if (dot < -0.99 && dstPlanet < dstFocus)
 		{
-			// Focus planet
-			double dot = glm::dot(camera->GetFrontVector(), glm::normalize(camera->GetPosition() - body->position()));
-			float dstPlanet = distanceSqr(camera->GetPosition(), body->position());
-			if (dot < -0.99 && dstPlanet < dstFocus)
-			{
-				Hud::get().setFocusPosition(planet, camera);
-				focus = true;
-				dstFocus = dstPlanet;
-			}
-
-			// Spin planet
-			auto meshPtr = body->getMeshPtr();
-			meshPtr->Rotate(glm::vec3(0, 0.025, 0));
+			Hud::get().setFocusPosition(body, camera);
+			focus = true;
+			dstFocus = dstPlanet;
 		}
+
+		// Spin planet
+		auto meshPtr = body->getMeshPtr();
+		meshPtr->Rotate(glm::vec3(0, 0.03, 0));
 
 		body->draw();
 	}

@@ -1,10 +1,9 @@
 #include "game/CelestialBody.hpp"
 
-CelestialBody::CelestialBody(const std::shared_ptr<StaticMesh>& mesh, const glm::vec3& position)
-	: _mesh(mesh), _position(position), _solarDst(0)
+CelestialBody::CelestialBody(const std::shared_ptr<StaticMesh>& mesh, const glm::vec3& position, const PlanetSettings& settings)
+	: _mesh(mesh), _position(position), _settings(settings)
 {
-	//if (_mesh)
-	//	_mesh->Translate(position);
+
 }
 
 void CelestialBody::draw() 

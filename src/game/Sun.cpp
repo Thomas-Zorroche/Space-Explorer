@@ -4,8 +4,7 @@
 Sun::Sun(const glm::vec3& position, const PlanetSettings& settings)
 	: CelestialBody(
 		std::make_shared<StaticMesh>(std::make_shared<Model>(), TransformLayout(position, glm::vec3(0), settings.radius()), "Sun")
-		, position),
-	_settings(settings)
+		, position, settings)
 {
 
 }

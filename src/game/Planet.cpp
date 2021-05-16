@@ -4,9 +4,8 @@
 #include "proceduralPlanet/io/IOManager.hpp"
 
 Planet::Planet(const glm::vec3& position, const PlanetSettings& settings)
-	: CelestialBody(nullptr, position),
-	_proceduralPlanet(std::make_shared<proceduralPlanet::Planet>(10, TransformLayout(position, glm::vec3(0), settings.radius()))),
-	_settings(settings)
+	: CelestialBody(nullptr, position, settings),
+	_proceduralPlanet(std::make_shared<proceduralPlanet::Planet>(100, TransformLayout(position, glm::vec3(0), settings.radius())))
 {
 	proceduralPlanet::IOManager::get().open("res/planets/InitPlanet.ini", _proceduralPlanet);
 	_mesh = _proceduralPlanet->GetStaticMesh();
