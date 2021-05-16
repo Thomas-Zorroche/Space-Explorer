@@ -17,8 +17,6 @@ Hint::Hint(const TransformLayout& transform, const std::string& message, float v
 
 void Hint::onOverlapEvent()
 {
-	std::cout << _message << std::endl;
 	disable();
-
 	InteractiveObject::_gamePtr->addHint(_message);
 }

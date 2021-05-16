@@ -9,7 +9,7 @@ void InteractiveObject::draw()
 	const glm::vec2 sunPosition = glm::vec2(250, 250);
 
 	float i = _position.x - sunPosition.x;
-	float j = _position.y - sunPosition.y;
+	float j = _position.z - sunPosition.y;
 
 	_mesh.ApplyTransforms();
 

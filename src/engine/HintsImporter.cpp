@@ -56,7 +56,6 @@ void HintsImporter::addToHints(std::vector<std::shared_ptr<Hint> >& hints, const
     HintSettings settings = computePositionAndVelocity();
 
     hints.emplace_back(std::make_shared<Hint> (TransformLayout(glm::vec3(settings.xpos, 0, settings.zpos), glm::vec3(0)), composed_message, settings.velocity) );
-    std::cout << composed_message << std::endl;
 }
 
 void HintsImporter::addToHints(std::vector<std::shared_ptr<Hint> >& hints, const std::string& message,
@@ -69,7 +68,6 @@ void HintsImporter::addToHints(std::vector<std::shared_ptr<Hint> >& hints, const
     HintSettings settings = computePositionAndVelocity();
 
     hints.emplace_back(std::make_shared<Hint>(TransformLayout(glm::vec3(settings.xpos, 0, settings.zpos), glm::vec3(0)), composed_message, settings.velocity));
-    std::cout << composed_message << std::endl;
 }
 
 HintSettings HintsImporter::computePositionAndVelocity()
