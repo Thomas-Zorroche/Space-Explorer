@@ -49,12 +49,6 @@ void Scene::Init()
 	};
 	_skybox = std::make_shared<Skybox>(facesSkybox);
 
-
-	probas::testBinomialProbability(1e6);
-    probas::testBernoulliProbability(1e6);
-    probas::testPoissonProbability(1e6);
-    probas::testGeometricalProbability(1e6);
-
 	// Load All Lights
 	// =================================================
 	LightManager::Get().LoadAllLights(_size);

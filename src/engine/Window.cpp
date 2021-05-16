@@ -44,7 +44,7 @@ int Window::Init()
 void Window::HandleArgs(int argc, char** argv)
 {
     InitLogLevel("-none");
-    InitScreenSize("-hd");
+    InitScreenSize("-fhd");
 
     for (size_t i = 1; i < (size_t)argc; i++)
     {
